@@ -4,7 +4,8 @@ LIBFT_PATH=include/libft
 LIBFT=libft.a
 
 NAME=miniRT
-SRC=main.c parsing/parsing.c parsing/parsing_utils.c
+SRC=main.c parsing/parsing.c parsing/parsing_utils.c parsing/parsing_double.c \
+	parsing/parsing_vector.c
 MAKE=make
 OBJ=$(SRC:.c=.o)
 
