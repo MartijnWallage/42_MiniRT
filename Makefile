@@ -11,14 +11,23 @@
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -Ofast -g
+CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast -g
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
 LIBFTDIR	:= ./libft
 LIBFT		:= $(LIBFTDIR)/libft.a
-MLX42		:= ./MLX42/build/libmlx42.a
-HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)
+MLXDIR		:= ./MLX42
+MLX			:= $(MLXDIR)/build/libmlx42.a
+HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR) -I$(MLXDIR)/include/MLX42
+LIBS		:= -L$(LIBFTDIR) -lft $(MLX)
+UNAME_S		:= $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	LIBS	:= $(LIBS) -ldl -lglfw -pthread -lm
+endif
+ifeq ($(UNAME_S),Darwin)
+	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/" -pthread -lm
+endif
 SRC			:= main.c \
 				parser/parser.c \
 				parser/parser_utils.c \
@@ -31,17 +40,25 @@ NAME		:= miniRT
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
-	$(CC) $(OBJ) $(CFLAGS) -L$(LIBFTDIR) -lft -o $@
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
+
+$(MLX): $(MLXDIR)
+	cmake $(MLXDIR) -B $(MLXDIR)/build;
+	make -C$(MLXDIR)/build -j4;
+
+$(MLXDIR):
+	git clone https://github.com/codam-coding-college/MLX42.git $@;
 
 $(OBJDIR):
 	mkdir obj;
 	mkdir obj/parser;
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
+	$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/miniRT.h
 	$(CC) $(CFLAGS) -c $< $(HEADERS) -o $@
 
 clean:
@@ -50,6 +67,7 @@ clean:
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFTDIR)
+	rm -rf $(MLXDIR)
 	rm -rf $(OBJDIR)
 	rm -f $(NAME)
 	
