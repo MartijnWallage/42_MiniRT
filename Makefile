@@ -32,7 +32,8 @@ SRC			:= main.c \
 				parser/parser.c \
 				parser/parser_utils.c \
 				parser/parser_double.c \
-				parser/parser_vector.c
+				parser/parser_vector.c \
+				clean/clean.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 MAKE		:= make
@@ -57,6 +58,9 @@ $(MLXDIR):
 $(OBJDIR):
 	mkdir obj;
 	mkdir obj/parser;
+	mkdir obj/raytracer;
+	mkdir obj/graphics;
+	mkdir obj/clean;
 
 $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
 	$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $@

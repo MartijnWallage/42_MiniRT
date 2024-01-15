@@ -80,8 +80,8 @@ int	is_rbg(double colour[3])
 
 void	str_to_vector(double dest[3], char *str)
 {
-	char	component[MAX_DIGETS_DOUBLE_INT_PART \
-						+ MAX_DIGETS_DOUBLE_FRAC_PART + 2];
+	char	component[MAX_DIGITS_DOUBLE_INT_PART \
+						+ MAX_DIGITS_DOUBLE_FRAC_PART + 2];
 	int		pos;
 
 	pos = 0;

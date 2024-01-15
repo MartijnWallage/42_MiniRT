@@ -19,13 +19,13 @@
 # include <math.h>
 # include "libft.h"
 
-# define MAX_DIGETS_DOUBLE_INT_PART 6
-# define MAX_DIGETS_DOUBLE_FRAC_PART 2
-# define MAX_LEN_DOUBLE (MAX_DIGETS_DOUBLE_INT_PART \
-						+ MAX_DIGETS_DOUBLE_FRAC_PART + 1)
-# define MIN_COLOUR 0.0
-# define MAX_COLOUR 255.0
-# define EPSILON 0.000001
+# define MAX_DIGITS_DOUBLE_INT_PART 6
+# define MAX_DIGITS_DOUBLE_FRAC_PART 2
+# define MAX_LEN_DOUBLE (MAX_DIGITS_DOUBLE_INT_PART \
+						+ MAX_DIGITS_DOUBLE_FRAC_PART + 1)
+# define MIN_COLOUR	0.0
+# define MAX_COLOUR	255.0
+# define EPSILON	0.000001
 
 typedef enum e_identifier{
 	AMBIENT,
@@ -66,15 +66,15 @@ typedef struct s_scene{
 }	t_scene;
 
 /*	Initialisation and clean up handling */
-# define ARGUMENT_ERROR "Wrong number of arguments. Expected a file name\n"
-# define MALLOC_FAILED "Malloc: Allocation error"
+# define ARGUMENT_ERROR	"Wrong number of arguments. Expected a file name\n"
+# define MALLOC_FAILED	"Malloc: Allocation error"
 
 void	exit_minirt(t_scene *scene, char *message, int status);
 
 /*	Parsing	*/
-# define REQUIRE_LIGHT_AND_CAMERA "Parsing error: Requires light and camera\n"
-# define CANNOT_OPEN_FILE "Parsing error: Cannot open file\n"
-# define PARSING_ERROR "Parsing error"
+# define REQUIRE_LIGHT_AND_CAMERA	"Parsing error: Requires light and camera\n"
+# define CANNOT_OPEN_FILE			"Parsing error: Cannot open file\n"
+# define PARSING_ERROR				"Parsing error"
 
 int		get_str_array_len(char **chars);
 void	free_str_array(char **chars);
