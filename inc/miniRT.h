@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
-# include "../libft/libft.h"
+# include "libft.h"
 
 # define MAX_DIGETS_DOUBLE_INT_PART 6
 # define MAX_DIGETS_DOUBLE_FRAC_PART 2
@@ -76,7 +76,6 @@ void	exit_minirt(t_scene *scene, char *message, int status);
 # define CANNOT_OPEN_FILE "Parsing error: Cannot open file\n"
 # define PARSING_ERROR "Parsing error"
 
-int		ft_strcmp(char *s1, char *s2);
 int		get_str_array_len(char **chars);
 void	free_str_array(char **chars);
 void	parse_scene(char **argv, t_scene *scene);

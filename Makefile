@@ -19,7 +19,7 @@ LIBFTDIR	:= ./libft
 LIBFT		:= $(LIBFTDIR)/libft.a
 MLXDIR		:= ./MLX42
 MLX			:= $(MLXDIR)/build/libmlx42.a
-HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR) -I$(MLXDIR)/include/MLX42
+HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc -I$(MLXDIR)/include/MLX42
 LIBS		:= -L$(LIBFTDIR) -lft $(MLX)
 UNAME_S		:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -41,15 +41,18 @@ NAME		:= miniRT
 all: $(NAME)
 
 
-$(LIBFT):
+$(LIBFT): $(LIBFTDIR)
 	$(MAKE) -C $(LIBFTDIR)
+
+$(LIBFTDIR):
+	git clone https://github.com/MartijnWallage/42_libft.git $@
 
 $(MLX): $(MLXDIR)
 	cmake $(MLXDIR) -B $(MLXDIR)/build;
 	make -C$(MLXDIR)/build -j4;
 
 $(MLXDIR):
-	git clone https://github.com/codam-coding-college/MLX42.git $@;
+	git clone https://github.com/codam-coding-college/MLX42.git $@
 
 $(OBJDIR):
 	mkdir obj;
@@ -67,6 +70,7 @@ clean:
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFTDIR)
+	rm -rf $(LIBFTDIR)
 	rm -rf $(MLXDIR)
 	rm -rf $(OBJDIR)
 	rm -f $(NAME)

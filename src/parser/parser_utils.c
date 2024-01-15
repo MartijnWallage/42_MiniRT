@@ -21,22 +21,6 @@ void	free_str_array(char **chars)
 		free(chars[i++]);
 }
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	if ((s1 && !s2) || (!s1 && s2))
-		return (1);
-	if (!s1 && !s2)
-		return (0);
-	i = 0;
-	while (s1[i] && s2[i])
-		i++;
-	if (i > 0)
-		return (s1[i - 1] - s2[i - 1]);
-	return (s1[i] - s2[i]);
-}
-
 int	get_str_array_len(char **chars)
 {
 	int i;
