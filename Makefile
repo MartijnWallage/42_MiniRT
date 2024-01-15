@@ -1,32 +1,57 @@
-CC=cc
-CFLAGS= -Wall -Wextra -Werror -Ofast -g
-LIBFT_PATH=include/libft
-LIBFT=libft.a
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
+#    Updated: 2024/01/15 15:03:42 by mwallage         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-NAME=miniRT
-SRC=main.c parsing/parsing.c parsing/parsing_utils.c parsing/parsing_double.c \
-	parsing/parsing_vector.c
-MAKE=make
-OBJ=$(SRC:.c=.o)
-
-$(NAME): $(OBJ)
-	$(MAKE) -C $(LIBFT_PATH)
-	cp $(LIBFT_PATH)/$(LIBFT) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(SRC) -L . -lft
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $< -I $(LIBFT)
+CC			:= cc
+CFLAGS		:= -Wall -Wextra -Werror -Ofast -g
+SRCDIR		:= ./src
+OBJDIR		:= ./obj
+INCDIR		:= ./inc
+LIBFTDIR	:= ./libft
+LIBFT		:= $(LIBFTDIR)/libft.a
+MLX42		:= ./MLX42/build/libmlx42.a
+HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)
+SRC			:= main.c \
+				parser/parser.c \
+				parser/parser_utils.c \
+				parser/parser_double.c \
+				parser/parser_vector.c
+SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
+OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+MAKE		:= make
+NAME		:= miniRT
 
 all: $(NAME)
 
+$(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
+	$(CC) $(OBJ) $(CFLAGS) -L$(LIBFTDIR) -lft -o $@
+
+$(LIBFT):
+	$(MAKE) -C $(LIBFTDIR)
+
+$(OBJDIR):
+	mkdir obj;
+	mkdir obj/parser;
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c $< $(HEADERS) -o $@
+
 clean:
-	$(MAKE) clean -C $(LIBFT_PATH)
+	$(MAKE) clean -C $(LIBFTDIR)
 	rm -f $(OBJ)
 
 fclean: clean
-	$(MAKE) fclean -C $(LIBFT_PATH)
+	$(MAKE) fclean -C $(LIBFTDIR)
+	rm -rf $(OBJDIR)
 	rm -f $(NAME)
-	rm -f $(LIBFT)
 	
 re: fclean all
 

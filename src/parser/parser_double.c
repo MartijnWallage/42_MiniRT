@@ -1,4 +1,16 @@
-#include "../miniRT.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_double.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
+/*   Updated: 2024/01/15 14:40:17 by mwallage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "miniRT.h"
 
 // if the char given as argument is not contained in str, 
 // return len of str, if it is contained once, return position in string,

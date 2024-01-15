@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   miniRT.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
+/*   Updated: 2024/01/15 14:41:31 by mwallage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include "include/libft/libft.h"
 # include <math.h>
+# include "../libft/libft.h"
 
 # define MAX_DIGETS_DOUBLE_INT_PART 6
 # define MAX_DIGETS_DOUBLE_FRAC_PART 2
@@ -57,7 +69,7 @@ typedef struct s_scene{
 # define ARGUMENT_ERROR "Wrong number of arguments. Expected a file name\n"
 # define MALLOC_FAILED "Malloc: Allocation error"
 
-void	exit_mini_rt(t_scene *scene, char *message, int status);
+void	exit_minirt(t_scene *scene, char *message, int status);
 
 /*	Parsing	*/
 # define REQUIRE_LIGHT_AND_CAMERA "Parsing error: Requires light and camera\n"
