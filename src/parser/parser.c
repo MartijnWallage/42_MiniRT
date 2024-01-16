@@ -106,6 +106,9 @@ int	is_valid_arg(char *arg)
 	return (len > 3 && arg[len - 4] != '/' && !ft_strcmp(arg + len - 3, ".rt"));
 }
 
+/// @brief Parse the scene that is given as input into a struct
+/// @param argv 	argv from main
+/// @param scene 	end result
 void	parse_scene(char **argv, t_scene *scene)
 {
 	int		fd;

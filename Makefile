@@ -56,11 +56,11 @@ $(MLXDIR):
 	git clone https://github.com/codam-coding-college/MLX42.git $@
 
 $(OBJDIR):
-	mkdir obj;
-	mkdir obj/parser;
-	mkdir obj/raytracer;
-	mkdir obj/graphics;
-	mkdir obj/clean;
+	mkdir $(OBJDIR);
+	mkdir $(OBJDIR)/parser;
+	mkdir $(OBJDIR)/raytracer;
+	mkdir $(OBJDIR)/graphics;
+	mkdir $(OBJDIR)/clean;
 
 $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
 	$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $@
