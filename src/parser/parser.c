@@ -16,14 +16,14 @@ void parse_ambient(t_scene *scene, char **columns)
 {
 	if (get_str_array_len(columns) != 3 || scene->ambient)
 	{
-		free_str_array(columns);
+		free_tab((void **)columns);
 		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
 	}
 	scene->ambient = malloc(sizeof(t_light));
 	if (!scene->ambient || !is_valid_double(columns[1]) || \
 		!is_vector(columns[2]))
 	{
-		free_str_array(columns);
+		free_tab((void **)columns);
 		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
 	}
 	scene->ambient->ratio = ft_strtod(columns[1]);
@@ -31,7 +31,7 @@ void parse_ambient(t_scene *scene, char **columns)
 	if (scene->ambient->ratio < 0.0 || scene->ambient->ratio > 1.0 ||
 		!is_rbg(scene->ambient->colour))
 	{
-		free_str_array(columns);
+		free_tab((void **)columns);
 		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
 	}
 	printf("VALUES %f, %f,%f,%f\n", scene->ambient->ratio, scene->ambient->colour[0], \
@@ -42,14 +42,14 @@ void parse_camera(t_scene *scene, char **columns)
 {
 	if (get_str_array_len(columns) != 4 || scene->camera)
 	{
-		free_str_array(columns);
+		free_tab((void **)columns);
 		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
 	}
 	scene->camera = malloc(sizeof(t_camera));
 	if (!scene->camera || !is_vector(columns[1]) || \
 		!is_vector(columns[2]) || !is_valid_double(columns[3]))
 	{
-		free_str_array(columns);
+		free_tab((void **) columns);
 		exit_minirt(scene, MALLOC_FAILED, EXIT_FAILURE);
 	}
 	str_to_vector(scene->camera->viewpoint, columns[1]);
@@ -58,7 +58,7 @@ void parse_camera(t_scene *scene, char **columns)
 	if (!is_normal(scene->camera->normvect) || scene->camera->fov < 0.0 ||
 		scene->camera->fov > 180.0)
 	{
-		free_str_array(columns);
+		free_tab((void **) columns);
 		exit_minirt(scene, MALLOC_FAILED, EXIT_FAILURE);
 	}
 }
@@ -90,10 +90,10 @@ static void	parse_line(t_scene *scene, char *line)
 	*/
 	else
 	{
-		free_str_array(columns);
+		free_tab((void **)columns);
 		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
 	}
-	free_str_array(columns);
+	free_tab((void **)columns);
 }
 
 void	parse_scene(char **argv, t_scene *scene)

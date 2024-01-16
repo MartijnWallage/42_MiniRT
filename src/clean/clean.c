@@ -12,24 +12,16 @@
 
 #include "miniRT.h"
 
-void	free_objects_array(t_object **objects)
+void	free_tab(void **tab)
 {
 	int	i;
 
+	if (!tab)
+		return ;
 	i = 0;
-	while (objects[i])
-		free(objects[i++]);
-	free(objects);
-}
-
-void	free_spots_array(t_light **spots)
-{
-	int	i;
-
-	i = 0;
-	while (spots[i])
-		free(spots[i++]);
-	free(spots);
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
 }
 
 void	exit_minirt(t_scene *scene, char *message, int status)
@@ -39,9 +31,9 @@ void	exit_minirt(t_scene *scene, char *message, int status)
 	if (scene->camera)
 		free(scene->camera);
 	if (scene->objects)
-		free_objects_array(scene->objects);
+		free_tab((void **) scene->objects);
 	if (scene->spots)
-		free_spots_array(scene->spots);
+		free_tab((void **) scene->spots);
 	if (status == EXIT_FAILURE)
 		printf("%s", message);
 	exit(status);

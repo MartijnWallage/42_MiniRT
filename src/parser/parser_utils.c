@@ -12,15 +12,6 @@
 
 #include "miniRT.h"
 
-void	free_str_array(char **chars)
-{
-	int	i;
-
-	i = 0;
-	while (chars[i])
-		free(chars[i++]);
-}
-
 int	get_str_array_len(char **chars)
 {
 	int i;

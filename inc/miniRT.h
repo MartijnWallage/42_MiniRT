@@ -69,9 +69,11 @@ typedef struct s_scene{
 # define ARGUMENT_ERROR	"Wrong number of arguments. Expected a file name\n"
 # define MALLOC_FAILED	"Malloc: Allocation error"
 
-void	exit_minirt(t_scene *scene, char *message, int status);
 
-/*	Parsing	*/
+/*	cleaner*/
+void	exit_minirt(t_scene *scene, char *message, int status);
+void	free_tab(void **tab);
+/*	Parser	*/
 # define REQUIRE_LIGHT_AND_CAMERA	"Parsing error: Requires light and camera\n"
 # define CANNOT_OPEN_FILE			"Parsing error: Cannot open file\n"
 # define PARSING_ERROR				"Parsing error"
