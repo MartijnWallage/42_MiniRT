@@ -67,6 +67,8 @@ static void	parse_line(t_scene *scene, char *line)
 {
 	char	**columns;
 
+	if (*line == 0)
+		return ;
 	columns = ft_split(line, ' ');
 	free(line);
 	printf("COLUMNS %s, %s, %s\n", columns[0], columns[1], columns[2]);
@@ -96,26 +98,30 @@ static void	parse_line(t_scene *scene, char *line)
 	free_tab((void **)columns);
 }
 
+int	is_valid_arg(char *arg)
+{
+	int	len;
+
+	len = ft_strlen(arg);
+	return (len > 3 && arg[len - 4] != '/' && !ft_strcmp(arg + len - 3, ".rt"));
+}
+
 void	parse_scene(char **argv, t_scene *scene)
 {
 	int		fd;
 	char	*line;
-	int		idx_extension;
 
-	idx_extension = (int)ft_strlen(argv[1]) - 3;
-	if (idx_extension < 0 || ft_strcmp(argv[1] + idx_extension,".rt"))
-		exit_minirt(scene, "FAIL", EXIT_FAILURE);
+	if (!is_valid_arg(argv[1]))
+		exit_minirt(scene,
+			"Argument should be of the form:\n\t\t<filename>.rt\n", EXIT_FAILURE);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		exit_minirt(scene, CANNOT_OPEN_FILE, EXIT_FAILURE);
-	while (1)
+	line = get_next_line(fd);
+	while (line)
 	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		if (!ft_strcmp(line,""))
-			continue;
 		parse_line(scene, line);
+		line = get_next_line(fd);
 	}
 	if (scene->ambient == NULL || scene->camera == NULL)
 		exit_minirt(scene, REQUIRE_LIGHT_AND_CAMERA, EXIT_FAILURE);
