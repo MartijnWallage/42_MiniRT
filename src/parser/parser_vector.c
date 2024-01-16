@@ -34,7 +34,7 @@ static int	get_pos_nth_char(char c, char *str, int n)
 
 int	is_normal(double vector[3])
 {
-	if (sqrt(vector[0] * vector[0] + vector[1] * vector[1] \
+	if (1 - sqrt(vector[0] * vector[0] + vector[1] * vector[1] \
 		+ vector[2] * vector[2]) < EPSILON)
 		return (1);
 	return (0);
