@@ -64,14 +64,14 @@ int is_vector(char *str)
 	return (1);
 }
 
-int	is_rbg(double colour[3])
+int	is_rbg(double color[3])
 {
 	int	i;
 
 	i = 0;
 	while (i < 3)
 	{
-		if (colour[0] < MIN_COLOUR || colour[0] > MAX_COLOUR)
+		if (color[0] < MIN_color || color[0] > MAX_color)
 			return (0);
 		i++;
 	}

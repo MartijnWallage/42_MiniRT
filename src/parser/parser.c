@@ -27,15 +27,15 @@ void parse_ambient(t_scene *scene, char **columns)
 		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
 	}
 	scene->ambient->ratio = ft_strtod(columns[1]);
-	str_to_vector(scene->ambient->colour, columns[2]);
+	str_to_vector(scene->ambient->color, columns[2]);
 	if (scene->ambient->ratio < 0.0 || scene->ambient->ratio > 1.0 ||
-		!is_rbg(scene->ambient->colour))
+		!is_rbg(scene->ambient->color))
 	{
 		free_tab((void **)columns);
 		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
 	}
-	printf("VALUES %f, %f,%f,%f\n", scene->ambient->ratio, scene->ambient->colour[0], \
-				scene->ambient->colour[1],scene->ambient->colour[2]);
+	printf("VALUES %f, %f,%f,%f\n", scene->ambient->ratio, scene->ambient->color[0], \
+				scene->ambient->color[1],scene->ambient->color[2]);
 }
 
 void parse_camera(t_scene *scene, char **columns)
@@ -50,7 +50,7 @@ void parse_camera(t_scene *scene, char **columns)
 		!is_vector(columns[2]) || !is_valid_double(columns[3]))
 	{
 		free_tab((void **) columns);
-		exit_minirt(scene, MALLOC_FAILED, EXIT_FAILURE);
+		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
 	}
 	str_to_vector(scene->camera->viewpoint, columns[1]);
 	str_to_vector(scene->camera->normvect, columns[2]);
@@ -59,7 +59,7 @@ void parse_camera(t_scene *scene, char **columns)
 		scene->camera->fov > 180.0)
 	{
 		free_tab((void **) columns);
-		exit_minirt(scene, MALLOC_FAILED, EXIT_FAILURE);
+		exit_minirt(scene, "not a valid vector", EXIT_FAILURE);
 	}
 }
 

@@ -23,8 +23,8 @@
 # define MAX_DIGITS_DOUBLE_FRAC_PART 2
 # define MAX_LEN_DOUBLE (MAX_DIGITS_DOUBLE_INT_PART \
 						+ MAX_DIGITS_DOUBLE_FRAC_PART + 1)
-# define MIN_COLOUR	0.0
-# define MAX_COLOUR	255.0
+# define MIN_color	0.0
+# define MAX_color	255.0
 # define EPSILON	0.000001
 
 typedef enum e_identifier{
@@ -39,7 +39,7 @@ typedef enum e_identifier{
 typedef struct s_light{
 	t_identifier	type;
 	double			ratio;
-	double			colour[3];
+	double			color[3];
 	double			source[3];
 }	t_light;
 
@@ -52,8 +52,8 @@ typedef struct s_camera{
 typedef struct s_object{
 	t_identifier	type;
 	double			center[3];
-	unsigned char	colour[3];
-	double			norm_vector[3];
+	unsigned char	color[3];
+	double			normvect[3];
 	double			diameter;
 	double			height;
 }	t_object;
@@ -87,7 +87,7 @@ double	ft_strtod(char *str);
 
 int		is_numstr(const char *str);
 int		is_valid_double(const char *str);
-int		is_rbg(double colour[3]);
+int		is_rbg(double color[3]);
 int 	is_vector(char *str);
 int		is_normal(double vector[3]);
 

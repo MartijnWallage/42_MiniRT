@@ -54,7 +54,7 @@ typedef struct	s_object {
 	t_identifier		type;
 	float[3]			center;
 	unsigned char[3]	color;
-	float[3]			norm_vector;
+	float[3]			normvect;
 	float				diameter;
 	float				height;
 }	t_object;
