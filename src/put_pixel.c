@@ -32,6 +32,7 @@ void	put_circle(mlx_image_t* image)
 		x = 0;
 		while (x < image->width)
 		{
+			// Calculate if a pixel (x,y) is on a circle by checking if its satisfying x^2+y^2 = radius^2
 			if (((double)x - 100)*((double)x - 100) + ((double)y - 100)*((double)y - 100) > 250 && \
 				((double)x - 100)*((double)x - 100) + ((double)y - 100)*((double)y - 100) < 270)
 			{
