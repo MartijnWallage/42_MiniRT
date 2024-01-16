@@ -30,10 +30,7 @@ int	is_numstr(const char *str)
 	while (str[i])
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
-		{
-			printf("%s IS NOT\n", str);
 			return (0);
-		}
 		i++;
 	}
 	return (1);

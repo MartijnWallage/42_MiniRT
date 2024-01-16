@@ -18,14 +18,18 @@
 # include <fcntl.h>
 # include <math.h>
 # include "libft.h"
+# include "../MLX42/MLX42.h"
 
 # define MAX_DIGITS_DOUBLE_INT_PART 6
 # define MAX_DIGITS_DOUBLE_FRAC_PART 2
 # define MAX_LEN_DOUBLE (MAX_DIGITS_DOUBLE_INT_PART \
 						+ MAX_DIGITS_DOUBLE_FRAC_PART + 1)
-# define MIN_color	0.0
-# define MAX_color	255.0
+# define MIN_color	0
+# define MAX_color	255
 # define EPSILON	0.000001
+
+# define IMAGE_WIDTH 1000
+# define IMAGE_HEIGHT 500
 
 typedef enum e_identifier{
 	AMBIENT,
@@ -65,6 +69,12 @@ typedef struct s_scene{
 	t_object	**objects;
 }	t_scene;
 
+typedef struct s_mini_rt{
+	t_scene		*scene;
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+} t_mini_rt;
+
 /*	Initialisation and clean up handling */
 # define ARGUMENT_ERROR	"Wrong number of arguments. Expected a file name\n"
 # define MALLOC_FAILED	"Malloc: Allocation error"
@@ -73,6 +83,7 @@ typedef struct s_scene{
 /*	cleaner*/
 void	exit_minirt(t_scene *scene, char *message, int status);
 void	free_tab(void **tab);
+
 /*	Parser	*/
 # define REQUIRE_LIGHT_AND_CAMERA	"Parsing error: Requires light and camera\n"
 # define CANNOT_OPEN_FILE			"Parsing error: Cannot open file\n"
@@ -90,5 +101,11 @@ int		is_valid_double(const char *str);
 int		is_rbg(double color[3]);
 int 	is_vector(char *str);
 int		is_normal(double vector[3]);
+
+/* Graphics and displaying */
+void	ft_hook(void *param);
+void	put_circle(mlx_image_t* image);
+/* Prints for debugging */
+void	print_scene(t_scene *scene);
 
 #endif

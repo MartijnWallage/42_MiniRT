@@ -33,7 +33,10 @@ SRC			:= main.c \
 				parser/parser_utils.c \
 				parser/parser_double.c \
 				parser/parser_vector.c \
-				clean/clean.c
+				clean/clean.c \
+				hooks.c \
+				print_structs.c \
+				put_pixel.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 MAKE		:= make
