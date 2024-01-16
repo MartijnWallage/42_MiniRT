@@ -16,8 +16,16 @@ static void	init_scene(t_scene *scene)
 {
 	scene->ambient = NULL;
 	scene->camera = NULL;
-	scene->objects = NULL;
-	scene->spots = NULL;
+	scene->objects = malloc(sizeof(t_list));
+	if (scene->objects == NULL)
+		exit(1);
+	scene->objects->content = NULL;
+	scene->objects->next = NULL;
+	scene->spots = malloc(sizeof(t_list));
+	if (scene->spots == NULL)
+		exit(1);
+	scene->objects->content = NULL;
+	scene->objects->next = NULL;
 }
 
 void	print_scene(t_scene *scene)

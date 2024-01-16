@@ -71,25 +71,20 @@ static void	parse_line(t_scene *scene, char *line)
 		return ;
 	columns = ft_split(line, ' ');
 	free(line);
-	printf("COLUMNS %s, %s, %s\n", columns[0], columns[1], columns[2]);
 	if (columns == NULL)
 		exit_minirt(scene, MALLOC_FAILED, EXIT_FAILURE);
 	if (!ft_strcmp("A", columns[0]))
-	{
-		printf("PARSE AMBIENT\n");
 		parse_ambient(scene, columns);
-	}
 	else if (!ft_strcmp("C", columns[0]))
-	{
-		printf("PARSE CAMERA\n");
 		parse_camera(scene, columns);
-	}
-	/*
 	else if (!ft_strcmp("L", columns[0]))
 		parse_light(scene, columns);
 	else if (!ft_strcmp("sp", columns[0]))
 		parse_sphere(scene, columns);
-	*/
+	else if (!ft_strcmp("cy", columns[0]))
+		parse_cylinder(scene, columns);
+	else if (!ft_strcmp("pl", columns[0]))
+		parse_plane(scene, columns);
 	else
 	{
 		free_tab((void **)columns);

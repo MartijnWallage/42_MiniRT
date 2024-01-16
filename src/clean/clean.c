@@ -24,6 +24,7 @@ void	free_tab(void **tab)
 	free(tab);
 }
 
+
 void	exit_minirt(t_scene *scene, char *message, int status)
 {
 	if (scene->ambient)
@@ -37,4 +38,14 @@ void	exit_minirt(t_scene *scene, char *message, int status)
 	if (status == EXIT_FAILURE)
 		printf("%s", message);
 	exit(status);
+}
+
+void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr)
+{
+	if (check_ptr == NULL)
+	{
+		if (free_ptr)
+			free(free_ptr);
+		exit_minirt(scene, MALLOC_FAILED, 1);
+	}
 }

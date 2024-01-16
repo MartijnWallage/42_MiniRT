@@ -39,7 +39,7 @@ typedef enum e_identifier{
 typedef struct s_light{
 	t_identifier	type;
 	double			ratio;
-	double			color[3];
+	unsigned char	color[3];
 	double			source[3];
 }	t_light;
 
@@ -60,9 +60,9 @@ typedef struct s_object{
 
 typedef struct s_scene{
 	t_light		*ambient;
-	t_light		**spots;
+	t_list		*spots;
 	t_camera	*camera;
-	t_object	**objects;
+	t_list		*objects;
 }	t_scene;
 
 /*	Initialisation and clean up handling */
@@ -71,8 +71,9 @@ typedef struct s_scene{
 
 
 /*	cleaner*/
-void	exit_minirt(t_scene *scene, char *message, int status);
 void	free_tab(void **tab);
+void	exit_minirt(t_scene *scene, char *message, int status);
+void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr);
 /*	Parser	*/
 # define REQUIRE_LIGHT_AND_CAMERA	"Parsing error: Requires light and camera\n"
 # define CANNOT_OPEN_FILE			"Parsing error: Cannot open file\n"
