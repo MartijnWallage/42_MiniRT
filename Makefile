@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+         #
+#    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/01/15 15:03:42 by mwallage         ###   ########.fr        #
+#    Updated: 2024/01/17 17:47:21 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,12 @@ ifeq ($(UNAME_S),Linux)
 	LIBS	:= $(LIBS) -ldl -lglfw -pthread -lm
 endif
 ifeq ($(UNAME_S),Darwin)
-	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/" -pthread -lm
+	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/" -pthread -lm
 endif
 SRC			:= main.c \
 				parser/parser.c \
+				parser/parser_checks.c \
+				parser/parser_objects.c \
 				parser/parser_utils.c \
 				parser/parser_double.c \
 				parser/parser_vector.c \

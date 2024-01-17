@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/15 15:50:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:22:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,46 @@ void	free_tab(void **tab)
 	free(tab);
 }
 
+int     error_msg(const char *info)
+{
+        char    *errno_readable;
+
+        write(STDERR_FILENO, "miniRT: ", 8); 
+        if (info)
+                write(STDERR_FILENO, info, ft_strlen(info));
+        errno_readable = strerror(errno);
+        if (errno)
+        {
+                write(STDERR_FILENO, ": ", 2);
+                write(STDERR_FILENO, errno_readable, ft_strlen(errno_readable));
+        }
+        write(STDERR_FILENO, "\n", 1);
+        return (1);
+}
+
+void	free_objects(t_object *head)
+{
+	t_object	*next;
+
+	while (head)
+	{
+		next = head->next;
+		free(head);
+		head = next;
+	}
+}
+
+void	free_spots(t_spot *head)
+{
+	t_spot	*next;
+
+	while (head)
+	{
+		next = head->next;
+		free(head);
+		head = next;
+	}
+}
 
 void	exit_minirt(t_scene *scene, char *message, int status)
 {
@@ -32,11 +72,11 @@ void	exit_minirt(t_scene *scene, char *message, int status)
 	if (scene->camera)
 		free(scene->camera);
 	if (scene->objects)
-		free_tab((void **) scene->objects);
+		free_objects(scene->objects);
 	if (scene->spots)
-		free_tab((void **) scene->spots);
-	if (status == EXIT_FAILURE)
-		printf("%s", message);
+		free_spots(scene->spots);
+	if (status)
+		error_msg(message);
 	exit(status);
 }
 
@@ -46,6 +86,6 @@ void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr)
 	{
 		if (free_ptr)
 			free(free_ptr);
-		exit_minirt(scene, MALLOC_FAILED, 1);
+		exit_minirt(scene, MALLOC_FAILED, MALLOC_EXITCODE);
 	}
 }

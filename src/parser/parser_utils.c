@@ -1,40 +1,72 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/15 14:40:29 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:00:57 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-int	get_str_array_len(char **chars)
+int	tablen(void **tab)
 {
-	int i;
+	int 	len;
+	char	**chrtab;
 
-	i = 0;
-	while (chars[i])
-		i++;
-	return (i);
+	chrtab = (char **)tab;
+	len = 0;
+	while (chrtab[len])
+		len++;
+	return (len);
 }
 
-int	is_numstr(const char *str)
+void	add_object(t_scene *scene, t_object *object)
 {
-	int	i;
+	object->next = scene->objects;
+	scene->objects = object;
+}
 
-	i = 0;
-	while (str[i])
-	{
-		if (!(str[i] >= '0' && str[i] <= '9'))
-		{
-			printf("%s IS NOT\n", str);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
+void	add_spot(t_scene *scene, t_spot *spot)
+{
+	t_spot	*curr;
+
+	curr = scene->spots;
+	while (curr && curr->next)
+		curr = curr->next;
+	if (curr == NULL)
+		curr = spot;
+	else
+		curr->next = spot;
+}
+
+void	get_vector(t_vector vector, char *numbers)
+{
+	char	**tab;
+	int		i;
+
+	tab = ft_split(numbers, ',');
+	if (!tab)
+		return ;
+	i = -1;
+	while (tab[++i])
+		vector[i] = ft_strtod(tab[i]);
+	free_tab((void **)tab);
+}
+
+void	get_color(t_color color, char *rgb)
+{
+	char	**tab;
+	int		i;
+
+	tab = ft_split(rgb, ',');
+	if (!tab)
+		return ;
+	i = -1;
+	while (tab[++i])
+		color[i] = (unsigned char)ft_atoi(tab[i]);
+	free_tab((void **)tab);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/15 14:39:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:28:59 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,48 +16,14 @@ static void	init_scene(t_scene *scene)
 {
 	scene->ambient = NULL;
 	scene->camera = NULL;
-	scene->objects = malloc(sizeof(t_list));
-	if (scene->objects == NULL)
-		exit(1);
-	scene->objects->content = NULL;
-	scene->objects->next = NULL;
-	scene->spots = malloc(sizeof(t_list));
-	if (scene->spots == NULL)
-		exit(1);
-	scene->objects->content = NULL;
-	scene->objects->next = NULL;
+	scene->objects = NULL;
+	scene->spots = NULL;
 }
 
 void	print_scene(t_scene *scene)
 {
-	int	i;
-
 	printf("\n****************************\n");
-	printf("AMBIENT LIGHT:\n");
-	printf("Ratio: %lf\n", scene->ambient->ratio);
-	printf("color: %lf, %lf, %lf\n",
-		scene->ambient->color[0],
-		scene->ambient->color[1], 
-		scene->ambient->color[2]);
-	printf("Source: %lf, %lf, %lf\n",
-		scene->ambient->source[0],
-		scene->ambient->source[1],
-		scene->ambient->source[2]);
-	printf("\nSPOT LIGHTS:\n");
-	i = -1;
-	while (scene->spots && scene->spots[++i])
-	{
-		printf("Ratio: %lf\n", scene->spots[i]->ratio);
-		printf("color: %lf, %lf, %lf\n",
-			scene->spots[i]->color[0],
-			scene->spots[i]->color[1], 
-			scene->spots[i]->color[2]);
-		printf("Source: %lf, %lf, %lf\n",
-			scene->spots[i]->source[0],
-			scene->spots[i]->source[1],
-			scene->spots[i]->source[2]);
-	}
-	printf("CAMERA:\n");
+	printf("\nCAMERA:\n");
 	printf("Fov: \t\t%d\n", scene->camera->fov);
 	printf("Viewpoint: %lf, %lf, %lf\n",
 		scene->camera->viewpoint[0],
@@ -67,27 +33,49 @@ void	print_scene(t_scene *scene)
 		scene->camera->normvect[0],
 		scene->camera->normvect[1],
 		scene->camera->normvect[2]);
-	printf("OBJECTS:\n");
-	i = -1;
-	while (scene->objects && scene->objects[++i])
+	printf("\nAMBIENT LIGHT:\n");
+	printf("Ratio: %lf\n", scene->ambient->ratio);
+	printf("color: %x, %x, %x\n",
+		scene->ambient->color[0],
+		scene->ambient->color[1], 
+		scene->ambient->color[2]);
+	printf("\nSPOT LIGHTS:\n");
+	t_spot	*curr = scene->spots;
+	while (curr)
 	{
-		printf("Type: %d\n", scene->objects[i]->type);
+		printf("Ratio: %lf\n", curr->ratio);
+		printf("color: %x, %x, %x\n",
+			curr->color[0],
+			curr->color[1], 
+			curr->color[2]);
+		printf("Source: %lf, %lf, %lf\n",
+			curr->source[0],
+			curr->source[1],
+			curr->source[2]);
+		curr = curr->next;
+	}
+	printf("\nOBJECTS:\n");
+	t_object	*curr2 = scene->objects;
+	while (curr2)
+	{
+		printf("Type: %d\n", curr2->type);
 		printf("Center: %lf, %lf, %lf\n",
-			scene->objects[i]->center[0],
-			scene->objects[i]->center[1],
-			scene->objects[i]->center[2]);
+			curr2->center[0],
+			curr2->center[1],
+			curr2->center[2]);
 		printf("Color: %x, %x, %x\n",
-			scene->objects[i]->color[0],
-			scene->objects[i]->color[1],
-			scene->objects[i]->color[2]);
+			curr2->color[0],
+			curr2->color[1],
+			curr2->color[2]);
 		printf("Norm vector: %lf, %lf, %lf\n",
-			scene->objects[i]->normvect[0],
-			scene->objects[i]->normvect[1],
-			scene->objects[i]->normvect[2]);
+			curr2->normvect[0],
+			curr2->normvect[1],
+			curr2->normvect[2]);
 		printf("Diameter: %lf\n",
-			scene->objects[i]->diameter);
+			curr2->diameter);
 		printf("Height: %lf\n",
-			scene->objects[i]->height);
+			curr2->height);
+		curr2 = curr2->next;
 	}
 	printf("*****************************\n");
 }
