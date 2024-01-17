@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 18:28:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:06:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_scene(t_scene *scene)
 		scene->camera->normvect[1],
 		scene->camera->normvect[2]);
 	printf("\nAMBIENT LIGHT:\n");
-	printf("Ratio: %lf\n", scene->ambient->ratio);
+	printf("Ratio: %f\n", scene->ambient->ratio);
 	printf("color: %x, %x, %x\n",
 		scene->ambient->color[0],
 		scene->ambient->color[1], 
@@ -43,7 +43,7 @@ void	print_scene(t_scene *scene)
 	t_spot	*curr = scene->spots;
 	while (curr)
 	{
-		printf("Ratio: %lf\n", curr->ratio);
+		printf("\nRatio: %f\n", curr->ratio);
 		printf("color: %x, %x, %x\n",
 			curr->color[0],
 			curr->color[1], 
@@ -58,7 +58,7 @@ void	print_scene(t_scene *scene)
 	t_object	*curr2 = scene->objects;
 	while (curr2)
 	{
-		printf("Type: %d\n", curr2->type);
+		printf("\nType: %d\n", curr2->type);
 		printf("Center: %lf, %lf, %lf\n",
 			curr2->center[0],
 			curr2->center[1],

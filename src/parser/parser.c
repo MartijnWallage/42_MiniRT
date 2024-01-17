@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 18:56:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:10:25 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,7 @@ static void	parse_line(t_scene *scene, char *line)
 	else if (!ft_strcmp("L", columns[0]))
 		parse_spot(scene, columns);
 	else if (!ft_strcmp("sp", columns[0]))
-	{
 		parse_sphere(scene, columns);
-		printf("Scene->objects: %p\n", scene->objects);
-	}
 	else if (!ft_strcmp("cy", columns[0]))
 		parse_cylinder(scene, columns);
 	else if (!ft_strcmp("pl", columns[0]))

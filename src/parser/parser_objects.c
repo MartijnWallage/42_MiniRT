@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 19:02:55 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:11:19 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	parse_spot(t_scene *scene, char **tab)
 	protect_malloc(scene, NULL, spot);
 	get_vector(spot->source, *++tab);
 	spot->ratio = ft_strtod(*++tab);
-	get_color(scene->ambient->color, *++tab);
+	get_color(spot->color, *++tab);
 	spot->next = scene->spots;
 	scene->spots = spot;
 }
