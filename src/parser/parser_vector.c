@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:36 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 17:44:19 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 20:14:19 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 	return (-1);
 } */
 
-void	str_to_vector(double dest[3], char *str)
+/* void	str_to_vector(double dest[3], char *str)
 {
 	char	component[MAX_DIGITS_DOUBLE_INT_PART \
 						+ MAX_DIGITS_DOUBLE_FRAC_PART + 2];
@@ -55,4 +55,4 @@ void	str_to_vector(double dest[3], char *str)
 		pos++;
 	ft_strlcpy(component, str, pos + 1);
 	dest[2] = ft_strtod(component);
-}
+} */
