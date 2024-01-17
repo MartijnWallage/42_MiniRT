@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 18:52:12 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:27:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ void		free_tab(void **tab);
 void		exit_minirt(t_scene *scene, char *message, int status);
 void		protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr);
 /*	Parser	*/
-void		add_object(t_scene *scene, t_object *object);
-void		add_spot(t_scene *scene, t_spot *spot);
 int			tablen(void **tab);
 void		parse_scene(char **argv, t_scene *scene);
 void		str_to_vector(double dest[3], char *str);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 19:00:57 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:26:54 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,6 @@ int	tablen(void **tab)
 	while (chrtab[len])
 		len++;
 	return (len);
-}
-
-void	add_object(t_scene *scene, t_object *object)
-{
-	object->next = scene->objects;
-	scene->objects = object;
-}
-
-void	add_spot(t_scene *scene, t_spot *spot)
-{
-	t_spot	*curr;
-
-	curr = scene->spots;
-	while (curr && curr->next)
-		curr = curr->next;
-	if (curr == NULL)
-		curr = spot;
-	else
-		curr->next = spot;
 }
 
 void	get_vector(t_vector vector, char *numbers)
