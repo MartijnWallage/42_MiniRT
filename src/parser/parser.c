@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 19:10:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:17:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	parse_scene(char **argv, t_scene *scene)
 
 	if (!is_valid_filename(argv[1]))
 		exit_minirt(scene,
-			"Argument should be of the form:\n\t\t<filename>.rt\n", EXIT_FAILURE);
+			"Argument should be of the form:\n\t\t<filename>.rt", EXIT_FAILURE);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		exit_minirt(scene, CANNOT_OPEN_FILE, EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 18:22:35 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:19:09 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ void	free_tab(void **tab)
 
 int     error_msg(const char *info)
 {
-        char    *errno_readable;
+  //      char    *errno_readable;
 
         write(STDERR_FILENO, "miniRT: ", 8); 
         if (info)
                 write(STDERR_FILENO, info, ft_strlen(info));
-        errno_readable = strerror(errno);
+        /* errno_readable = strerror(errno);
         if (errno)
         {
                 write(STDERR_FILENO, ": ", 2);
                 write(STDERR_FILENO, errno_readable, ft_strlen(errno_readable));
-        }
+        } */
         write(STDERR_FILENO, "\n", 1);
         return (1);
 }
