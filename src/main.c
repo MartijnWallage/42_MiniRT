@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 19:06:31 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:18:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,14 @@ void	print_scene(t_scene *scene)
 		scene->camera->normvect[2]);
 	printf("\nAMBIENT LIGHT:\n");
 	printf("Ratio: %f\n", scene->ambient->ratio);
-	printf("color: %x, %x, %x\n",
-		scene->ambient->color[0],
-		scene->ambient->color[1], 
-		scene->ambient->color[2]);
+	printf("color: %x\n",
+		scene->ambient->color);
 	printf("\nSPOT LIGHTS:\n");
 	t_spot	*curr = scene->spots;
 	while (curr)
 	{
 		printf("\nRatio: %f\n", curr->ratio);
-		printf("color: %x, %x, %x\n",
-			curr->color[0],
-			curr->color[1], 
-			curr->color[2]);
+		printf("color: %x\n", curr->color);
 		printf("Source: %lf, %lf, %lf\n",
 			curr->source[0],
 			curr->source[1],
@@ -63,10 +58,7 @@ void	print_scene(t_scene *scene)
 			curr2->center[0],
 			curr2->center[1],
 			curr2->center[2]);
-		printf("Color: %x, %x, %x\n",
-			curr2->color[0],
-			curr2->color[1],
-			curr2->color[2]);
+		printf("Color: %x\n", curr2->color);
 		printf("Norm vector: %lf, %lf, %lf\n",
 			curr2->normvect[0],
 			curr2->normvect[1],

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 20:28:27 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:20:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,32 @@ int	tablen(void **tab)
 	return (len);
 }
 
-void	get_vector(t_vector vector, char *numbers)
+void	get_vector(t_scene *scene, t_vector vector, char *numbers)
 {
 	char	**tab;
 	int		i;
 
 	tab = ft_split(numbers, ',');
-	if (!tab)
-		return ;
+	if (!tab || tablen((void **)tab) != 3)
+		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
 	i = -1;
 	while (tab[++i])
 		vector[i] = ft_strtod(tab[i]);
 	free_tab((void **)tab);
 }
 
-void	get_color(t_color color, char *rgb)
+int	get_color(t_scene *scene, char *rgb)
 {
 	char	**tab;
-	int		i;
+	int		color;
 
 	tab = ft_split(rgb, ',');
-	if (!tab)
-		return ;
-	i = -1;
-	while (tab[++i])
-		color[i] = (unsigned char)ft_atoi(tab[i]);
+	if (!tab || tablen((void **)tab) != 3)
+		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
+	color = get_rgba(ft_atoi(tab[0]),
+		ft_atoi(tab[1]),
+		ft_atoi(tab[2]),
+		0xff);
 	free_tab((void **)tab);
+	return (color);
 }

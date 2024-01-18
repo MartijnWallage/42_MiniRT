@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 19:27:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:19:09 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,16 @@ typedef enum e_identifier{
 }	t_identifier;
 
 typedef double			t_vector[3];
-typedef unsigned char	t_color[3];
 
 typedef struct s_ambient {
 	double			ratio;
-	t_color			color;
+	int				color;
 	t_vector		source;
 }	t_ambient;
 
 typedef struct s_spot {
 	double			ratio;
-	t_color			color;
+	int				color;
 	t_vector		source;
 	struct s_spot	*next;
 }	t_spot;
@@ -74,7 +73,7 @@ typedef struct s_camera{
 typedef struct s_object{
 	t_identifier	type;
 	t_vector		center;
-	t_color			color;
+	int				color;
 	t_vector		normvect;
 	double			diameter;
 	double			height;
@@ -94,7 +93,7 @@ typedef struct s_mini_rt{
 	mlx_image_t	*image;
 } t_mini_rt;
 
-/*	cleaner*/
+/*	Cleaner	*/
 void	exit_minirt(t_scene *scene, char *message, int status);
 void	free_tab(void **tab);
 void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr);
@@ -102,10 +101,9 @@ void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr);
 /*	Parser	*/
 int			tablen(void **tab);
 void		parse_scene(char **argv, t_scene *scene);
-void		str_to_vector(double dest[3], char *str);
 double		ft_strtod(char *str);
-void		get_color(t_color color, char *rgb);
-void		get_vector(t_vector vect, char *numbers);
+int			get_color(t_scene *scene, char *rgb);
+void		get_vector(t_scene *scene, t_vector vect, char *numbers);
 void		parse_sphere(t_scene *scene, char **columns);
 void		parse_cylinder(t_scene *scene, char **columns);
 void		parse_plane(t_scene *scene, char **columns);
@@ -115,14 +113,18 @@ void		parse_camera(t_scene *scene, char **columns);
 /*	Checks */
 int			is_numstr(const char *str);
 int			is_valid_double(const char *str);
-int			is_rbg(t_color color);
+// int			is_rbg(int color);
 //int 		is_vector(char *str);
 int			is_normal(double vector[3]);
 
-/* Graphics and displaying */
+/* Graphics */
 void	ft_hook(void *param);
 void	put_circle(mlx_image_t* image);
-/* Prints for debugging */
-void	print_scene(t_scene *scene);
+/*	Colors	*/
+int 	get_rgba(int r, int g, int b, int a);
+int 	get_r(int rgba);
+int 	get_g(int rgba);
+int 	get_b(int rgba);
+int 	get_a(int rgba);
 
 #endif

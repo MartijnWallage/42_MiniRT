@@ -17,7 +17,7 @@ int	is_numstr(const char *str)
 	return (1);
 }
 
-int	is_rbg(t_color color)
+/* int	is_rbg(int color)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ int	is_rbg(t_color color)
 		i++;
 	}
 	return (1);
-}
+} */
 
 int	is_normal(double vector[3])
 {
