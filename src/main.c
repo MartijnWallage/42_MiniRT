@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/18 14:18:41 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:58:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	main(int argc, char **argv)
 	parse_scene(argv, &scene);
 	print_scene(&scene);
 	
+
 	// graphics
 	mini_rt.scene = &scene;
 	mini_rt.mlx = mlx_init(IMAGE_WIDTH, IMAGE_HEIGHT, "miniRT", true);
@@ -93,9 +94,26 @@ int	main(int argc, char **argv)
 	if (!mini_rt.image)
 	{
 		mlx_close_window(mini_rt.mlx);
-		// free mini_rt.mlx ?
+		mlx_terminate(mini_rt.mlx);
 		exit_minirt(&scene, "MLX failed\n", EXIT_FAILURE);
 	}
+
+	//	Raytracer
+
+	/*	
+		The Raytracer returns an image on the basis of the scene.
+		
+		raytracer(mini_rt.image, mini_rt.scene);
+
+		Determine four corner vectors
+		Loop through the image
+		For each pixel: calculate the corresponding ray vector. 
+			Loop through all objects. 
+				For each object: calculate intersections with current ray, only store the closest one.				
+			Calculate colour of current pixel.
+
+	*/
+
 
 	// display all pixels white
 	ft_memset(mini_rt.image->pixels, 255, mini_rt.image->width * mini_rt.image->height * sizeof(int));
@@ -103,7 +121,7 @@ int	main(int argc, char **argv)
 	if (mlx_image_to_window(mini_rt.mlx, mini_rt.image, 0, 0) == -1)
 	{
 		mlx_close_window(mini_rt.mlx);
-		// free mini_rt.mlx and mini_rt.image?
+		mlx_terminate(mini_rt.mlx);
 		exit_minirt(&scene, "MLX failed\n", EXIT_FAILURE);
 	}
 	mlx_loop_hook(mini_rt.mlx, &ft_hook, &mini_rt);

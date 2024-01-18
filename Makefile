@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/01/18 14:20:49 by mwallage         ###   ########.fr        #
+#    Updated: 2024/01/18 16:52:45 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,9 @@ SRC			:= main.c \
 				clean/clean.c \
 				graphics/hooks.c \
 				graphics/put_pixel.c \
-				graphics/colors.c
+				graphics/colors.c \
+				raytracer/raytracer.c \
+				raytracer/vector_utils.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 MAKE		:= make

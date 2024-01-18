@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 20:12:46 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:37:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,6 @@ void	parse_scene(char **argv, t_scene *scene)
 		parse_line(scene, line);
 		line = get_next_line(fd);
 	}
-	if (scene->ambient == NULL || scene->camera == NULL)	// should we also require objects?
+	if (scene->ambient == NULL || scene->camera == NULL)
 		exit_minirt(scene, REQUIRE_LIGHT_AND_CAMERA, EXIT_FAILURE);
 }
