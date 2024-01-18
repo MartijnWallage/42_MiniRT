@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/18 16:39:42 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:19:17 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	calc_color(t_scene *scene, t_ray *ray)
 {
-	
+	// ray->object->color plus ambient light, spot lights, shadows
 }
 
 void	calc_ray(t_scene *scene, int x, int y, t_ray *ray)

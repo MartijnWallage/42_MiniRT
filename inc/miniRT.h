@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/18 16:07:43 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:03:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ typedef struct s_spot {
 typedef struct s_camera{
 	t_vector		viewpoint;
 	t_vector		normvect;
-	unsigned char	fov;
+	int				fov;
+	int				tilt;
 	t_vector		corners[2][2];
 }	t_camera;
 
