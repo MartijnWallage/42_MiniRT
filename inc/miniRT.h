@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/19 13:48:04 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:29:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_spot {
 typedef struct s_camera{
 	t_vector		viewpoint;
 	t_vector		normvect;
-	int				fov;
+	double			fov;
 	int				tilt;
 	t_vector		corners[2][2];
 }	t_camera;
@@ -145,5 +145,8 @@ int 	get_r(int rgba);
 int 	get_g(int rgba);
 int 	get_b(int rgba);
 int 	get_a(int rgba);
+
+/*	TEST 	*/
+void	print_scene(t_scene *scene);
 
 #endif

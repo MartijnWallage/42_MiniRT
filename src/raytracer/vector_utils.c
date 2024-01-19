@@ -6,16 +6,25 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:37:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/19 13:50:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:32:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
+/// @brief 		Computes the angle in radians between two vectors
+/// @param a 	First vector
+/// @param b 	Second vector
+/// @return 	The angle in radians
 double	angle(const t_vector a, const t_vector b)
 {
+	double	cosine;
+
 	if (norm(a) * norm(b) != 0)
-		return (acos(dot(a, b)) / (norm(a) * norm(b)));
+	{
+		cosine = dot(a, b) / (norm(a) * norm(b));
+		return (acos(cosine));
+	}
 	else
 		return (0);
 }

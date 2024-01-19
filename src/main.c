@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/18 15:58:06 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:04:46 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,58 +18,6 @@ static void	init_scene(t_scene *scene)
 	scene->camera = NULL;
 	scene->objects = NULL;
 	scene->spots = NULL;
-}
-
-void	print_scene(t_scene *scene)
-{
-	printf("\n****************************\n");
-	printf("\nCAMERA:\n");
-	printf("Fov: \t\t%d\n", scene->camera->fov);
-	printf("Viewpoint: %lf, %lf, %lf\n",
-		scene->camera->viewpoint[0],
-		scene->camera->viewpoint[1], 
-		scene->camera->viewpoint[2]);
-	printf("Norm vector: %lf, %lf, %lf\n",
-		scene->camera->normvect[0],
-		scene->camera->normvect[1],
-		scene->camera->normvect[2]);
-	printf("\nAMBIENT LIGHT:\n");
-	printf("Ratio: %f\n", scene->ambient->ratio);
-	printf("color: %x\n",
-		scene->ambient->color);
-	printf("\nSPOT LIGHTS:\n");
-	t_spot	*curr = scene->spots;
-	while (curr)
-	{
-		printf("\nRatio: %f\n", curr->ratio);
-		printf("color: %x\n", curr->color);
-		printf("Source: %lf, %lf, %lf\n",
-			curr->source[0],
-			curr->source[1],
-			curr->source[2]);
-		curr = curr->next;
-	}
-	printf("\nOBJECTS:\n");
-	t_object	*curr2 = scene->objects;
-	while (curr2)
-	{
-		printf("\nType: %d\n", curr2->type);
-		printf("Center: %lf, %lf, %lf\n",
-			curr2->center[0],
-			curr2->center[1],
-			curr2->center[2]);
-		printf("Color: %x\n", curr2->color);
-		printf("Norm vector: %lf, %lf, %lf\n",
-			curr2->normvect[0],
-			curr2->normvect[1],
-			curr2->normvect[2]);
-		printf("Diameter: %lf\n",
-			curr2->diameter);
-		printf("Height: %lf\n",
-			curr2->height);
-		curr2 = curr2->next;
-	}
-	printf("*****************************\n");
 }
 
 int	main(int argc, char **argv)
