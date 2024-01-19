@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/18 17:03:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/19 13:48:20 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,6 @@ void	parse_camera(t_scene *scene, char **tab)
 	get_vector(scene, scene->camera->viewpoint, *++tab);
 	get_vector(scene, scene->camera->normvect, *++tab);
 	scene->camera->fov = ft_atoi(*++tab);
-	if (scene->camera->fox <= 0 || scene->camera->fov > 180)
+	if (scene->camera->fov <= 0 || scene->camera->fov > 180)
 		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
 }

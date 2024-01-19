@@ -6,25 +6,33 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/18 17:19:17 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/19 13:49:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT"
+#include "miniRT.h"
 
-int	calc_color(t_scene *scene, t_ray *ray)
+/* int	compute_color(t_scene *scene, t_ray *ray)
 {
-	// ray->object->color plus ambient light, spot lights, shadows
+	
+		for each spot in scene->spots
+			trace ray from ray->ray_vec to spot
+				if an object is in between:
+					return ray->object->color affected by scene->ambient
+				if no object is in between
+					return ray->object->color affected by scene->ambient 
+						and by spot (the more so the closer the spot)
+	
 }
 
-void	calc_ray(t_scene *scene, int x, int y, t_ray *ray)
+void	compute_ray(t_scene *scene, int x, int y, t_ray *ray)
 {
 	ray->ray_vec = ?;
 	ray->intersection ?;
 	ray->object = ?;
 }
 
-void	calc_corners(t_scene *scene)
+void	compute_corners(t_scene *scene)
 {
 	scene->camera->corners[0][0] = ?;
 	scene->camera->corners[0][1] = ?;
@@ -39,16 +47,17 @@ void	raytracer(mlx_image_t *image, t_scene *scene)
 	int		color;
 	t_ray	ray;
 
-	calc_corners(scene);
+	compute_corners(scene);
 	i = -1;
 	while (++y < image.height)
 	{
 		j = -1;
 		while (++x < image.width)
 		{
-			calc_ray(scene, x, y, &ray);
-			color = calc_color(scene, &ray);
+			compute_ray(scene, x, y, &ray);
+			color = compute_color(scene, &ray);
 			ft_put_pixel(image, x, y, color);
 		}
 	}
 }
+ */

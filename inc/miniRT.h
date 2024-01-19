@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/18 17:03:31 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/19 13:48:04 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,17 @@ int			is_valid_double(const char *str);
 //int 		is_vector(char *str);
 int			is_normal(double vector[3]);
 
+/*	RAYTRACER	*/
+
+/*	vector_utils.c	*/
+double	angle(const t_vector a, const t_vector b);
+void	cross(const t_vector a, const t_vector b, t_vector result);
+double	dot(const t_vector a, const t_vector b);
+void	add(const t_vector a, const t_vector b, t_vector result);
+void	subtract(const t_vector a, const t_vector b, t_vector result);
+void	multiply(const t_vector a, const double scalar, t_vector result);
+double	norm(const t_vector vec);
+void	normalize(const t_vector vec, t_vector result);
 /* Graphics */
 void	ft_hook(void *param);
 void	put_circle(mlx_image_t* image);
