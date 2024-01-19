@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:37:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/19 14:32:43 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:36:49 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /// @brief 		Computes the angle in radians between two vectors
 /// @param a 	First vector
 /// @param b 	Second vector
-/// @return 	The angle in radians
+/// @return 	The angle in radians, or 0 if norm a or norm b is 0
 double	angle(const t_vector a, const t_vector b)
 {
 	double	cosine;
@@ -29,6 +29,10 @@ double	angle(const t_vector a, const t_vector b)
 		return (0);
 }
 
+/// @brief 			Computes cross product of two vectors
+/// @param a 
+/// @param b 
+/// @param result 	Cross product of a and b
 void	cross(const t_vector a, const t_vector b, t_vector result)
 {
 	result[0] = a[1] * b[2] - a[2] * b[1];
