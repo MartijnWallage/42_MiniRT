@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/19 14:29:28 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/20 14:10:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,10 @@ typedef struct s_camera{
 	double			fov;
 	int				tilt;
 	t_vector		corners[2][2];
+	t_vector		up;
+	t_vector		right;
+	double			width;
+	double			height;
 }	t_camera;
 
 typedef struct s_object{
@@ -95,11 +99,11 @@ typedef struct s_scene{
 	t_object	*objects;
 }	t_scene;
 
-typedef struct s_mini_rt{
+typedef struct s_minirt{
 	t_scene		*scene;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-} t_mini_rt;
+} t_minirt;
 
 /*	Cleaner	*/
 void	exit_minirt(t_scene *scene, char *message, int status);
