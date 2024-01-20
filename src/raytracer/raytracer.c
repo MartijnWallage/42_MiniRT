@@ -48,7 +48,7 @@ void	calc_plane_intersection(t_ray *ray, t_object *iter, t_scene *scene)
 	double		factor;
 	t_vector	temp_vec;
 
-	temp = dot(ray->normvect, object->normvect);
+	temp = dot(ray->normvect, iter->normvect);
 	if (temp > -EPSILON && temp < EPSILON)
 		return ;
 	subtract(iter->center, scene->camera->viewpoint, temp_vec);
@@ -69,7 +69,6 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	t_vector	product_up_y;
 	t_vector	sum;
 	t_object	*iter;
-	double		intersection_factor;
 
 	camera = minirt->scene->camera;
 	ndc[0] = (x + 0.5) / minirt->image->width;			// convert to normal device coordinates
@@ -90,7 +89,7 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	while (iter)
 	{
 		if (iter->type == PLANE)
-			calc_plane_intersection(ray, iter);
+			calc_plane_intersection(ray, iter, minirt->scene);
 		iter = iter->next;
 	}
 	/* ray->intersection ?;
