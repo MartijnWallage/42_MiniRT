@@ -88,7 +88,7 @@ typedef struct s_object{
 
 typedef struct s_ray {
 	t_vector	normvect;
-	t_vector	intersection;
+	double		intersection;
 	t_object	*object;
 } t_ray;
 

@@ -40,6 +40,24 @@ void	compute_image_plane(t_minirt *minirt)
 	camera->height = camera->width * minirt->image->width / minirt->image->height;
 }
 
+void	calc_plane_intersection(t_ray *ray, t_object *iter, t_scene *scene)
+{
+	double		temp;
+	double		factor;
+	t_vector	temp_vec;
+
+	temp = dot(ray->normvect, object->normvect);
+	if (temp > -EPSILON && temp < EPSILON)
+		return ;
+	subtract(iter->center, scene->camera->viewpoint, temp_vec);
+	factor = dot(temp_vec, iter->normvect) / dot(ray->normvect, iter->normvect);
+	if (factor >= ray->intersection)
+	{
+		ray->object = iter;
+		ray->intersection = factor;
+	}
+}
+
 void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 {
 	double		imageplane_x;
@@ -48,6 +66,8 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	t_vector	product_right_x;
 	t_vector	product_up_y;
 	t_vector	sum;
+	t_object	*iter;
+	double		intersection_factor;
 
 	camera = minirt->scene->camera;
 	imageplane_x = (x + 0.5) / minirt->image->width - 0.5;
@@ -57,6 +77,15 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	add(product_right_x, product_up_y, sum);
 	normalize(sum, ray->normvect);
 	printf("Ray %d, %d: %f, %f, %f\n", x, y, ray->normvect[0], ray->normvect[1], ray->normvect[2]);
+	iter = minirt->scene->objects;
+	ray->intersection = 0;
+	ray->object = NULL;
+	while (iter)
+	{
+		if (iter->type == PLANE)
+			calc_plane_intersection(ray, iter);
+		iter = iter->next;
+	}
 	/* ray->intersection ?;
 	ray->object = ?; */
 }
