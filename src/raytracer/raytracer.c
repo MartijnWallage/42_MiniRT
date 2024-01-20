@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 14:51:20 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:27:49 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	compute_image_plane(t_minirt *minirt)
 {
 	t_camera	*camera;
 
+
 	camera = minirt->scene->camera;
 	camera->up[0] = 0;
 	camera->up[1] = 1;
@@ -52,8 +53,10 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	camera = minirt->scene->camera;
 	imageplane_x = (x + 0.5) / minirt->image->width - 0.5;
 	imageplane_y = (y + 0.5) / minirt->image->height - 0.5;
+//	printf("x: %f\ny: %f\n", imageplane_x, imageplane_y);
 	multiply(camera->right, imageplane_x, product_right_x);
 	multiply(camera->up, imageplane_y, product_up_y);
+//	printf("camera->right: %f, %f, %f\n", camera->right[0], camera->right[1], camera->right[2]);
 	add(product_right_x, product_up_y, sum);
 	normalize(sum, ray->normvect);
 	printf("Ray %d, %d: %f, %f, %f\n", x, y, ray->normvect[0], ray->normvect[1], ray->normvect[2]);
