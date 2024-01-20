@@ -61,11 +61,7 @@ int	main(int argc, char **argv)
 			Calculate colour of current pixel.
 
 	*/
-
-	// display all pixels white
-	ft_memset(minirt.image->pixels, 255, minirt.image->width * minirt.image->height * sizeof(int));
 	raytracer(&minirt);
-//	put_circle(minirt.image);
 	if (mlx_image_to_window(minirt.mlx, minirt.image, 0, 0) == -1)
 	{
 		mlx_close_window(minirt.mlx);
@@ -73,6 +69,7 @@ int	main(int argc, char **argv)
 		exit_minirt(&scene, "MLX failed\n", EXIT_FAILURE);
 	}
 	mlx_loop_hook(minirt.mlx, &ft_hook, &minirt);
+	mlx_loop_hook(minirt.mlx, &raytracer, &minirt);
 	mlx_loop(minirt.mlx);
 	mlx_terminate(minirt.mlx);
 	exit_minirt(&scene, NULL, EXIT_SUCCESS);

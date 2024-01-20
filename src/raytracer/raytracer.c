@@ -42,24 +42,6 @@ void	compute_image_plane(t_minirt *minirt)
 	camera->width = aspect_ratio * camera->height;
 }
 
-void	calc_plane_intersection(t_ray *ray, t_object *iter, t_scene *scene)
-{
-	double		temp;
-	double		factor;
-	t_vector	temp_vec;
-
-	temp = dot(ray->normvect, iter->normvect);
-	if (temp > -EPSILON && temp < EPSILON)
-		return ;
-	subtract(iter->center, scene->camera->viewpoint, temp_vec);
-	factor = dot(temp_vec, iter->normvect) / dot(ray->normvect, iter->normvect);
-	if (factor >= ray->intersection)
-	{
-		ray->object = iter;
-		ray->intersection = factor;
-	}
-}
-
 void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 {
 /* 	double		ndc[2], vpc[2];
@@ -89,26 +71,32 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	add(product_right_x, product_up_y, sum);
 	add(sum, camera->normvect, ray->normvect);
 	normalize(ray->normvect, ray->normvect);
-	printf("Ray %d, %d: %f, %f, %f\n", x, y, ray->normvect[0], ray->normvect[1], ray->normvect[2]);
+	//printf("Ray %d, %d: %f, %f, %f\n", x, y, ray->normvect[0], ray->normvect[1], ray->normvect[2]);
 	iter = minirt->scene->objects;
-	ray->intersection = 0;
+	ray->intersection = -1;
 	ray->object = NULL;
 	while (iter)
 	{
 		if (iter->type == PLANE)
 			calc_plane_intersection(ray, iter, minirt->scene);
+		if (iter->type == SPHERE)
+			calc_sphere_intersection(ray, iter, minirt->scene);
+		if (iter->type == CYLINDER)
+			calc_cylinder_intersection(ray, iter, minirt->scene);
 		iter = iter->next;
 	}
 	/* ray->intersection ?;
 	ray->object = ?; */
 }
 
-void	raytracer(t_minirt *minirt)
+void	raytracer(void *params)
 {
 	__uint32_t	x;
 	__uint32_t	y;
 	t_ray	ray;
+	t_minirt	*minirt;
 
+	minirt = (t_minirt *)params;
 	compute_image_plane(minirt);
 	y = -1;
 	while (++y < minirt->image->height)
@@ -120,6 +108,8 @@ void	raytracer(t_minirt *minirt)
 // 			color = compute_color(scene, &ray);
 			if (ray.object)
 				mlx_put_pixel(minirt->image, x, y, ray.object->color);
+			else
+				mlx_put_pixel(minirt->image, x, y, minirt->scene->ambient->color);
 		}
 	}
 }

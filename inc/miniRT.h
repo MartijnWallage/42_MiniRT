@@ -29,6 +29,7 @@
 # define MIN_color	0
 # define MAX_color	255
 # define EPSILON	0.000001
+# define TRANSLATION_SPEED 1
 # define ARGUMENT_ERROR	"Wrong number of arguments. Expected a file name"
 # define MALLOC_FAILED	"Malloc: Allocation error"
 # define MALLOC_EXITCODE	2
@@ -81,7 +82,7 @@ typedef struct s_object{
 	t_vector		center;
 	int				color;
 	t_vector		normvect;
-	double			diameter;
+	double			radius;
 	double			height;
 	struct s_object	*next;
 }	t_object;
@@ -131,8 +132,8 @@ int			is_normal(double vector[3]);
 
 /*	RAYTRACER	*/
 /*	raytracer.c */
+void	raytracer(void *minirt);
 
-void	raytracer(t_minirt *minirt);
 /*	vector_utils.c	*/
 double	angle(const t_vector a, const t_vector b);
 void	cross(const t_vector a, const t_vector b, t_vector result);
@@ -142,9 +143,20 @@ void	subtract(const t_vector a, const t_vector b, t_vector result);
 void	multiply(const t_vector a, const double scalar, t_vector result);
 double	norm(const t_vector vec);
 void	normalize(const t_vector vec, t_vector result);
+
+/* math_utils.c	*/
+double	ft_min_positive(double value1, double value2);
+double	pow2(double value);
+
+/* intersections.c */
+void	calc_plane_intersection(t_ray *ray, t_object *plane, t_scene *scene);
+void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_scene *scene);
+void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_scene *scene);
+
 /* Graphics */
 void	ft_hook(void *param);
 void	put_circle(mlx_image_t* image);
+
 /*	Colors	*/
 int 	get_rgba(int r, int g, int b, int a);
 int 	get_r(int rgba);

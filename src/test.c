@@ -56,7 +56,7 @@ void	print_scene(t_scene *scene)
 			curr2->normvect[1],
 			curr2->normvect[2]);
 		printf("Diameter: %lf\n",
-			curr2->diameter);
+			curr2->radius * 2);
 		printf("Height: %lf\n",
 			curr2->height);
 		curr2 = curr2->next;

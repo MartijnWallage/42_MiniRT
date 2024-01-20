@@ -39,7 +39,7 @@ void	parse_cylinder(t_scene *scene, char **tab)
 	cylinder->type = CYLINDER;
 	get_vector(scene, cylinder->center, *++tab);
 	get_vector(scene, cylinder->normvect, *++tab);
-	cylinder->diameter = ft_strtod(*++tab);
+	cylinder->radius = ft_strtod(*++tab) / 2;
 	cylinder->height = ft_strtod(*++tab);
 	cylinder->color = get_color(scene, *++tab);
 	cylinder->next = scene->objects;
@@ -56,7 +56,7 @@ void	parse_sphere(t_scene *scene, char **tab)
 	protect_malloc(scene, NULL, sphere);
 	sphere->type = SPHERE;
 	get_vector(scene, sphere->center, *++tab);
-	sphere->diameter = ft_strtod(*++tab);
+	sphere->radius = ft_strtod(*++tab) / 2;
 	sphere->color = get_color(scene, *++tab);
 	sphere->next = scene->objects;
 	scene->objects = sphere;

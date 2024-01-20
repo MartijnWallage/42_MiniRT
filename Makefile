@@ -41,7 +41,9 @@ SRC			:= main.c \
 				graphics/put_pixel.c \
 				graphics/colors.c \
 				raytracer/raytracer.c \
-				raytracer/vector_utils.c
+				raytracer/vector_utils.c \
+				raytracer/intersections.c \
+				raytracer/math_utils.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 MAKE		:= make
