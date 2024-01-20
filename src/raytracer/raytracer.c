@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 15:27:49 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:37:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 void	compute_image_plane(t_minirt *minirt)
 {
 	t_camera	*camera;
-
+	double		aspect_ratio;
 
 	camera = minirt->scene->camera;
 	camera->up[0] = 0;
@@ -37,28 +37,32 @@ void	compute_image_plane(t_minirt *minirt)
 	camera->up[2] = 0;
 	cross(camera->normvect, camera->up, camera->right);
 	cross(camera->normvect, camera->right, camera->up);
-	camera->width = 2 * tan(camera->fov / 2);
-	camera->height = camera->width * minirt->image->width / minirt->image->height;
+	camera->height = 2 * tan(camera->fov / 2);
+	aspect_ratio = minirt->image->width / minirt->image->height;
+	camera->width = aspect_ratio * camera->height;
 }
 
 void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 {
-	double		imageplane_x;
-	double		imageplane_y;
+	double		ndc[2], vpc[2];
+	double		scalex, scaley;
 	t_camera	*camera;
 	t_vector	product_right_x;
 	t_vector	product_up_y;
 	t_vector	sum;
 
 	camera = minirt->scene->camera;
-	imageplane_x = (x + 0.5) / minirt->image->width - 0.5;
-	imageplane_y = (y + 0.5) / minirt->image->height - 0.5;
-//	printf("x: %f\ny: %f\n", imageplane_x, imageplane_y);
-	multiply(camera->right, imageplane_x, product_right_x);
-	multiply(camera->up, imageplane_y, product_up_y);
-//	printf("camera->right: %f, %f, %f\n", camera->right[0], camera->right[1], camera->right[2]);
+	ndc[0] = (x + 0.5) / minirt->image->width;			// convert to normal device coordinates
+	ndc[1] = (y + 0.5) / minirt->image->height;
+	scalex = tan(camera->fov / 2) * (minirt->image->width / minirt->image->height);
+	scaley = tan(camera->fov / 2);
+	vpc[0] = (2 * ndc[0] - 1) * scalex;			// convert to view plane coordinates
+	vpc[1] = (1 - 2 * ndc[1]) * scaley;
+	multiply(camera->right, vpc[0], product_right_x);
+	multiply(camera->up, vpc[1], product_up_y);
 	add(product_right_x, product_up_y, sum);
-	normalize(sum, ray->normvect);
+	add(sum, camera->normvect, ray->normvect);
+	normalize(ray->normvect, ray->normvect);
 	printf("Ray %d, %d: %f, %f, %f\n", x, y, ray->normvect[0], ray->normvect[1], ray->normvect[2]);
 	/* ray->intersection ?;
 	ray->object = ?; */

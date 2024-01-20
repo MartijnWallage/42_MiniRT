@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 14:44:28 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:39:51 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_object{
 
 typedef struct s_ray {
 	t_vector	normvect;
-	t_vector	intersection;
+	double		intersection;
 	t_object	*object;
 } t_ray;
 
