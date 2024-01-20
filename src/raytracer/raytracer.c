@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 14:35:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/20 14:51:20 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,51 +24,59 @@
 						and by spot (the more so the closer the spot)
 	
 }
-
-void	compute_ray(t_scene *scene, int x, int y, t_ray *ray)
-{
-	ray->ray_vec = ?;
-	ray->intersection ?;
-	ray->object = ?;
-}
-
-void	compute_corners(t_scene *scene)
-{
-	scene->camera->corners[0][0] = ?;
-	scene->camera->corners[0][1] = ?;
-	scene->camera->corners[1][0] = ?;
-	scene->camera->corners[1][1] = ?;
-}*/
+*/
 
 void	compute_image_plane(t_minirt *minirt)
 {
 	t_camera	*camera;
 
 	camera = minirt->scene->camera;
-	camera->up = {0, 1, 0};
+	camera->up[0] = 0;
+	camera->up[1] = 1;
+	camera->up[2] = 0;
 	cross(camera->normvect, camera->up, camera->right);
 	cross(camera->normvect, camera->right, camera->up);
 	camera->width = 2 * tan(camera->fov / 2);
-	camera->heigt = camera->width * minirt->image->width / minirt->image->height;
+	camera->height = camera->width * minirt->image->width / minirt->image->height;
+}
+
+void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
+{
+	double		imageplane_x;
+	double		imageplane_y;
+	t_camera	*camera;
+	t_vector	product_right_x;
+	t_vector	product_up_y;
+	t_vector	sum;
+
+	camera = minirt->scene->camera;
+	imageplane_x = (x + 0.5) / minirt->image->width - 0.5;
+	imageplane_y = (y + 0.5) / minirt->image->height - 0.5;
+	multiply(camera->right, imageplane_x, product_right_x);
+	multiply(camera->up, imageplane_y, product_up_y);
+	add(product_right_x, product_up_y, sum);
+	normalize(sum, ray->normvect);
+	printf("Ray %d, %d: %f, %f, %f\n", x, y, ray->normvect[0], ray->normvect[1], ray->normvect[2]);
+	/* ray->intersection ?;
+	ray->object = ?; */
 }
 
 void	raytracer(t_minirt *minirt)
 {
-	int		x;
-	int		y;
-	int		color;
+	__uint32_t	x;
+	__uint32_t	y;
 	t_ray	ray;
 
 	compute_image_plane(minirt);
-	i = -1;
-	while (++y < image.height)
+	y = -1;
+	while (++y < minirt->image->height)
 	{
-		j = -1;
-		while (++x < image.width)
+		x = -1;
+		while (++x < minirt->image->width)
 		{
-			compute_ray(scene, x, y, &ray);
-			color = compute_color(scene, &ray);
-			ft_put_pixel(image, x, y, color);
+			compute_ray(minirt, x, y, &ray);
+/* 			color = compute_color(scene, &ray);
+			ft_put_pixel(image, x, y, color); */
 		}
 	}
 }

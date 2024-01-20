@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 14:05:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/20 14:45:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv)
 			Calculate colour of current pixel.
 
 	*/
-
+	raytracer(&minirt);
 
 	// display all pixels white
 	ft_memset(minirt.image->pixels, 255, minirt.image->width * minirt.image->height * sizeof(int));

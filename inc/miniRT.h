@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 14:10:41 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/20 14:44:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_object{
 }	t_object;
 
 typedef struct s_ray {
-	t_vector	ray_vec;
+	t_vector	normvect;
 	t_vector	intersection;
 	t_object	*object;
 } t_ray;
@@ -130,7 +130,9 @@ int			is_valid_double(const char *str);
 int			is_normal(double vector[3]);
 
 /*	RAYTRACER	*/
+/*	raytracer.c */
 
+void	raytracer(t_minirt *minirt);
 /*	vector_utils.c	*/
 double	angle(const t_vector a, const t_vector b);
 void	cross(const t_vector a, const t_vector b, t_vector result);
