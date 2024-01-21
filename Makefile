@@ -6,12 +6,12 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/01/19 14:04:57 by mwallage         ###   ########.fr        #
+#    Updated: 2024/01/21 16:24:39 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast -g
+CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast #-g
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
