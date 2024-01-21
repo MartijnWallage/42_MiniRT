@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/18 14:20:28 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:16:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,21 @@ int	tablen(void **tab)
 	return (len);
 }
 
-void	get_vector(t_scene *scene, t_vector vector, char *numbers)
+t_vec3	get_vec3(t_scene *scene, char *numbers)
 {
 	char	**tab;
-	int		i;
+	double	x;
+	double	y;
+	double	z;
 
 	tab = ft_split(numbers, ',');
 	if (!tab || tablen((void **)tab) != 3)
 		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
-	i = -1;
-	while (tab[++i])
-		vector[i] = ft_strtod(tab[i]);
+	x = ft_strtod(tab[0]);
+	y = ft_strtod(tab[1]);
+	z = ft_strtod(tab[2]);
 	free_tab((void **)tab);
+	return ((t_vec3){x, y, z});
 }
 
 int	get_color(t_scene *scene, char *rgb)

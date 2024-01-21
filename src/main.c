@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 16:49:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:13:26 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		exit_minirt(&scene, ARGUMENT_ERROR, EXIT_FAILURE);
 	parse_scene(argv, &scene);
-	print_scene(&scene);
+//	print_scene(&scene);
 	
 
 	// graphics

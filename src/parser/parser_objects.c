@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 15:11:21 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:19:46 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	parse_plane(t_scene *scene, char **tab)
 	plane = malloc(sizeof(t_object));
 	protect_malloc(scene, NULL, plane);
 	plane->type = PLANE;
-	get_vector(scene, plane->center, *++tab);
-	get_vector(scene, plane->normvect, *++tab);
+	plane->center = get_vec3(scene, *++tab);
+	plane->normvect = get_vec3(scene, *++tab);
 	plane->color = get_color(scene, *++tab);
 	plane->next = scene->objects;
 	scene->objects = plane;
@@ -37,8 +37,8 @@ void	parse_cylinder(t_scene *scene, char **tab)
 	cylinder = malloc(sizeof(t_object));
 	protect_malloc(scene, NULL, cylinder);
 	cylinder->type = CYLINDER;
-	get_vector(scene, cylinder->center, *++tab);
-	get_vector(scene, cylinder->normvect, *++tab);
+	cylinder->center = get_vec3(scene, *++tab);
+	cylinder->normvect = get_vec3(scene, *++tab);
 	cylinder->radius = ft_strtod(*++tab) / 2;
 	cylinder->height = ft_strtod(*++tab);
 	cylinder->color = get_color(scene, *++tab);
@@ -55,7 +55,7 @@ void	parse_sphere(t_scene *scene, char **tab)
 	sphere = malloc(sizeof(t_object));
 	protect_malloc(scene, NULL, sphere);
 	sphere->type = SPHERE;
-	get_vector(scene, sphere->center, *++tab);
+	sphere->center = get_vec3(scene, *++tab);
 	sphere->radius = ft_strtod(*++tab) / 2;
 	sphere->color = get_color(scene, *++tab);
 	sphere->next = scene->objects;
@@ -70,7 +70,7 @@ void	parse_spot(t_scene *scene, char **tab)
 		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
 	spot = malloc(sizeof(t_spot));
 	protect_malloc(scene, NULL, spot);
-	get_vector(scene, spot->source, *++tab);
+	spot->source = get_vec3(scene, *++tab);
 	spot->ratio = ft_strtod(*++tab);
 	spot->color = get_color(scene, *++tab);
 	spot->next = scene->spots;
@@ -93,8 +93,8 @@ void	parse_camera(t_scene *scene, char **tab)
 		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
 	scene->camera = malloc(sizeof(t_camera));
 	protect_malloc(scene, NULL, scene->camera);
-	get_vector(scene, scene->camera->viewpoint, *++tab);
-	get_vector(scene, scene->camera->normvect, *++tab);
+	scene->camera->viewpoint = get_vec3(scene, *++tab);
+	scene->camera->normvect = get_vec3(scene, *++tab);
 	scene->camera->fov = (double)ft_atoi(*++tab) * M_PI / 180;
 	if (scene->camera->fov <= 0 || scene->camera->fov > M_PI)
 		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);

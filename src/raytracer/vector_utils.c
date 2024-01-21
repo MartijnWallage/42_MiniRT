@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:37:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 14:28:27 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:24:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// @param a 	First vector
 /// @param b 	Second vector
 /// @return 	The angle in radians, or 0 if norm a or norm b is 0
-double	angle(const t_vector a, const t_vector b)
+double	angle(const t_vec3 a, const t_vec3 b)
 {
 	double	cosine;
 
@@ -33,20 +33,18 @@ double	angle(const t_vector a, const t_vector b)
 /// @param a 
 /// @param b 
 /// @param result 	Cross product of a and b
-void	cross(const t_vector a, const t_vector b, t_vector result)
+t_vec3	cross(const t_vec3 a, const t_vec3 b)
 {
-	result[0] = a[1] * b[2] - a[2] * b[1];
-	result[1] = a[2] * b[0] - a[0] * b[2];
-	result[2] = a[0] * b[1] - a[1] * b[0];
+	return ((t_vec3){a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x});
 }
 
 /// @brief 		computes dot product of two vectors.
 /// @param a 
 /// @param b 
 /// @return 	dot product of a and b
-double	dot(const t_vector a, const t_vector b)
+double	dot(const t_vec3 a, const t_vec3 b)
 {
-	return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]);
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
 
@@ -55,11 +53,9 @@ double	dot(const t_vector a, const t_vector b)
 /// @param a 
 /// @param b 
 /// @param result
-void	add(const t_vector a, const t_vector b, t_vector result)
+t_vec3	add(const t_vec3 a, const t_vec3 b)
 {
-	result[0] = a[0] + b[0];
-	result[1] = a[1] + b[1];
-	result[2] = a[2] + b[2];
+	return ((t_vec3){a.x + b.x, a.y + b.y, a.z + b.z});
 }
 
 /// @brief substracting vector b from a. 
@@ -67,36 +63,32 @@ void	add(const t_vector a, const t_vector b, t_vector result)
 /// @param a 
 /// @param b 
 /// @param result 
-void	subtract(const t_vector a, const t_vector b, t_vector result)
+t_vec3	subtract(const t_vec3 a, const t_vec3 b)
 {
-	result[0] = a[0] - b[0];
-	result[1] = a[1] - b[1];
-	result[2] = a[2] - b[2];
+	return ((t_vec3){a.x - b.x, a.y - b.y, a.z - b.z});
 }
 
 /// @brief scalar multiplication.
 /// @param a 
 /// @param scalar 
 /// @param result 
-void	multiply(const t_vector a, const double scalar, t_vector result)
+t_vec3	multiply(const t_vec3 a, const double scalar)
 {
-	result[0] = a[0] * scalar;
-	result[1] = a[1] * scalar;
-	result[2] = a[2] * scalar;
+	return ((t_vec3){a.x * scalar, a.y * scalar, a.z * scalar});
 }
 
 /// @brief 		computes the norm (length) of given vector.
 /// @param vec 	given vector
 /// @return 	the norm of vec, as an unsigned double.
-double	norm(const t_vector vec)
+double	norm(const t_vec3 vec)
 {
-	return (sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]));
+	return (sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
 }
 
 /// @brief 			normalizes a given vector.
 /// @param vec		given vector.
 /// @param result 	normalized vector, or 0 vector if norm of vec is 0.
-void	normalize(const t_vector vec, t_vector result)
+t_vec3	normalize(const t_vec3 vec)
 {
 	double	scalar;
 
@@ -104,5 +96,5 @@ void	normalize(const t_vector vec, t_vector result)
 		scalar = 1 / norm(vec);
 	else
 		scalar = 0;
-	multiply(vec, scalar, result);
+	return (multiply(vec, scalar));
 }

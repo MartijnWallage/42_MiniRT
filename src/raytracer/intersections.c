@@ -4,14 +4,14 @@ void	calc_plane_intersection(t_ray *ray, t_object *plane, t_scene *scene)
 {
 	double		temp;
 	double		factor;
-	t_vector	temp_vec1;
-	t_vector	temp_vec2;
+	t_vec3	temp_vec1;
+	t_vec3	temp_vec2;
 
-	normalize(plane->normvect, temp_vec1);
+	temp_vec1 = normalize(plane->normvect);
 	temp = dot(ray->normvect, temp_vec1);
 	if (temp > -EPSILON && temp < EPSILON)
 		return ;
-	subtract(plane->center, scene->camera->viewpoint, temp_vec2);
+	temp_vec2 = subtract(plane->center, scene->camera->viewpoint);
 	factor =  dot(temp_vec2, temp_vec1) / dot(ray->normvect, temp_vec1);
 	if (factor <= 0)
 		return ;
@@ -29,9 +29,9 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_scene *scene)
 	double		b;
 	double		c;
 	double		temp;
-	t_vector	temp_vec;
+	t_vec3	temp_vec;
 
-	subtract(scene->camera->viewpoint, sphere->center, temp_vec);
+	temp_vec = subtract(scene->camera->viewpoint, sphere->center);
 	b = 2 * dot(ray->normvect, temp_vec);
 	temp = norm(temp_vec);
 	c = pow2(temp) - sphere->radius * sphere->radius;
