@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 17:36:12 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:01:58 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,34 +44,22 @@ void	compute_image_plane(t_minirt *minirt)
 
 void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 {
-/* 	double		ndc[2], vpc[2];
-	double		scalex, scaley; */
 	t_camera	*camera;
 	t_vector	product_right_x;
 	t_vector	product_up_y;
-	t_vector	sum;
 	t_object	*iter;
 	double		dx, dy;
 
 	camera = minirt->scene->camera;
-/* 	ndc[0] = x / minirt->image->width;			// convert to normal device coordinates
-	ndc[1] = y / minirt->image->height;
-	scalex = tan(camera->fov / 2) * (minirt->image->width / minirt->image->height);
-	scaley = tan(camera->fov / 2);
-	vpc[0] = (2 * ndc[0] - 1) * scalex;			// convert to view plane coordinates
-	vpc[1] = (1 - 2 * ndc[1]) * scaley; */
 	dx = (double)x / minirt->image->width;
 	dy = (double)y / minirt->image->height;
-	dx = 2.0 * dx - 1.0;
-	dy = 2.0 * dy - 1.0;
-	dx *= camera->width;
-	dy *= camera->height;
+	dx = (2.0 * dx - 1.0) * camera->width / 2;
+	dy = (2.0 * dy - 1.0) * camera->height / 2;
 	multiply(camera->right, dx, product_right_x);
 	multiply(camera->up, dy, product_up_y);
-	add(product_right_x, product_up_y, sum);
-	add(sum, camera->normvect, ray->normvect);
+	add(product_right_x, product_up_y, ray->normvect);
+	add(ray->normvect, camera->normvect, ray->normvect);
 	normalize(ray->normvect, ray->normvect);
-	//printf("Ray %d, %d: %f, %f, %f\n", x, y, ray->normvect[0], ray->normvect[1], ray->normvect[2]);
 	iter = minirt->scene->objects;
 	ray->intersection = -1;
 	ray->object = NULL;
@@ -85,8 +73,6 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 			calc_cylinder_intersection(ray, iter, minirt->scene);
 		iter = iter->next;
 	}
-	/* ray->intersection ?;
-	ray->object = ?; */
 }
 
 void	raytracer(void *params)
