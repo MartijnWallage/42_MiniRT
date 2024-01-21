@@ -22,9 +22,9 @@ void	ft_hook(void *param)
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(minirt->mlx);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
-		camera->viewpoint.x -= TRANSLATION_SPEED;
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
 		camera->viewpoint.x += TRANSLATION_SPEED;
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
+		camera->viewpoint.x -= TRANSLATION_SPEED;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_UP))
 		camera->viewpoint.y += TRANSLATION_SPEED;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN))
