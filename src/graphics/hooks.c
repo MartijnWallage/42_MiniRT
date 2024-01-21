@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:21:11 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 14:30:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_hook(void *param)
 		camera->viewpoint.y += TRANSLATION_SPEED;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN))
 		camera->viewpoint.y -= TRANSLATION_SPEED;
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_W))
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_EQUAL))
 		camera->viewpoint.z += TRANSLATION_SPEED;
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_S))
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_MINUS))
 		camera->viewpoint.z -= TRANSLATION_SPEED;
 }
 

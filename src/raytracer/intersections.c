@@ -1,37 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersections.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
+/*   Updated: 2024/01/21 16:21:02 by mwallage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
-void	calc_plane_intersection(t_ray *ray, t_object *plane, t_scene *scene)
+void	calc_plane_intersection(t_ray *ray, t_object *plane, t_vec3 viewpoint)
 {
-	double		temp;
-	double		factor;
-	t_vec3	temp_vec1;
-	t_vec3	temp_vec2;
+	double	denom;
+	double	scalar;
 
-	temp_vec1 = normalize(plane->normvect);
-	temp = dot(ray->normvect, temp_vec1);
-	if (temp > -EPSILON && temp < EPSILON)
+	denom = dot(ray->normvect, plane->normvect);
+	if (fabs(denom) < EPSILON)
 		return ;
-	temp_vec2 = subtract(plane->center, scene->camera->viewpoint);
-	factor =  dot(temp_vec2, temp_vec1) / dot(ray->normvect, temp_vec1);
-	if (factor <= 0)
+	scalar = dot(subtract(plane->center, viewpoint), plane->normvect)
+		/ denom;
+	if (scalar <= 0 || (ray->intersection != -1 && scalar > ray->intersection))
 		return ;
-	if (ray->intersection < 0 || factor < ray->intersection)
-	{
-		ray->object = plane;
-		ray->intersection = factor;
-	}
+	ray->object = plane;
+	ray->intersection = scalar;
 }
 
 // Calculations following https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection.html
-void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_scene *scene)
+void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_vec3 viewpoint)
 {
-	double		delta;
+	t_vec3	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	delta;
+	double	scalar;
+
+	oc = subtract(viewpoint, sphere->center);
+	a = dot(ray->normvect, ray->normvect);
+	b = 2.0 * dot(oc, ray->normvect);
+	c = dot(oc, oc) - pow2(sphere->radius);
+	delta = pow2(b) - 4 * a * c;
+	if (delta < 0)		// compare to below. Is this correct?
+		return ;
+	scalar = (-b - sqrt(delta)) / (2.0 * a);
+	if (ray->intersection != -1 && scalar > ray->intersection)
+		return ;
+	ray->intersection = scalar;
+	ray->object = sphere;
+/* 	double		delta;
 	double		b;
 	double		c;
 	double		temp;
 	t_vec3	temp_vec;
 
-	temp_vec = subtract(scene->camera->viewpoint, sphere->center);
+	temp_vec = subtract(viewpoint, sphere->center);
 	b = 2 * dot(ray->normvect, temp_vec);
 	temp = norm(temp_vec);
 	c = pow2(temp) - sphere->radius * sphere->radius;
@@ -49,13 +74,66 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_scene *scene)
 	{
 		ray->intersection = temp;
 		ray->object = sphere;
+	} */
+}
+
+int	is_within_range(double nbr, double min, double max)
+{
+	return (nbr >= min && nbr <= max);
+}
+
+double	lowest_within_cylinder(t_ray *ray, t_object *cylinder, t_vec3 viewpoint, double t0, double t1)
+{
+	double	minY;
+	double	maxY;
+	double	y0;
+	double	y1;
+
+	minY = cylinder->center.y;
+	maxY = cylinder->center.y + cylinder->height;
+	y0 = viewpoint.y + t0 * ray->normvect.y;
+	y1 = viewpoint.y + t1 * ray->normvect.y;
+	if (is_within_range(y0, minY, maxY) && is_within_range(y1, minY, maxY))
+	{
+		if (t0 < t1)
+			return (t0);
+		else
+			return (t1);
 	}
+	if (is_within_range(y0, minY, maxY))
+		return (t0);
+	if (is_within_range(y1, minY, maxY))
+		return (t1);
+	return (0);
 }
 
 // Calculations following https://en.wikipedia.org/wiki/Line-cylinder_intersection
-void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_scene *scene)
+void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint)
 {
-	t_vec3	n_x_a;
+	t_vec3	origin_to_center;
+	double	a;
+	double	b;
+	double	c;
+	double	delta;
+	double	t0;
+	double	t1;
+	double	scalar;
+
+	origin_to_center = subtract(viewpoint, cylinder->center);
+	a = pow2(ray->normvect.x) + pow2(ray->normvect.z);
+	b = 2.0 * (origin_to_center.x * ray->normvect.x + origin_to_center.z * ray->normvect.z);
+	c = pow2(origin_to_center.x) + pow2(origin_to_center.z) - pow2(cylinder->radius);
+	delta = pow2(b) - 4 * a * c;
+	if (delta < 0)
+		return ;
+	t0 = (-b - sqrt(delta)) / (2.0 * a);
+	t1 = (-b + sqrt(delta)) / (2.0 * a);
+	scalar = lowest_within_cylinder(ray, cylinder, viewpoint, t0, t1);
+	if (scalar == 0 || (ray->intersection != -1 && scalar > ray->intersection))
+		return ;
+	ray->object = cylinder;
+	ray->intersection = scalar;
+/* 	t_vec3	n_x_a;
 	t_vec3	b_x_a;
 	t_vec3	b;
 	t_vec3	temp1;
@@ -70,7 +148,7 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_scene *scene)
 	double		d_final;
 
 	n_x_a = cross(ray->normvect, cylinder->normvect);
-	b = subtract(cylinder->center, scene->camera->viewpoint);
+	b = subtract(cylinder->center, viewpoint);
 	norm_temp = norm(n_x_a);
 	if (norm_temp < EPSILON)
 		return ;
@@ -98,5 +176,5 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_scene *scene)
 		ray->object = cylinder;
 		ray->intersection = d_final;
 	}
-	return ;
+	return ; */
 }

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:19:46 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 14:05:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	parse_plane(t_scene *scene, char **tab)
 	protect_malloc(scene, NULL, plane);
 	plane->type = PLANE;
 	plane->center = get_vec3(scene, *++tab);
-	plane->normvect = get_vec3(scene, *++tab);
+	plane->normvect = normalize(get_vec3(scene, *++tab));		// easier for testing to already normalize, maybe change back later
 	plane->color = get_color(scene, *++tab);
 	plane->next = scene->objects;
 	scene->objects = plane;
@@ -38,7 +38,7 @@ void	parse_cylinder(t_scene *scene, char **tab)
 	protect_malloc(scene, NULL, cylinder);
 	cylinder->type = CYLINDER;
 	cylinder->center = get_vec3(scene, *++tab);
-	cylinder->normvect = get_vec3(scene, *++tab);
+	cylinder->normvect = normalize(get_vec3(scene, *++tab));
 	cylinder->radius = ft_strtod(*++tab) / 2;
 	cylinder->height = ft_strtod(*++tab);
 	cylinder->color = get_color(scene, *++tab);
@@ -94,7 +94,7 @@ void	parse_camera(t_scene *scene, char **tab)
 	scene->camera = malloc(sizeof(t_camera));
 	protect_malloc(scene, NULL, scene->camera);
 	scene->camera->viewpoint = get_vec3(scene, *++tab);
-	scene->camera->normvect = get_vec3(scene, *++tab);
+	scene->camera->normvect = normalize(get_vec3(scene, *++tab));
 	scene->camera->fov = (double)ft_atoi(*++tab) * M_PI / 180;
 	if (scene->camera->fov <= 0 || scene->camera->fov > M_PI)
 		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);

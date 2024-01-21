@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:20:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 14:18:07 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,9 @@ double	ft_min_positive(double value1, double value2);
 double	pow2(double value);
 
 /* intersections.c */
-void	calc_plane_intersection(t_ray *ray, t_object *plane, t_scene *scene);
-void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_scene *scene);
-void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_scene *scene);
+void	calc_plane_intersection(t_ray *ray, t_object *plane, t_vec3 viewpoint);
+void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_vec3 viewpoint);
+void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint);
 
 /* Graphics */
 void	ft_hook(void *param);
