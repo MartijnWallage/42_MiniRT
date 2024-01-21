@@ -136,8 +136,7 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 /* 	t_vec3	n_x_a;
 	t_vec3	b_x_a;
 	t_vec3	b;
-	t_vec3	temp1;
-	t_vec3	temp2;
+	t_vec3	temp;
 	double		norm_temp;
 	double		dot_temp;
 	double		delta;
@@ -158,14 +157,12 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 		return ;
 	b_x_a = cross(b, cylinder->normvect);
 	dot_temp = dot(n_x_a, b_x_a);
-	d1 = (dot_temp + sqrt(delta)) / norm_temp;
-	temp1 = multiply(ray->normvect, d1);
-	temp2 = subtract(temp1, b);
-	t1 = dot(cylinder->normvect, temp2);
-	d2 = (dot_temp - sqrt(delta)) / norm_temp;
-	temp1 = multiply(ray->normvect, d2);
-	temp2 = subtract(temp1, b);
-	t2 = dot(cylinder->normvect, temp2);
+	d1 = (dot_temp + sqrt(delta)) / pow2(norm_temp);
+	temp = subtract(multiply(ray->normvect, d1), b);
+	t1 = dot(cylinder->normvect, temp);
+	d2 = (dot_temp - sqrt(delta)) / pow2(norm_temp);
+	temp = subtract(multiply(ray->normvect, d2), b);
+	t2 = dot(cylinder->normvect, temp);
 	if (t1 < - cylinder->height / 2 || t1 > cylinder->height / 2 )
 		d1 = -1;
 	if (t2 < - cylinder->height / 2 || t2 > cylinder->height / 2 )
