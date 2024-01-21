@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:37:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:24:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:38:40 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_vec3	multiply(const t_vec3 a, const double scalar)
 /// @return 	the norm of vec, as an unsigned double.
 double	norm(const t_vec3 vec)
 {
-	return (sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
+	return (sqrt(pow2(vec.x) + pow2(vec.y) + pow2(vec.z)));
 }
 
 /// @brief 			normalizes a given vector.

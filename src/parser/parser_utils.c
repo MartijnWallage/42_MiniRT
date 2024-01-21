@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:16:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:45:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 int	tablen(void **tab)
 {
 	int 	len;
-	char	**chrtab;
-
-	chrtab = (char **)tab;
+	
 	len = 0;
-	while (chrtab[len])
+	while ((char *) tab[len])
 		len++;
 	return (len);
 }

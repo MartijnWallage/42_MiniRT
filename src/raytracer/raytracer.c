@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:23:06 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:43:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,17 @@ void	compute_image_plane(t_minirt *minirt)
 void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 {
 	t_camera	*camera;
-	t_vec3	product_right_x;
-	t_vec3	product_up_y;
 	t_object	*iter;
-	double		dx, dy;
+	double		scalex;
+	double		scaley;
 
 	camera = minirt->scene->camera;
-	dx = (double)x / minirt->image->width;
-	dy = (double)y / minirt->image->height;
-	dx = (2.0 * dx - 1.0) * camera->width / 2;
-	dy = (2.0 * dy - 1.0) * camera->height / 2;
-	product_right_x = multiply(camera->right, dx);
-	product_up_y = multiply(camera->up, dy);
-	ray->normvect = add(product_right_x, product_up_y);
-	ray->normvect = add(ray->normvect, camera->normvect);
-	ray->normvect = normalize(ray->normvect);
+	scalex = ((double)x / minirt->image->width - 0.5) * camera->width;
+	scaley = ((double)y / minirt->image->height - 0.5) * camera->height;
+	ray->normvect = add(
+		multiply(camera->right, scalex),
+		multiply(camera->up, scaley));
+	ray->normvect = normalize(add(ray->normvect, camera->normvect));
 	iter = minirt->scene->objects;
 	ray->intersection = -1;
 	ray->object = NULL;
@@ -77,9 +73,9 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 
 void	raytracer(void *params)
 {
-	__uint32_t	x;
-	__uint32_t	y;
-	t_ray	ray;
+	uint32_t	x;
+	uint32_t	y;
+	t_ray		ray;
 	t_minirt	*minirt;
 
 	minirt = (t_minirt *)params;
