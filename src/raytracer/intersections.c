@@ -52,10 +52,51 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_scene *scene)
 	}
 }
 
+// Calculations following https://en.wikipedia.org/wiki/Line-cylinder_intersection
 void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_scene *scene)
 {
-	ray = NULL;
-	cylinder = NULL;
-	scene = NULL;
+	t_vector	n_x_a;
+	t_vector	b_x_a;
+	t_vector	b;
+	t_vector	temp1;
+	t_vector	temp2;
+	double		norm_temp;
+	double		dot_temp;
+	double		delta;
+	double		t1;
+	double		t2;
+	double		d1;
+	double		d2;
+	double		d_final;
+
+	cross(ray->normvect, cylinder->normvect, n_x_a);
+	subtract(cylinder->center, scene->camera->viewpoint, b);
+	norm_temp = norm(n_x_a);
+	if (norm_temp < EPSILON)
+		return ;
+	delta = dot(n_x_a, n_x_a) * pow2(cylinder->radius) - \
+		pow2(dot(b, n_x_a));
+	if (delta < 0)
+		return ;
+	cross(b, cylinder->normvect, b_x_a);
+	dot_temp = dot(n_x_a, b_x_a);
+	d1 = (dot_temp + sqrt(delta)) / norm_temp;
+	multiply(ray->normvect, d1, temp1);
+	subtract(temp1, b, temp2);
+	t1 = dot(cylinder->normvect, temp2);
+	d2 = (dot_temp - sqrt(delta)) / norm_temp;
+	multiply(ray->normvect, d2, temp1);
+	subtract(temp1, b, temp2);
+	t2 = dot(cylinder->normvect, temp2);
+	if (t1 < - cylinder->height / 2 || t1 > cylinder->height / 2 )
+		d1 = -1;
+	if (t2 < - cylinder->height / 2 || t2 > cylinder->height / 2 )
+		d2 = -1;
+	d_final = ft_min_positive(d1, d2);
+	if (d_final >= 0 && (ray->intersection < 0 || d_final < ray->intersection))
+	{
+		ray->object = cylinder;
+		ray->intersection = d_final;
+	}
 	return ;
 }
