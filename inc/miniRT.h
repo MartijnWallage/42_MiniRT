@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 16:39:51 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:20:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,45 +50,49 @@ typedef enum e_identifier{
 	CYLINDER
 }	t_identifier;
 
-typedef double			t_vector[3];
+typedef struct s_vec3 {
+	double x;
+	double y;
+	double z;
+}	t_vec3;
 
 typedef struct s_ambient {
 	double			ratio;
 	int				color;
-	t_vector		source;
+	t_vec3			source;
 }	t_ambient;
 
 typedef struct s_spot {
 	double			ratio;
 	int				color;
-	t_vector		source;
+	t_vec3			source;
 	struct s_spot	*next;
 }	t_spot;
 
 typedef struct s_camera{
-	t_vector		viewpoint;
-	t_vector		normvect;
+	t_vec3		viewpoint;
+	t_vec3		normvect;
 	double			fov;
 	int				tilt;
-	t_vector		corners[2][2];
-	t_vector		up;
-	t_vector		right;
+	t_vec3		corners[2][2];
+	t_vec3		up;
+	t_vec3		right;
 	double			width;
 	double			height;
 }	t_camera;
 
 typedef struct s_object{
 	t_identifier	type;
-	t_vector		center;
+	t_vec3		center;
 	int				color;
-	t_vector		normvect;
+	t_vec3		normvect;
 	double			radius;
 	double			height;
 	struct s_object	*next;
 }	t_object;
 
 typedef struct s_ray {
-	t_vector	normvect;
+	t_vec3	normvect;
 	double		intersection;
 	t_object	*object;
 } t_ray;
@@ -116,7 +120,7 @@ int			tablen(void **tab);
 void		parse_scene(char **argv, t_scene *scene);
 double		ft_strtod(char *str);
 int			get_color(t_scene *scene, char *rgb);
-void		get_vector(t_scene *scene, t_vector vect, char *numbers);
+t_vec3		get_vec3(t_scene *scene, char *numbers);
 void		parse_sphere(t_scene *scene, char **columns);
 void		parse_cylinder(t_scene *scene, char **columns);
 void		parse_plane(t_scene *scene, char **columns);
@@ -135,14 +139,14 @@ int			is_normal(double vector[3]);
 void	raytracer(void *minirt);
 
 /*	vector_utils.c	*/
-double	angle(const t_vector a, const t_vector b);
-void	cross(const t_vector a, const t_vector b, t_vector result);
-double	dot(const t_vector a, const t_vector b);
-void	add(const t_vector a, const t_vector b, t_vector result);
-void	subtract(const t_vector a, const t_vector b, t_vector result);
-void	multiply(const t_vector a, const double scalar, t_vector result);
-double	norm(const t_vector vec);
-void	normalize(const t_vector vec, t_vector result);
+double	angle(const t_vec3 a, const t_vec3 b);
+t_vec3	cross(const t_vec3 a, const t_vec3 b);
+double	dot(const t_vec3 a, const t_vec3 b);
+t_vec3	add(const t_vec3 a, const t_vec3 b);
+t_vec3	subtract(const t_vec3 a, const t_vec3 b);
+t_vec3	multiply(const t_vec3 a, const double scalar);
+double	norm(const t_vec3 vec);
+t_vec3	normalize(const t_vec3 vec);
 
 /* math_utils.c	*/
 double	ft_min_positive(double value1, double value2);

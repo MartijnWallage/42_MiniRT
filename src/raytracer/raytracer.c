@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:01:58 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:23:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	compute_image_plane(t_minirt *minirt)
 	double		aspect_ratio;
 
 	camera = minirt->scene->camera;
-	camera->up[0] = 0;
-	camera->up[1] = 1;
-	camera->up[2] = 0;
-	cross(camera->normvect, camera->up, camera->right);
-	cross(camera->normvect, camera->right, camera->up);
+	camera->up.x = 0;
+	camera->up.y = 1;
+	camera->up.z = 0;
+	camera->right = cross(camera->normvect, camera->up);
+	camera->up = cross(camera->normvect, camera->right);
 	camera->height = 2 * tan(camera->fov / 2);
 	aspect_ratio = minirt->image->width / minirt->image->height;
 	camera->width = aspect_ratio * camera->height;
@@ -45,8 +45,8 @@ void	compute_image_plane(t_minirt *minirt)
 void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 {
 	t_camera	*camera;
-	t_vector	product_right_x;
-	t_vector	product_up_y;
+	t_vec3	product_right_x;
+	t_vec3	product_up_y;
 	t_object	*iter;
 	double		dx, dy;
 
@@ -55,11 +55,11 @@ void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	dy = (double)y / minirt->image->height;
 	dx = (2.0 * dx - 1.0) * camera->width / 2;
 	dy = (2.0 * dy - 1.0) * camera->height / 2;
-	multiply(camera->right, dx, product_right_x);
-	multiply(camera->up, dy, product_up_y);
-	add(product_right_x, product_up_y, ray->normvect);
-	add(ray->normvect, camera->normvect, ray->normvect);
-	normalize(ray->normvect, ray->normvect);
+	product_right_x = multiply(camera->right, dx);
+	product_up_y = multiply(camera->up, dy);
+	ray->normvect = add(product_right_x, product_up_y);
+	ray->normvect = add(ray->normvect, camera->normvect);
+	ray->normvect = normalize(ray->normvect);
 	iter = minirt->scene->objects;
 	ray->intersection = -1;
 	ray->object = NULL;
