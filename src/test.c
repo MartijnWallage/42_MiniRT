@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:04:25 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:13:18 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:28:54 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 		scene->camera->viewpoint[1], 
 		scene->camera->viewpoint[2]);
 	printf("Norm vector: %lf, %lf, %lf\n",
-		scene->camera->normvect[0],
-		scene->camera->normvect[1],
-		scene->camera->normvect[2]);
+		scene->camera->direction[0],
+		scene->camera->direction[1],
+		scene->camera->direction[2]);
 	printf("\nAMBIENT LIGHT:\n");
 	printf("Ratio: %f\n", scene->ambient->ratio);
 	printf("color: %x\n",
@@ -52,9 +52,9 @@
 			curr2->center[2]);
 		printf("Color: %x\n", curr2->color);
 		printf("Norm vector: %lf, %lf, %lf\n",
-			curr2->normvect[0],
-			curr2->normvect[1],
-			curr2->normvect[2]);
+			curr2->direction[0],
+			curr2->direction[1],
+			curr2->direction[2]);
 		printf("Diameter: %lf\n",
 			curr2->radius * 2);
 		printf("Height: %lf\n",

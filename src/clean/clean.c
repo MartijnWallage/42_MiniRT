@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 19:19:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/22 15:52:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,3 +89,9 @@ void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr)
 		exit_minirt(scene, MALLOC_FAILED, MALLOC_EXITCODE);
 	}
 }
+
+/* void	protect_malloc(t_minirt *minirt, void *check_ptr)
+{
+	if (check_ptr == NULL)
+		exit_minirt(minirt->scene, MALLOC_FAILED, MALLOC_EXITCODE);
+} */

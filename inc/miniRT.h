@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 14:18:07 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:56:37 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,30 @@ typedef struct s_spot {
 
 typedef struct s_camera{
 	t_vec3		viewpoint;
-	t_vec3		normvect;
-	double			fov;
-	int				tilt;
+	t_vec3		direction;
+	double		fov;
+	int			tilt;
 	t_vec3		corners[2][2];
 	t_vec3		up;
 	t_vec3		right;
-	double			width;
-	double			height;
+	double		width;
+	double		height;
 }	t_camera;
 
 typedef struct s_object{
 	t_identifier	type;
 	t_vec3		center;
 	int				color;
-	t_vec3		normvect;
+	t_vec3		direction;
 	double			radius;
 	double			height;
 	struct s_object	*next;
 }	t_object;
 
 typedef struct s_ray {
-	t_vec3	normvect;
+	t_vec3		direction;
 	double		intersection;
+	t_vec3		hitpoint;
 	t_object	*object;
 } t_ray;
 
@@ -114,7 +115,7 @@ typedef struct s_minirt{
 void	exit_minirt(t_scene *scene, char *message, int status);
 void	free_tab(void **tab);
 void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr);
-
+// void	protect_malloc(t_minirt *minirt, void *check_ptr);
 /*	Parser	*/
 int			tablen(void **tab);
 void		parse_scene(char **argv, t_scene *scene);
