@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/23 15:46:04 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/23 17:03:25 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ double	lowest_within_cylinder(t_ray *ray, t_object *cylinder, t_vec3 viewpoint, 
 	double	y0;
 	double	y1;
 
-	minY = cylinder->center.y - cylinder->height / 2;
+	minY = cylinder->center.y - cylinder->height / 2;		// I think we need matrix transformations to take account of the direction of the cylinder
 	maxY = cylinder->center.y + cylinder->height / 2;
 	y0 = viewpoint.y + t0 * ray->direction.y;
 	y1 = viewpoint.y + t1 * ray->direction.y;
 	if (is_within_range(y0, minY, maxY) && is_within_range(y1, minY, maxY))
 	{
-		if (t0 < t1)
+		if (t0 < t1 && t0 >= 0)
 			return (t0);
 		else
 			return (t1);
@@ -138,16 +138,9 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 		return ;
 	t0 = (-b - sqrt(delta)) / (2.0 * a);
 	t1 = (-b + sqrt(delta)) / (2.0 * a);
-/* 	if (t0 < t1 && t0 >= 0)
-		scalar = t0;
-	else
-		scalar = t1; */
-	scalar = lowest_within_cylinder(ray, cylinder, viewpoint, t0, t1);
+ 	scalar = lowest_within_cylinder(ray, cylinder, viewpoint, t0, t1);
 	if (scalar <= 0 || (ray->intersection != -1 && scalar > ray->intersection))
 		return ;
-	// calculate d based on t
-/* 	if (d < h/2 || d > h/2)
-		return ; */
 	ray->object = cylinder;
 	ray->intersection = scalar;
 /* 	t_vec3	n_x_a;
@@ -175,7 +168,7 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 	b_x_a = cross(b, cylinder->direction);
 	dot_temp = dot(n_x_a, b_x_a);
 	d1 = (dot_temp + sqrt(delta)) / pow2(norm_temp);
-	temp = subtract(multiply(ray->direction, d1), b);
+	temp = subtract(multiply(ray->direction do this properly, d1), b);
 	t1 = dot(cylinder->direction, temp);
 	d2 = (dot_temp - sqrt(delta)) / pow2(norm_temp);
 	temp = subtract(multiply(ray->direction, d2), b);

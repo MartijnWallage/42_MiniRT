@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/23 15:13:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:59:33 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,19 +95,19 @@ t_vec3	compute_surface(t_vec3 hitpoint, t_object *object)
 int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 {
 	minirt++;
-//	int	color;
-/* 	unsigned char	r;
+	return (camera_ray->object->color);
+/* 	int	color;
+/ 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b; */
 
-	return (camera_ray->object->color);
 /* 	r = (unsigned char)fmin(get_r(camera_ray->object->color) * camera_ray->intersection / 64, 255);
 	g = (unsigned char)fmin(get_g(camera_ray->object->color) * camera_ray->intersection / 64, 255);
 	b = (unsigned char)fmin(get_b(camera_ray->object->color) * camera_ray->intersection / 64, 255);
 	color = get_rgba(r, g, b, 0xff);
-	return (color); */
+	return (color);
 
-/* 
+ 
 	t_spot	*spot;
 	t_ray	light_ray;
 	t_vec3	surface;
