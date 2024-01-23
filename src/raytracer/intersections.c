@@ -120,6 +120,7 @@ double	lowest_within_cylinder(t_ray *ray, t_object *cylinder, t_vec3 viewpoint, 
 // Calculations following https://en.wikipedia.org/wiki/Line-cylinder_intersection
 void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint)
 {
+	/*
 	t_vec3	origin_to_center;
 	double	a;
 	double	b;
@@ -142,8 +143,8 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 	if (scalar <= 0 || (ray->intersection != -1 && scalar > ray->intersection))
 		return ;
 	ray->object = cylinder;
-	ray->intersection = scalar;
-/* 	t_vec3	n_x_a;
+	ray->intersection = scalar;*/
+ 	t_vec3	n_x_a;
 	t_vec3	b_x_a;
 	t_vec3	b;
 	t_vec3	temp;
@@ -161,16 +162,16 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 	norm_temp = norm(n_x_a);
 	if (norm_temp < EPSILON)
 		return ;
-	delta = dot(n_x_a, n_x_a) * pow2(cylinder->radius) - \
+	delta = pow2(norm(n_x_a)) * pow2(cylinder->radius) - \
 		pow2(dot(b, n_x_a));
 	if (delta < 0)
 		return ;
 	b_x_a = cross(b, cylinder->direction);
 	dot_temp = dot(n_x_a, b_x_a);
 	d1 = (dot_temp + sqrt(delta)) / pow2(norm_temp);
-	temp = subtract(multiply(ray->direction do this properly, d1), b);
-	t1 = dot(cylinder->direction, temp);
 	d2 = (dot_temp - sqrt(delta)) / pow2(norm_temp);
+	temp = subtract(multiply(ray->direction, d1), b);
+	t1 = dot(cylinder->direction, temp);
 	temp = subtract(multiply(ray->direction, d2), b);
 	t2 = dot(cylinder->direction, temp);
 	if (t1 < - cylinder->height / 2 || t1 > cylinder->height / 2 )
@@ -178,10 +179,12 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 	if (t2 < - cylinder->height / 2 || t2 > cylinder->height / 2 )
 		d2 = -1;
 	d_final = ft_min_positive(d1, d2);
-	if (d_final >= 0 && (ray->intersection < 0 || d_final < ray->intersection))
+	if (d_final == -1)
+		return ;
+	if (ray->intersection == -1 || d_final < ray->intersection)
 	{
 		ray->object = cylinder;
 		ray->intersection = d_final;
 	}
-	return ; */
+	return ;
 }

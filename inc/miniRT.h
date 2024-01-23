@@ -30,6 +30,7 @@
 # define MAX_color	255
 # define EPSILON	0.000001
 # define TRANSLATION_SPEED 1
+# define ROTATION_SPEED 0.2
 # define ARGUMENT_ERROR	"Wrong number of arguments. Expected a file name"
 # define MALLOC_FAILED	"Malloc: Allocation error"
 # define MALLOC_EXITCODE	2
@@ -83,9 +84,9 @@ typedef struct s_camera{
 
 typedef struct s_object{
 	t_identifier	type;
-	t_vec3		center;
+	t_vec3			center;
 	int				color;
-	t_vec3		direction;
+	t_vec3			direction;
 	double			radius;
 	double			height;
 	struct s_object	*next;
@@ -109,6 +110,7 @@ typedef struct s_minirt{
 	t_scene		*scene;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	t_object	*selected;
 } t_minirt;
 
 /*	Cleaner	*/
@@ -161,6 +163,10 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 /* Graphics */
 void	ft_hook(void *param);
 void	put_circle(mlx_image_t* image);
+
+t_vec3	rotate_x_axis(t_vec3 vector, double alpha);
+t_vec3	rotate_y_axis(t_vec3 vector, double alpha);
+t_vec3	rotate_z_axis(t_vec3 vector, double alpha);
 
 /*	Colors	*/
 int 	get_rgba(int r, int g, int b, int a);

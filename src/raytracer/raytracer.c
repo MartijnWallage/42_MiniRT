@@ -148,6 +148,7 @@ void	raytracer(void *param)
 	int			color;
 
 	minirt = (t_minirt *)param;
+	//print_scene(minirt->scene);
 	compute_viewport(minirt);
 	y = -1;
 	while (++y < minirt->image->height)

@@ -40,6 +40,7 @@ SRC			:= main.c \
 				graphics/hooks.c \
 				graphics/put_pixel.c \
 				graphics/colors.c \
+				graphics/rotations.c \
 				raytracer/raytracer.c \
 				raytracer/vector_utils.c \
 				raytracer/intersections.c \

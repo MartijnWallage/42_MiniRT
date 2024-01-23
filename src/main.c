@@ -31,8 +31,13 @@ int	main(int argc, char **argv)
 		exit_minirt(&scene, ARGUMENT_ERROR, EXIT_FAILURE);
 	parse_scene(argv, &scene);
 //	print_scene(&scene);
-	
 
+	// Only as proof of concept for rotation
+	minirt.selected = scene.objects;
+	while (scene.objects && scene.objects->type != CYLINDER)
+		(minirt.selected)++;
+	if (scene.objects->type != CYLINDER)
+		minirt.selected = NULL;
 	// graphics
 	minirt.scene = &scene;
 	minirt.mlx = mlx_init(IMAGE_WIDTH, IMAGE_HEIGHT, "miniRT", true);

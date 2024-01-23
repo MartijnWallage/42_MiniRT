@@ -12,19 +12,19 @@
 
 #include "miniRT.h"
 
-/* void	print_scene(t_scene *scene)
+void	print_scene(t_scene *scene)
 {
 	printf("\n***PARSING**************\n");
 	printf("\nCAMERA:\n");
 	printf("Fov: \t\t%f\n", scene->camera->fov);
 	printf("Viewpoint: %lf, %lf, %lf\n",
-		scene->camera->viewpoint[0],
-		scene->camera->viewpoint[1], 
-		scene->camera->viewpoint[2]);
+		scene->camera->viewpoint.x,
+		scene->camera->viewpoint.y, 
+		scene->camera->viewpoint.z);
 	printf("Norm vector: %lf, %lf, %lf\n",
-		scene->camera->direction[0],
-		scene->camera->direction[1],
-		scene->camera->direction[2]);
+		scene->camera->direction.x,
+		scene->camera->direction.y,
+		scene->camera->direction.z);
 	printf("\nAMBIENT LIGHT:\n");
 	printf("Ratio: %f\n", scene->ambient->ratio);
 	printf("color: %x\n",
@@ -36,9 +36,9 @@
 		printf("\nRatio: %f\n", curr->ratio);
 		printf("color: %x\n", curr->color);
 		printf("Source: %lf, %lf, %lf\n",
-			curr->source[0],
-			curr->source[1],
-			curr->source[2]);
+			curr->source.x,
+			curr->source.y,
+			curr->source.z);
 		curr = curr->next;
 	}
 	printf("\nOBJECTS:\n");
@@ -47,14 +47,14 @@
 	{
 		printf("\nType: %d\n", curr2->type);
 		printf("Center: %lf, %lf, %lf\n",
-			curr2->center[0],
-			curr2->center[1],
-			curr2->center[2]);
+			curr2->center.x,
+			curr2->center.y,
+			curr2->center.z);
 		printf("Color: %x\n", curr2->color);
 		printf("Norm vector: %lf, %lf, %lf\n",
-			curr2->direction[0],
-			curr2->direction[1],
-			curr2->direction[2]);
+			curr2->direction.x,
+			curr2->direction.y,
+			curr2->direction.z);
 		printf("Diameter: %lf\n",
 			curr2->radius * 2);
 		printf("Height: %lf\n",
@@ -62,6 +62,7 @@
 		curr2 = curr2->next;
 	}
 	printf("\n*******DONE PARSING***************\n");
+	/*
 	printf("\n*******VECTOR UTILS***************\n");
 	t_vec3	a = {2.5, -1.3, 3.7};
 	t_vec3	b = {0.8, 2.4, -1.6};
@@ -79,4 +80,5 @@
 	printf("Addition: %f, %f, %f\n", result[0], result[1], result[2]);
 	subtract(a, b, result);
 	printf("Subtraction: %f, %f, %f\n", result[0], result[1], result[2]);
-} */
+	*/
+}

@@ -21,6 +21,7 @@ void	ft_hook(void *param)
 	camera = minirt->scene->camera;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(minirt->mlx);
+	// Camera translations
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
 		camera->viewpoint.x += TRANSLATION_SPEED;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
@@ -33,5 +34,30 @@ void	ft_hook(void *param)
 		camera->viewpoint.z += TRANSLATION_SPEED;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_MINUS))
 		camera->viewpoint.z -= TRANSLATION_SPEED;
+	// Cylinder rotations
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_A))
+		minirt->selected->direction = \
+			 rotate_x_axis(minirt->selected->direction, \
+			 ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_D))
+		minirt->selected->direction = \
+			 rotate_x_axis(minirt->selected->direction, \
+			 -ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_W))
+		minirt->selected->direction = \
+			 rotate_y_axis(minirt->selected->direction, \
+			 ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_S))
+		minirt->selected->direction = \
+			 rotate_y_axis(minirt->selected->direction, \
+			 -ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_Q))
+		minirt->selected->direction = \
+			 rotate_z_axis(minirt->selected->direction, \
+			 ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_E))
+		minirt->selected->direction = \
+			 rotate_z_axis(minirt->selected->direction, \
+			 -ROTATION_SPEED);
 }
 
