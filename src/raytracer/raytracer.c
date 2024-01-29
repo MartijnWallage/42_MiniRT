@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   raytracer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/23 15:59:33 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/26 19:55:02 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
 
 void	compute_viewport(t_minirt *minirt)
 {
@@ -22,26 +21,29 @@ void	compute_viewport(t_minirt *minirt)
 	camera->up.x = 0;
 	camera->up.y = 1;
 	camera->up.z = 0;
-	camera->right = cross(camera->direction, camera->up);
-	camera->up = cross(camera->direction, camera->right);
-	camera->height = 2 * tan(camera->fov / 2);
+	camera->right = normalize(cross(camera->direction, camera->up));
+	camera->up = normalize(cross(camera->direction, camera->right));
+	camera->height = 2.0 * tan(camera->fov / 2);
 	aspect_ratio = minirt->image->width / minirt->image->height;
 	camera->width = aspect_ratio * camera->height;
 }
 
-void	compute_ray(t_minirt *minirt, int x, int y, t_ray *ray)
+void	compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 {
 	t_camera	*camera;
 	double		scalex;
 	double		scaley;
 
 	camera = minirt->scene->camera;
+	ray->origin = camera->viewpoint;
 	scalex = ((double)x / minirt->image->width - 0.5) * camera->width;
 	scaley = ((double)y / minirt->image->height - 0.5) * camera->height;
 	ray->direction = add(
 		multiply(camera->right, scalex),
 		multiply(camera->up, scaley));
 	ray->direction = normalize(add(ray->direction, camera->direction));
+	ray->intersection = -1;
+	ray->object = NULL;
 }
 
 void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray)
@@ -49,106 +51,74 @@ void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray)
 	t_object	*curr;
 
 	curr = minirt->scene->objects;
-	ray->intersection = -1;
-	ray->object = NULL;
 	while (curr)
 	{
 		if (curr->type == PLANE)
-			calc_plane_intersection(ray, curr, minirt->scene->camera->viewpoint);
+			calc_plane_intersection(ray, curr);
 		if (curr->type == SPHERE)
-			calc_sphere_intersection(ray, curr, minirt->scene->camera->viewpoint);
+			calc_sphere_intersection(ray, curr);
 		if (curr->type == CYLINDER)
-			calc_cylinder_intersection(ray, curr, minirt->scene->camera->viewpoint);
+			calc_cylinder_intersection(ray, curr);
 		curr = curr->next;
 	}
 }
 
-void	compute_light_ray(t_minirt *minirt, t_ray *camera_ray, t_spot *spot, t_ray *light_ray)
+void	compute_light_ray(t_ray *camera_ray, t_spot *spot, t_ray *light_ray)
 {
-	minirt++;
-	light_ray->hitpoint = subtract(multiply(camera_ray->direction,
-		camera_ray->intersection), spot->source);
-	//	calculate if anything gets in between
+	t_vec3		hitpoint;
+
+	hitpoint = add(multiply(camera_ray->direction, camera_ray->intersection), camera_ray->origin);
+	light_ray->origin = spot->source;
+	light_ray->direction = normalize(subtract(hitpoint, light_ray->origin));
+	light_ray->intersection = norm(subtract(hitpoint, light_ray->origin));
 	light_ray->object = camera_ray->object;
+	light_ray->normal = multiply(camera_ray->normal, 1);
+	if (dot(light_ray->normal, light_ray->direction) > 0)
+		light_ray->normal = multiply(camera_ray->normal, -1);
 }
 
-t_vec3	compute_surface(t_vec3 hitpoint, t_object *object)
+t_vec3 reflect(t_vec3 v, t_vec3 n) 
 {
-	t_vec3	projected_point;
-
-	if (object->type == SPHERE)
-		return (normalize(subtract(hitpoint, object->center)));
-	if (object->type == PLANE)
-		return (object->direction);
-	if (object->type == CYLINDER)
-	{
-		projected_point = (t_vec3){hitpoint.x, object->center.y, hitpoint.z};
-		if (fabs(hitpoint.y - object->center.y) < EPSILON)
-			return ((t_vec3){0, -1, 0});
-		if (fabs(hitpoint.y - object->center.y) < EPSILON)	// center should be top_cap. Calculate from height
-			return ((t_vec3){0, 1, 0});
-		return (normalize(subtract(hitpoint, projected_point)));
-	}
-	return ((t_vec3){0,0,0});
+    float n_dot_v = dot(n, v);
+    t_vec3 result = { v.x - 2 * n_dot_v * n.x, v.y - 2 * n_dot_v * n.y, v.z - 2 * n_dot_v * n.z };
+    return (result);
 }
 
 int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 {
-	minirt++;
-	return (camera_ray->object->color);
-/* 	int	color;
-/ 	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b; */
-
-/* 	r = (unsigned char)fmin(get_r(camera_ray->object->color) * camera_ray->intersection / 64, 255);
-	g = (unsigned char)fmin(get_g(camera_ray->object->color) * camera_ray->intersection / 64, 255);
-	b = (unsigned char)fmin(get_b(camera_ray->object->color) * camera_ray->intersection / 64, 255);
-	color = get_rgba(r, g, b, 0xff);
-	return (color);
-
- 
-	t_spot	*spot;
+	double	t;
+	double	r = (double)get_r(camera_ray->object->color);
+	double	g = (double)get_g(camera_ray->object->color);
+	double	b = (double)get_b(camera_ray->object->color);
 	t_ray	light_ray;
-	t_vec3	surface;
-	double	diffuse;
-
-	color = camera_ray->object->color;
+	t_spot	*spot;
+	
 	spot = minirt->scene->spots;
 	while (spot)
 	{
-		compute_light_ray(minirt, camera_ray, spot, &light_ray);
-		surface = compute_surface(light_ray.hitpoint, light_ray.object);
-		// compute diffuse lighting
- 		diffuse = fmax(dot(surface, light_ray.direction), 0.0);
-		r = fmin(get_r(color) * (diffuse * spot->ratio), 255);
-		g = fmin(get_g(color) * (diffuse * spot->ratio), 255);
-		b = fmin(get_b(color) * (diffuse * spot->ratio), 255);
-		color = get_rgba(r, g, b, 0xff * (diffuse * spot->ratio));
-
-		spot = spot->next;
-		return (color);
+		compute_light_ray(camera_ray, spot, &light_ray);
+		compute_ray_object_intersection(minirt, &light_ray);
+		if (light_ray.object == camera_ray->object)
+		{
+			t = spot->ratio * fmax(dot(camera_ray->normal, multiply(light_ray.direction, -1)), 0.0);
+			r = (1 - t) * (double)get_r(camera_ray->object->color) + t * (double) get_r(spot->color);
+			g = (1 - t) * (double)get_g(camera_ray->object->color) + t * (double) get_g(spot->color);
+			b = (1 - t) * (double)get_b(camera_ray->object->color) + t * (double) get_b(spot->color);		
+		}
+		spot = spot->next;		// so far only works for the last spot in the list
 	}
-	return (0); */
-/* 		for each spot in scene->spots
-			trace ray from ray->ray_vec to spot
-				if an object is in between:
-					return ray->object->color affected by scene->ambient
-				if no object is in between
-					return ray->object->color affected by scene->ambient 
-						and by spot (the more so the closer the spot) */
+	return (get_rgba(r, g, b, 0xff));
 }
 
 void	raytracer(void *param)
 {
 	uint32_t	x;
 	uint32_t	y;
-	t_ray		ray;
+	t_ray		camera_ray;
 	t_minirt	*minirt;
 	int			color;
 
 	minirt = (t_minirt *)param;
-	//print_scene(minirt->scene);
 	compute_viewport(minirt);
 	y = -1;
 	while (++y < minirt->image->height)
@@ -156,15 +126,15 @@ void	raytracer(void *param)
 		x = -1;
 		while (++x < minirt->image->width)
 		{
-			compute_ray(minirt, x, y, &ray);
-			compute_ray_object_intersection(minirt, &ray);
-			if (ray.object)
+			compute_camera_ray(minirt, x, y, &camera_ray);
+			compute_ray_object_intersection(minirt, &camera_ray);
+			if (camera_ray.object)
 			{
- 				color = compute_color(minirt, &ray);
+ 				color = compute_color(minirt, &camera_ray);
 				mlx_put_pixel(minirt->image, x, y, color);
 			}
 			else
-				mlx_put_pixel(minirt->image, x, y, minirt->scene->ambient->color);
+				mlx_put_pixel(minirt->image, x, y, 0xff);
 		}
 	}
 }

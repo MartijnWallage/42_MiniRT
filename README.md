@@ -27,8 +27,3 @@ For each ray write one pixel to an image.
 Display the image to the screen.
 
 Take care of resizing etc.
-
-
-## Task division
-Thomas: calculate corners and ray vectors
-Martijn: write vector utils

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/23 17:03:25 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/26 19:59:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void	calc_plane_intersection(t_ray *ray, t_object *plane, t_vec3 viewpoint)
+void	calc_plane_intersection(t_ray *ray, t_object *plane)
 {
 	double	denom;
 	double	scalar;
@@ -20,16 +20,19 @@ void	calc_plane_intersection(t_ray *ray, t_object *plane, t_vec3 viewpoint)
 	denom = dot(ray->direction, plane->direction);
 	if (fabs(denom) < EPSILON)
 		return ;
-	scalar = dot(subtract(plane->center, viewpoint), plane->direction)
+	scalar = dot(subtract(plane->center, ray->origin), plane->direction)
 		/ denom;
 	if (scalar <= 0 || (ray->intersection != -1 && scalar > ray->intersection))
 		return ;
 	ray->object = plane;
 	ray->intersection = scalar;
+	ray->normal = plane->direction;
+	if (dot(ray->direction, plane->direction) > 0)
+		ray->normal = multiply(plane->direction, -1);
 }
 
 // Calculations following https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection.html
-void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_vec3 viewpoint)
+void	calc_sphere_intersection(t_ray *ray, t_object *sphere)
 {
 	t_vec3	oc;
 	double	a;
@@ -40,7 +43,7 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_vec3 viewpoint)
 	double	t0;
 	double	t1;
 
-	oc = subtract(viewpoint, sphere->center);
+	oc = subtract(ray->origin, sphere->center);
 	a = dot(ray->direction, ray->direction);
 	b = 2.0 * dot(oc, ray->direction);
 	c = dot(oc, oc) - pow2(sphere->radius);
@@ -57,6 +60,9 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_vec3 viewpoint)
 		return ;
 	ray->intersection = scalar;
 	ray->object = sphere;
+	ray->normal = normalize(subtract(add(multiply(ray->direction, ray->intersection), ray->origin), sphere->center));
+	if (dot(ray->normal, ray->direction) > 0)
+		ray->normal = multiply(ray->normal, -1);
 /* 	double		delta;
 	double		b;
 	double		c;
@@ -92,7 +98,7 @@ int	is_within_range(double nbr, double min, double max)
 	return (nbr >= min && nbr <= max);
 }
 
-double	lowest_within_cylinder(t_ray *ray, t_object *cylinder, t_vec3 viewpoint, double t0, double t1)
+double	lowest_within_cylinder(t_ray *ray, t_object *cylinder, double t0, double t1)
 {
 	double	minY;
 	double	maxY;
@@ -101,8 +107,8 @@ double	lowest_within_cylinder(t_ray *ray, t_object *cylinder, t_vec3 viewpoint, 
 
 	minY = cylinder->center.y - cylinder->height / 2;		// I think we need matrix transformations to take account of the direction of the cylinder
 	maxY = cylinder->center.y + cylinder->height / 2;
-	y0 = viewpoint.y + t0 * ray->direction.y;
-	y1 = viewpoint.y + t1 * ray->direction.y;
+	y0 = ray->origin.y + t0 * ray->direction.y;
+	y1 = ray->origin.y + t1 * ray->direction.y;
 	if (is_within_range(y0, minY, maxY) && is_within_range(y1, minY, maxY))
 	{
 		if (t0 < t1 && t0 >= 0)
@@ -118,7 +124,7 @@ double	lowest_within_cylinder(t_ray *ray, t_object *cylinder, t_vec3 viewpoint, 
 } 
 
 // Calculations following https://en.wikipedia.org/wiki/Line-cylinder_intersection
-void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint)
+void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder)
 {
 	/*
 	t_vec3	origin_to_center;
@@ -130,7 +136,7 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 	double	t1;
 	double	scalar;
 
-	origin_to_center = subtract(viewpoint, cylinder->center);
+	origin_to_center = subtract(ray->origin, cylinder->center);
 	a = pow2(ray->direction.x) + pow2(ray->direction.z);
 	b = 2.0 * (origin_to_center.x * ray->direction.x + origin_to_center.z * ray->direction.z);
 	c = pow2(origin_to_center.x) + pow2(origin_to_center.z) - pow2(cylinder->radius);
@@ -139,7 +145,7 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 		return ;
 	t0 = (-b - sqrt(delta)) / (2.0 * a);
 	t1 = (-b + sqrt(delta)) / (2.0 * a);
- 	scalar = lowest_within_cylinder(ray, cylinder, viewpoint, t0, t1);
+ 	scalar = lowest_within_cylinder(ray, cylinder, t0, t1);
 	if (scalar <= 0 || (ray->intersection != -1 && scalar > ray->intersection))
 		return ;
 	ray->object = cylinder;
@@ -158,7 +164,7 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 	double		d_final;
 
 	n_x_a = cross(ray->direction, cylinder->direction);
-	b = subtract(cylinder->center, viewpoint);
+	b = subtract(cylinder->center, ray->origin);
 	norm_temp = norm(n_x_a);
 	if (norm_temp < EPSILON)
 		return ;
@@ -185,6 +191,9 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint
 	{
 		ray->object = cylinder;
 		ray->intersection = d_final;
+		ray->normal = normalize(subtract(add(multiply(ray->direction, ray->intersection), ray->origin), cylinder->center));
+		if (dot(ray->normal, ray->direction) > 0)
+			ray->normal = multiply(ray->normal, -1);
 	}
 	return ;
 }

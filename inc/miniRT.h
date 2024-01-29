@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/23 14:56:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:03:48 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,10 @@ typedef struct s_object{
 }	t_object;
 
 typedef struct s_ray {
+	t_vec3		origin;
 	t_vec3		direction;
 	double		intersection;
-	t_vec3		hitpoint;
+	t_vec3		normal;			// surface normal for shading
 	t_object	*object;
 } t_ray;
 
@@ -156,9 +157,9 @@ double	ft_min_positive(double value1, double value2);
 double	pow2(double value);
 
 /* intersections.c */
-void	calc_plane_intersection(t_ray *ray, t_object *plane, t_vec3 viewpoint);
-void	calc_sphere_intersection(t_ray *ray, t_object *sphere, t_vec3 viewpoint);
-void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder, t_vec3 viewpoint);
+void	calc_plane_intersection(t_ray *ray, t_object *plane);
+void	calc_sphere_intersection(t_ray *ray, t_object *sphere);
+void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder);
 
 /* Graphics */
 void	ft_hook(void *param);
