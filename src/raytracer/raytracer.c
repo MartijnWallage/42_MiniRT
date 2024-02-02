@@ -131,7 +131,10 @@ void	raytracer(void *param)
 			if (camera_ray.object)
 			{
  				color = compute_color(minirt, &camera_ray);
-				mlx_put_pixel(minirt->image, x, y, color);
+				if (ACTIVATE_COLOR)
+					mlx_put_pixel(minirt->image, x, y, color);
+				else
+					mlx_put_pixel(minirt->image, x, y, camera_ray.object->color);
 			}
 			else
 				mlx_put_pixel(minirt->image, x, y, 0xff);

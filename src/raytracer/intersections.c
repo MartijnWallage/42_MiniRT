@@ -63,6 +63,7 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere)
 	ray->normal = normalize(subtract(add(multiply(ray->direction, ray->intersection), ray->origin), sphere->center));
 	if (dot(ray->normal, ray->direction) > 0)
 		ray->normal = multiply(ray->normal, -1);
+}
 /* 	double		delta;
 	double		b;
 	double		c;
@@ -90,8 +91,7 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere)
 		scalar = t1;
 		ray->intersection = temp;
 		ray->object = sphere;
-	} */
-}
+	}
 
 int	is_within_range(double nbr, double min, double max)
 {
@@ -122,78 +122,4 @@ double	lowest_within_cylinder(t_ray *ray, t_object *cylinder, double t0, double 
 		return (t1);
 	return (0);
 } 
-
-// Calculations following https://en.wikipedia.org/wiki/Line-cylinder_intersection
-void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder)
-{
-	/*
-	t_vec3	origin_to_center;
-	double	a;
-	double	b;
-	double	c;
-	double	delta;
-	double	t0;
-	double	t1;
-	double	scalar;
-
-	origin_to_center = subtract(ray->origin, cylinder->center);
-	a = pow2(ray->direction.x) + pow2(ray->direction.z);
-	b = 2.0 * (origin_to_center.x * ray->direction.x + origin_to_center.z * ray->direction.z);
-	c = pow2(origin_to_center.x) + pow2(origin_to_center.z) - pow2(cylinder->radius);
-	delta = pow2(b) - 4 * a * c;
-	if (delta < 0)
-		return ;
-	t0 = (-b - sqrt(delta)) / (2.0 * a);
-	t1 = (-b + sqrt(delta)) / (2.0 * a);
- 	scalar = lowest_within_cylinder(ray, cylinder, t0, t1);
-	if (scalar <= 0 || (ray->intersection != -1 && scalar > ray->intersection))
-		return ;
-	ray->object = cylinder;
-	ray->intersection = scalar;*/
- 	t_vec3	n_x_a;
-	t_vec3	b_x_a;
-	t_vec3	b;
-	t_vec3	temp;
-	double		norm_temp;
-	double		dot_temp;
-	double		delta;
-	double		t1;
-	double		t2;
-	double		d1;
-	double		d2;
-	double		d_final;
-
-	n_x_a = cross(ray->direction, cylinder->direction);
-	b = subtract(cylinder->center, ray->origin);
-	norm_temp = norm(n_x_a);
-	if (norm_temp < EPSILON)
-		return ;
-	delta = pow2(norm(n_x_a)) * pow2(cylinder->radius) - \
-		pow2(dot(b, n_x_a));
-	if (delta < 0)
-		return ;
-	b_x_a = cross(b, cylinder->direction);
-	dot_temp = dot(n_x_a, b_x_a);
-	d1 = (dot_temp + sqrt(delta)) / pow2(norm_temp);
-	d2 = (dot_temp - sqrt(delta)) / pow2(norm_temp);
-	temp = subtract(multiply(ray->direction, d1), b);
-	t1 = dot(cylinder->direction, temp);
-	temp = subtract(multiply(ray->direction, d2), b);
-	t2 = dot(cylinder->direction, temp);
-	if (t1 < - cylinder->height / 2 || t1 > cylinder->height / 2 )
-		d1 = -1;
-	if (t2 < - cylinder->height / 2 || t2 > cylinder->height / 2 )
-		d2 = -1;
-	d_final = ft_min_positive(d1, d2);
-	if (d_final == -1)
-		return ;
-	if (ray->intersection == -1 || d_final < ray->intersection)
-	{
-		ray->object = cylinder;
-		ray->intersection = d_final;
-		ray->normal = normalize(subtract(add(multiply(ray->direction, ray->intersection), ray->origin), cylinder->center));
-		if (dot(ray->normal, ray->direction) > 0)
-			ray->normal = multiply(ray->normal, -1);
-	}
-	return ;
-}
+*/

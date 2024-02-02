@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		exit_minirt(&scene, ARGUMENT_ERROR, EXIT_FAILURE);
 	parse_scene(argv, &scene);
-//	print_scene(&scene);
+	print_scene(&scene);
 
 	// Only as proof of concept for rotation
 	minirt.selected = scene.objects;

@@ -22,6 +22,8 @@
 # include "libft.h"
 # include "MLX42.h"
 
+# define ACTIVATE_COLOR 1
+
 # define MAX_DIGITS_DOUBLE_INT_PART 6
 # define MAX_DIGITS_DOUBLE_FRAC_PART 2
 # define MAX_LEN_DOUBLE (MAX_DIGITS_DOUBLE_INT_PART \
