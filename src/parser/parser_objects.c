@@ -24,6 +24,14 @@ void	parse_plane(t_scene *scene, char **tab)
 	plane->center = get_vec3(scene, *++tab);
 	plane->direction = normalize(get_vec3(scene, *++tab));		// easier for testing to already normalize, maybe change back later
 	plane->color = get_color(scene, *++tab);
+	plane->up.x = 0;
+	plane->up.y = 1;
+	plane->up.z = 0;
+	if (norm(cross(plane->up, plane->direction)) < 0.001)
+	{
+		plane->up.x = plane->direction.y;
+		plane->up.y = 0;
+	}
 	plane->next = scene->objects;
 	scene->objects = plane;
 }
@@ -42,6 +50,14 @@ void	parse_cylinder(t_scene *scene, char **tab)
 	cylinder->radius = ft_strtod(*++tab) / 2;
 	cylinder->height = ft_strtod(*++tab);
 	cylinder->color = get_color(scene, *++tab);
+	cylinder->up.x = 0;
+	cylinder->up.y = 1;
+	cylinder->up.z = 0;
+	if (norm(cross(cylinder->up, cylinder->direction)) < 0.001)
+	{
+		cylinder->up.x = cylinder->direction.y;
+		cylinder->up.y = 0;
+	}
 	cylinder->next = scene->objects;
 	scene->objects = cylinder;
 }

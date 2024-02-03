@@ -11,51 +11,38 @@
 /* ************************************************************************** */
 
 #include "miniRT.h"
-/*
-void mlx_draw_pixel(unsigned char *pixel, uint32_t color)
+
+/// @brief Set pixel color in the given image at (x, y) coordinates.
+/// @param image Pointer to mlx_image_t representing the image.
+/// @param x The x-coordinate.
+/// @param y The y-coordinate.
+/// @param color 32-bit integer representing RGBA color.
+void	ft_put_pixel(mlx_image_t *image, unsigned int x, \
+	unsigned int y, int color)
 {
-	*(pixel++) = (uint8_t)(color >> 24);
-	*(pixel++) = (uint8_t)(color >> 16);
-	*(pixel++) = (uint8_t)(color >> 8);
-	*(pixel++) = (uint8_t)(color & 0xFF);
+	unsigned char	*pixel;
+
+	if (image && x < image->width && y < image->height)
+	{
+		pixel = &image->pixels[(y * image->width + x) * sizeof(int)];
+		*(pixel++) = (unsigned char)get_r(color);
+		*(pixel++) = (unsigned char)get_g(color);
+		*(pixel++) = (unsigned char)get_b(color);
+		*(pixel++) = (unsigned char)get_a(color);
+	}
 }
+/*
 
 //= Public =//
 */
-/* void    ft_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
+/* void    ft_put_pixel(mlx_image_t* image, uint32_t x, \
+			uint32_t y, uint32_t color)
 {
 	MLX_NONNULL(image);
 	MLX_ASSERT(x < image->width, "Pixel is out of bounds");
 	MLX_ASSERT(y < image->height, "Pixel is out of bounds");
 
-	uint8_t* pixelstart = &image->pixels[(y * image->width + x) * sizeof(uint32_t)];
+	uint8_t* pixelstart = &image->pixels[(y * \
+		image->width + x) * sizeof(uint32_t)];
 	mlx_draw_pixel(pixelstart, color);
-} */
-
-void	put_circle(mlx_image_t* image)
-{
-	unsigned int	x;
-	unsigned int	y;
-	unsigned char	*pxl;
-
-	y = 0;
-	while (y < image->height)
-	{
-		x = 0;
-		while (x < image->width)
-		{
-			// Calculate if a pixel (x,y) is on a circle by checking if its satisfying x^2+y^2 = radius^2
-			if (((double)x - 100)*((double)x - 100) + ((double)y - 100)*((double)y - 100) > 250 && \
-				((double)x - 100)*((double)x - 100) + ((double)y - 100)*((double)y - 100) < 270)
-			{
-				pxl = &image->pixels[(y * image->width + x) * sizeof(int)];
-				*(pxl++) = 0;
-				*(pxl++) = 0;
-				*(pxl++) = 0;
-				*(pxl++) = 0;
-			}
-			x++;
-		}
-		y++;
-	}
-}
+}*/

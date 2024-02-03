@@ -1,44 +1,113 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotations.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: thofting <thofting@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/03 14:52:58 by thofting          #+#    #+#             */
+/*   Updated: 2024/02/03 14:53:00 by thofting         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
-// source https://en.wikipedia.org/wiki/Rotation_matrix#Basic_3D_rotations
-t_vec3	rotate_x_axis(t_vec3 vector, double alpha)
+/// @brief Rotate a 3D vector around a specified axis by a given angle.
+///
+/// The computations are following https://math.stackexchange.com/
+///	questions/511370/how-to-rotate-one-vector-about-another .
+///
+/// @param vector The 3D vector to be rotated.
+/// @param axis The axis of rotation.
+/// @param angle The angle of rotation in radians.
+/// @return The rotated 3D vector.
+static t_vec3	rotate_around_axis(t_vec3 vector, t_vec3 axis, double angle)
 {
-	double	cos_alpha;
-	double	sin_alpha;
-	t_vec3	result;
+	t_vec3	parallel;
+	t_vec3	orthogonal;
+	t_vec3	product;
+	t_vec3	rotated;
+	double	sin_part;
 
-	cos_alpha = cos(alpha);
-	sin_alpha = sin(alpha);
-	result.x = vector.x;
-	result.y = vector.y * cos_alpha - vector.z * sin_alpha;
-	result.z = vector.y * sin_alpha + vector.z * cos_alpha;
-	return (result);
+	parallel = multiply(axis, dot(vector, axis));
+	orthogonal = subtract(vector, parallel);
+	product = cross(axis, orthogonal);
+	sin_part = sin(angle) * norm(orthogonal) / norm(product);
+	rotated = add(multiply(orthogonal, cos(angle)), \
+		multiply(product, sin_part));
+	return (normalize(add(rotated, parallel)));
 }
 
-t_vec3	rotate_y_axis(t_vec3 vector, double alpha)
+/// @brief Function performs a roll of a target
+///
+/// This is archieved by rotating the 'up' vector around 
+///	the 'direction' vector with a specified angle.
+///
+/// @param direction Front orientation vactor of a target
+/// @param up Upper orientation vector of a target
+/// @param angle The angle of roll rotation in radians.
+static void	roll_rotation(t_vec3 *direction, t_vec3 *up, double angle)
 {
-	double	cos_alpha;
-	double	sin_alpha;
-	t_vec3	result;
-
-	cos_alpha = cos(alpha);
-	sin_alpha = sin(alpha);
-	result.x = vector.x * cos_alpha + vector.z * sin_alpha;
-	result.y = vector.y;
-	result.z = -vector.x * sin_alpha + vector.z * cos_alpha;
-	return (result);
+	*up = rotate_around_axis(*up, *direction, angle);
 }
 
-t_vec3	rotate_z_axis(t_vec3 vector, double alpha)
+/// @brief Function performs a yaw of a target
+///
+/// This is done by rotating the 'direction' vector around 
+///	the 'up' vector with a specified angle.
+///
+/// @param direction Front orientation vactor of a target
+/// @param up Upper orientation vector of a target
+/// @param angle The angle of yaw rotation in radians.
+static void	yaw_rotation(t_vec3 *direction, t_vec3 *up, double angle)
 {
-	double	cos_alpha;
-	double	sin_alpha;
-	t_vec3	result;
+	*direction = rotate_around_axis(*direction, *up, angle);
+}
 
-	cos_alpha = cos(alpha);
-	sin_alpha = sin(alpha);
-	result.x = vector.x * cos_alpha - vector.y * sin_alpha;
-	result.y = vector.x * sin_alpha + vector.y * cos_alpha;
-	result.z = vector.z;
-	return (result);
+/// @brief Perform pitch rotation around a given direction.
+///
+/// 'direction' as well as 'up' are updated by calculating first the 
+///	rectangular vector 'right' and then rotating both around it
+///
+/// @param direction Front orientation vactor of a target
+/// @param up Upper orientation vector of a target
+/// @param angle The angle of pitch rotation in radians.
+static void	pitch_rotation(t_vec3 *direction, t_vec3 *up, double angle)
+{
+	t_vec3	right;
+
+	right = cross(*direction, *up);
+	*direction = rotate_around_axis(*direction, right, angle);
+	*up = rotate_around_axis(*up, right, angle);
+}
+
+/// @brief Rotate orientation of selected object if keys are pressed
+/// @param minirt struct that contains program data
+void	rotation_hooks(t_minirt *minirt)
+{
+	t_vec3	*direction;
+	t_vec3	*up;
+
+	if (minirt->mode == MODE_CAMERA)
+	{
+		direction = &(minirt->scene->camera->direction);
+		up = &(minirt->scene->camera->up);
+	}
+	else if (minirt->mode == MODE_OBJECT)
+	{
+		direction = &(minirt->obj_selected->direction);
+		up = &(minirt->obj_selected->up);
+	}
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_A))
+		roll_rotation(direction, up, ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_D))
+		roll_rotation(direction, up, -ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_W))
+		pitch_rotation(direction, up, ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_S))
+		pitch_rotation(direction, up, -ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_Q))
+		yaw_rotation(direction, up, ROTATION_SPEED);
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_E))
+		yaw_rotation(direction, up, -ROTATION_SPEED);
 }

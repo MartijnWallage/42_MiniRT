@@ -20,3 +20,10 @@ double	pow2(double value)
 {
 	return (value * value);
 }
+
+double	ft_abs(double value)
+{
+	if (value >= 0)
+		return (value);
+	return (-value);
+}

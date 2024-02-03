@@ -18,11 +18,8 @@ void	compute_viewport(t_minirt *minirt)
 	double		aspect_ratio;
 
 	camera = minirt->scene->camera;
-	camera->up.x = 0;
-	camera->up.y = 1;
-	camera->up.z = 0;
 	camera->right = normalize(cross(camera->direction, camera->up));
-	camera->up = normalize(cross(camera->direction, camera->right));
+	camera->up = normalize(cross(camera->right, camera->direction));
 	camera->height = 2.0 * tan(camera->fov / 2);
 	aspect_ratio = minirt->image->width / minirt->image->height;
 	camera->width = aspect_ratio * camera->height;
@@ -40,7 +37,7 @@ void	compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	scaley = ((double)y / minirt->image->height - 0.5) * camera->height;
 	ray->direction = add(
 		multiply(camera->right, scalex),
-		multiply(camera->up, scaley));
+		multiply(camera->up, -scaley));
 	ray->direction = normalize(add(ray->direction, camera->direction));
 	ray->intersection = -1;
 	ray->object = NULL;
@@ -116,7 +113,6 @@ void	raytracer(void *param)
 	uint32_t	y;
 	t_ray		camera_ray;
 	t_minirt	*minirt;
-	int			color;
 
 	minirt = (t_minirt *)param;
 	compute_viewport(minirt);
@@ -130,14 +126,13 @@ void	raytracer(void *param)
 			compute_ray_object_intersection(minirt, &camera_ray);
 			if (camera_ray.object)
 			{
- 				color = compute_color(minirt, &camera_ray);
 				if (ACTIVATE_COLOR)
-					mlx_put_pixel(minirt->image, x, y, color);
+					ft_put_pixel(minirt->image, x, y, compute_color(minirt, &camera_ray));
 				else
-					mlx_put_pixel(minirt->image, x, y, camera_ray.object->color);
+					ft_put_pixel(minirt->image, x, y, camera_ray.object->color);
 			}
 			else
-				mlx_put_pixel(minirt->image, x, y, 0xff);
+				ft_put_pixel(minirt->image, x, y, minirt->scene->ambient->color);
 		}
 	}
 }

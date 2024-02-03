@@ -53,6 +53,12 @@ typedef enum e_identifier{
 	CYLINDER
 }	t_identifier;
 
+typedef enum e_key_mode{
+	MODE_CAMERA,
+	MODE_OBJECT,
+	MODE_SPOT,
+}	t_key_mode;
+
 typedef struct s_vec3 {
 	double x;
 	double y;
@@ -89,6 +95,7 @@ typedef struct s_object{
 	t_vec3			center;
 	int				color;
 	t_vec3			direction;
+	t_vec3			up;
 	double			radius;
 	double			height;
 	struct s_object	*next;
@@ -113,7 +120,9 @@ typedef struct s_minirt{
 	t_scene		*scene;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	t_object	*selected;
+	t_object	*obj_selected;
+	t_spot		*spot_selected;
+	t_key_mode	mode;
 } t_minirt;
 
 /*	Cleaner	*/
@@ -143,6 +152,8 @@ int			is_normal(double vector[3]);
 /*	RAYTRACER	*/
 /*	raytracer.c */
 void	raytracer(void *minirt);
+void	compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray);
+void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
 
 /*	vector_utils.c	*/
 double	angle(const t_vec3 a, const t_vec3 b);
@@ -157,6 +168,7 @@ t_vec3	normalize(const t_vec3 vec);
 /* math_utils.c	*/
 double	ft_min_positive(double value1, double value2);
 double	pow2(double value);
+double	ft_abs(double value);
 
 /* intersections.c */
 void	calc_plane_intersection(t_ray *ray, t_object *plane);
@@ -165,11 +177,10 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder);
 
 /* Graphics */
 void	ft_hook(void *param);
-void	put_circle(mlx_image_t* image);
-
-t_vec3	rotate_x_axis(t_vec3 vector, double alpha);
-t_vec3	rotate_y_axis(t_vec3 vector, double alpha);
-t_vec3	rotate_z_axis(t_vec3 vector, double alpha);
+void	ft_resize(int width, int height, void *params);
+void 	ft_mousefunc(mouse_key_t button, action_t action, modifier_key_t mods, void* param);
+void	rotation_hooks(t_minirt *minirt);
+void    ft_put_pixel(mlx_image_t* image, unsigned int x, unsigned int y, int color);
 
 /*	Colors	*/
 int 	get_rgba(int r, int g, int b, int a);
