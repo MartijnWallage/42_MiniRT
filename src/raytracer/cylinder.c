@@ -10,6 +10,7 @@ typedef	enum	e_int_type
 typedef struct s_intersections
 {
 	t_vec3	n_x_a;
+	double	norm_nxa;
 	t_vec3	b_x_a;
 	t_vec3	b;
 	double	d_hull;
@@ -18,7 +19,12 @@ typedef struct s_intersections
 	int		orientation_cap;
 } t_intersections;
 
-static t_intersections	get_intitial_ints_struct(t_ray	*ray, t_object *cylinder)
+double	norm2(t_vec3 vector)
+{
+	return (pow2(vector.x) + pow2(vector.y) + pow2(vector.z));
+}
+
+static t_intersections	init_ints_struct(t_ray	*ray, t_object *cylinder)
 {
 	t_intersections	ints;
 
@@ -45,10 +51,11 @@ t_int_type	get_min_positive(double	value1, double value2)
 	return (BOTH_NEGATIVE);
 }
 
-static void	calc_cylinder_hull_intersections(t_intersections *ints, t_ray *ray, t_object *cylinder)
+void	calc_cylinder_hull_intersections(t_intersections *ints, \
+	t_ray *ray, t_object *cylinder)
 {
 	t_vec3		temp;
-	double		norm_n_x_a;
+	double		norm_nxa2;
 	double		dot_temp;
 	double		delta;
 	double		d1;
@@ -57,16 +64,16 @@ static void	calc_cylinder_hull_intersections(t_intersections *ints, t_ray *ray, 
 	double		t2;
 	t_int_type	type;
 
-	norm_n_x_a = norm(ints->n_x_a);
-	if (norm_n_x_a < EPSILON)
+	norm_nxa2 = norm2(ints->n_x_a);
+	if (norm_nxa2 < EPSILON)
 		return ;
-	delta = pow2(norm_n_x_a) * pow2(cylinder->radius) - \
+	delta = norm_nxa2 * pow2(cylinder->radius) - \
 		pow2(dot(ints->b, ints->n_x_a));
 	if (delta < 0)
 		return ;
 	dot_temp = dot(ints->n_x_a, ints->b_x_a);
-	d1 = (dot_temp + sqrt(delta)) / pow2(norm_n_x_a);
-	d2 = (dot_temp - sqrt(delta)) / pow2(norm_n_x_a);
+	d1 = (dot_temp + sqrt(delta)) / norm_nxa2;
+	d2 = (dot_temp - sqrt(delta)) / norm_nxa2;
 	t1 = 0;
 	t2 = 0;
 	if (d1 > 0)
@@ -97,27 +104,29 @@ static void	calc_cylinder_hull_intersections(t_intersections *ints, t_ray *ray, 
 	return ;
 }
 
-static void calc_cylinder_cap_intersections(t_intersections *ints, t_ray *ray, t_object *cylinder)
+void calc_cylinder_cap_intersections(t_intersections *ints, t_ray *ray, t_object *cylinder)
 {
 	double		dot_temp;
 	t_vec3		cap_center;
 	double		d1;
 	double		d2;
 	t_int_type	type;
+	t_vec3		half_axis;
 
 	dot_temp = dot(ray->direction, cylinder->direction);
-	if (dot_temp < EPSILON && dot_temp > -EPSILON)
+	if (ft_abs(dot_temp) < EPSILON)
 	{
 		ints->d_cap = -1;
 		return ;
 	}
-	cap_center = subtract(add(cylinder->center, multiply(cylinder->direction, cylinder->height / 2)), ray->origin);
+	half_axis = multiply(cylinder->direction, cylinder->height / 2);
+	cap_center = subtract(add(cylinder->center, half_axis), ray->origin);
 	d1 = dot(cylinder->direction, cap_center) / dot_temp;
-	if (norm(subtract(multiply(ray->direction, d1), cap_center)) >= cylinder->radius)
+	if (norm2(subtract(multiply(ray->direction, d1), cap_center)) >= pow2(cylinder->radius))
 		d1 = -1;
-	cap_center = subtract(subtract(cylinder->center, multiply(cylinder->direction, cylinder->height / 2)), ray->origin);
+	cap_center = subtract(subtract(cylinder->center, half_axis), ray->origin);
 	d2 = dot(cylinder->direction, cap_center) / dot_temp;
-	if (norm(subtract(multiply(ray->direction, d2), cap_center)) >= cylinder->radius)
+	if (norm2(subtract(multiply(ray->direction, d2), cap_center)) >= pow2(cylinder->radius))
 		d2 = -1;
 	type = get_min_positive(d1, d2);
 	if (type == SECOND_VALUE)
@@ -140,7 +149,7 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder)
 	t_int_type		type;
 
 	t = 0;
-	ints = get_intitial_ints_struct(ray, cylinder);
+	ints = init_ints_struct(ray, cylinder);
 	calc_cylinder_hull_intersections(&ints, ray, cylinder);
 	calc_cylinder_cap_intersections(&ints, ray, cylinder);
 	type = get_min_positive(ints.d_hull, ints.d_cap);
