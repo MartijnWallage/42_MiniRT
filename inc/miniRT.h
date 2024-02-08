@@ -181,6 +181,7 @@ void	ft_resize(int width, int height, void *params);
 void 	ft_mousefunc(mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 void	rotation_hooks(t_minirt *minirt);
 void    ft_put_pixel(mlx_image_t* image, unsigned int x, unsigned int y, int color);
+void	ft_resizefunc(int width, int height, void *param);
 
 /*	Colors	*/
 int 	get_rgba(int r, int g, int b, int a);

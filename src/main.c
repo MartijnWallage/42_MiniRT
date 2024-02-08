@@ -57,6 +57,7 @@ static void	graphics_wrapper(t_minirt *minirt)
 	mlx_loop_hook(mlx, &ft_hook, minirt);
 	mlx_loop_hook(mlx, &raytracer, minirt);
 	mlx_mouse_hook(mlx, &ft_mousefunc, minirt);
+	mlx_resize_hook(mlx, &ft_resizefunc, minirt);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 }

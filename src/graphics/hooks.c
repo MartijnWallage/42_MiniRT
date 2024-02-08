@@ -119,3 +119,24 @@ void	ft_mousefunc(mouse_key_t button, action_t action, \
 	}
 	mods = 0;
 }
+
+/// @brief Function that gives the event for resizing the window
+/// @param width New width of the window
+/// @param height New height of the window
+/// @param param Struct that contains the program data
+void	ft_resizefunc(int width, int height, void *param)
+{
+	t_minirt	*minirt;
+	mlx_t		*mlx;
+
+	minirt = (t_minirt *)param;
+	mlx = minirt->mlx;
+	mlx_delete_image(mlx, minirt->image);
+	minirt->image = mlx_new_image(mlx, width, height);
+	if (!minirt->image || mlx_image_to_window(mlx, minirt->image, 0, 0) == -1)
+	{
+		mlx_close_window(mlx);
+		mlx_terminate(mlx);
+		exit_minirt(minirt->scene, "MLX failed\n", EXIT_FAILURE);
+	}
+}
