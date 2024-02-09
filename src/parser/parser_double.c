@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 15:13:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:39:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int	is_double(const char *str)
 		return (0);
 	return_value = is_numstr(tab[0]) && \
 		(ft_strlen(tab[0]) <= MAX_DIGITS_INT_PART);
-	if (tablen((void **)tab) == 2)
+	if (ft_tablen((void **)tab) == 2)
 		return_value = return_value && is_numstr(tab[1]) && \
 			(ft_strlen(tab[1]) <= MAX_DIGITS_FRAC_PART);
-	free_tab((void **)tab);
+	ft_freetab((void **)tab);
 	return (return_value);
 }
 
@@ -62,7 +62,7 @@ double	ft_strtod(t_build *build, const char *str)
 		exit_minirt_build(build, "invalid double", PARSING_EXITCODE);
 	tab = ft_split(str, '.');
 	protect_malloc(build, tab);
-	if (tablen((void**)tab) == 0 || tablen((void**)tab) > 2)
+	if (ft_tablen((void**)tab) == 0 || ft_tablen((void**)tab) > 2)
 		exit_minirt_build(build, "invalid double", PARSING_EXITCODE);
 	result = (double)ft_atoi(tab[0]);
 	if (tab[1] == NULL)

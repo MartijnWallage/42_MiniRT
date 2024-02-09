@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 15:10:46 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:39:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	parse_plane(t_build *build)
 {
 	t_object	*plane;
 
-	if (tablen((void **)build->tab) != 4 || !is_vector(build, build->tab[1]) || \
+	if (ft_tablen((void **)build->tab) != 4 || !is_vector(build, build->tab[1]) || \
 		!is_normal_vector(build, build->tab[2]) || !is_color(build, build->tab[3]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	plane = malloc(sizeof(t_object));
@@ -43,7 +43,7 @@ void	parse_cylinder(t_build *build)
 
 	tab = build->tab;
 	scene = build->scene;
-	if (tablen((void **)tab) != 6 || !is_vector(build, tab[1])
+	if (ft_tablen((void **)tab) != 6 || !is_vector(build, tab[1])
 		|| !is_normal_vector(build, tab[2]) || !is_posnum(build, tab[3])
 		|| !is_posnum(build, tab[4]) || !is_color(build, tab[5]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
@@ -77,7 +77,7 @@ void	parse_sphere(t_build *build)
 
 	tab = build->tab;
 	scene = build->scene;
-	if (tablen((void **)tab) != 4 || !is_vector(build, tab[1])
+	if (ft_tablen((void **)tab) != 4 || !is_vector(build, tab[1])
 		|| !is_posnum(build, tab[2]) || !is_color(build, tab[3]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	sphere = malloc(sizeof(t_object));

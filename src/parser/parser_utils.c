@@ -6,21 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 15:10:30 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:43:19 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-int	tablen(void **tab)
-{
-	int	len;
-
-	len = 0;
-	while (tab[len] != NULL)
-		len++;
-	return (len);
-}
 
 t_vec3	get_vec3(t_build *build, char *numbers)
 {
@@ -31,15 +21,15 @@ t_vec3	get_vec3(t_build *build, char *numbers)
 
 	tab = ft_split(numbers, ',');
 	protect_malloc(build, (void *)tab);
-	if (tablen((void **)tab) != 3)
+	if (ft_tablen((void **)tab) != 3)
 	{
-		free_tab((void **)tab);
+		ft_freetab((void **)tab);
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	}
 	x = ft_strtod(build, tab[0]);
 	y = ft_strtod(build, tab[1]);
 	z = ft_strtod(build, tab[2]);
-	free_tab((void **)tab);
+	ft_freetab((void **)tab);
 	return ((t_vec3){x, y, z});
 }
 
@@ -50,15 +40,15 @@ int	get_color(t_build *build, char *colorstr)
 
 	tab = ft_split(colorstr, ',');
 	protect_malloc(build, tab);
-	if (tablen((void **)tab) != 3)
+	if (ft_tablen((void **)tab) != 3)
 	{
-		free_tab((void **)tab);
+		ft_freetab((void **)tab);
 		exit_minirt_build(build, "invalid color vector", PARSING_EXITCODE);
 	}
 	rgb[0] = ft_atoi(tab[0]);
 	rgb[1] = ft_atoi(tab[1]);
 	rgb[2] = ft_atoi(tab[2]);
-	free_tab((void**)tab);
+	ft_freetab((void**)tab);
 	if ((rgb[0] < 0 || rgb[0] > 255)
 		|| (rgb[1] < 0 || rgb[1] > 255)
 		|| (rgb[2] < 0 || rgb[2] > 255))

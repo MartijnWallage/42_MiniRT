@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 15:14:27 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:39:20 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,13 +152,11 @@ typedef struct s_intersections
 } t_intersections;
 
 /*	Cleaner	*/
-void	free_tab(void **tab);		// add to libft
 void	exit_minirt(t_minirt *minirt, char *message, int status);
 void	exit_minirt_build(t_build *build, char *message, int status);
 void	protect_malloc(t_build *build, void *check_ptr);
 
 /*	Parser	*/
-int		tablen(void **tab);		// add to libft
 int		ft_countchar(const char *str, char c);
 void	parse_scene(char **argv, t_build *build);
 double	ft_strtod(t_build *build, const char *str);

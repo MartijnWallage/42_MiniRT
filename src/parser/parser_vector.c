@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:36 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 15:12:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:39:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	is_normal_vector(t_build *build, char *str)
 	if (ft_abs(pow2(ft_strtod(build, tab[0])) + pow2(ft_strtod(build, tab[1]))
 		+ pow2(ft_strtod(build, tab[2])) - 1) > EPSILON)
 	{
-		free_tab((void **)tab);
+		ft_freetab((void **)tab);
 		return (0);
 	}
-	free_tab((void **)tab);
+	ft_freetab((void **)tab);
 	return (1);
 }
 
@@ -40,12 +40,12 @@ int	is_vector(t_build *build, char *str)
 		return (0);
 	tab = ft_split(str, ',');
 	protect_malloc(build, tab);
-	if (tablen((void **)tab) != 3 || !is_double(tab[0]) || \
+	if (ft_tablen((void **)tab) != 3 || !is_double(tab[0]) || \
 		!is_double(tab[1]) || !is_double(tab[2]))
 	{
-		free_tab((void **)tab);
+		ft_freetab((void **)tab);
 		return (0);
 	}
-	free_tab((void **)tab);
+	ft_freetab((void **)tab);
 	return (1);
 }

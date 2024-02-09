@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 14:20:02 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:38:57 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	parse_line(t_build *build)
 		parse_plane(build);
 	else
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	free_tab((void**)build->tab);
+	ft_freetab((void**)build->tab);
 	build->tab = NULL;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:49 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 15:07:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:39:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	is_color(t_build *build, char *str)
 		return (0);
 	tab = ft_split(str, ',');
 	protect_malloc(build, tab);
-	if (tablen((void **)tab) != 3 || !is_double(tab[0]) || \
+	if (ft_tablen((void **)tab) != 3 || !is_double(tab[0]) || \
 		!is_double(tab[1]) || !is_double(tab[2]))
 	{
-		free_tab((void **)tab);
+		ft_freetab((void **)tab);
 		return (0);
 	}
 	rgb[0] = ft_atoi(tab[0]);
@@ -77,6 +77,6 @@ int	is_color(t_build *build, char *str)
 		|| (rgb[1] < 0 || rgb[1] > 255)
 		|| (rgb[2] < 0 || rgb[2] > 255))
 		return (0);
-	free_tab((void **)tab);
+	ft_freetab((void **)tab);
 	return (1);
 }

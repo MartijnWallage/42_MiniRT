@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:38:51 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 14:42:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:58:23 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_intersections	init_ints_struct(t_ray	*ray, t_object *cylinder)
 	return (ints);
 }
 
-t_int_type	get_min_positive(double	value1, double value2)
+t_int_type	get_min_positive(double value1, double value2)
 {
 	if (value1 < 0 && value2 < 0)
 		return (BOTH_NEGATIVE);

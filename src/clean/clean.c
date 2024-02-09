@@ -6,29 +6,17 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 13:34:26 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:38:57 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void	free_tab(void **tab)
+int	error_msg(const char *info)
 {
-	int	i;
+	char	*errno_readable;
 
-	if (!tab)
-		return ;
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-}
-
-int     error_msg(const char *info)
-{
-	char    *errno_readable;
-
-	write(STDERR_FILENO, "miniRT: ", 8); 
+	write(STDERR_FILENO, "miniRT: ", 8);
 	if (info)
 		write(STDERR_FILENO, info, ft_strlen(info));
 	errno_readable = strerror(errno);
@@ -56,7 +44,7 @@ void	free_objects(t_object *head)
 void	exit_minirt_build(t_build *build, char *message, int status)
 {
 	if (build->tab)
-		free_tab((void**)build->tab);
+		ft_freetab((void **)build->tab);
 	if (build->line)
 		free(build->line);
 	if (build->fd)

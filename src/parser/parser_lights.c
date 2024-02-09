@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:35:59 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 15:10:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:39:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	parse_ambient(t_build *build)
 {
 	t_scene	*scene;
 
-	if (tablen((void **)build->tab) != 3 || !is_ratio(build, build->tab[1])
+	if (ft_tablen((void **)build->tab) != 3 || !is_ratio(build, build->tab[1])
 		|| !is_color(build, build->tab[2]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	scene = build->scene;
@@ -30,7 +30,7 @@ int	parse_ambient(t_build *build)
 
 void	parse_spot(t_build *build)
 {
-	if (tablen((void **)build->tab) != 4 || !is_vector(build, build->tab[1])
+	if (ft_tablen((void **)build->tab) != 4 || !is_vector(build, build->tab[1])
 		|| !is_ratio(build, build->tab[2]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	build->scene->spot = malloc(sizeof(t_spot));
