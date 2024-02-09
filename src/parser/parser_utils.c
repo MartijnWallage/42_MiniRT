@@ -54,3 +54,17 @@ int	get_color(t_scene *scene, char *rgb)
 	free_tab((void **)tab);
 	return (color);
 }
+
+int	ft_countchar(const char *str, char c)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (*str)
+	{
+		if (*str == c)
+			cnt++;
+		str++;
+	}
+	return (cnt);
+}

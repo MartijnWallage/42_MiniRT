@@ -22,7 +22,9 @@
 # include "libft.h"
 # include "MLX42.h"
 
+// DEBUGGING FLAGS
 # define ACTIVATE_COLOR 1
+# define CHECK_PARSING_NORMAL 0
 
 # define MAX_DIGITS_INT_PART 6
 # define MAX_DIGITS_FRAC_PART 6
@@ -132,17 +134,18 @@ void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr);
 // void	protect_malloc(t_minirt *minirt, void *check_ptr);
 
 /*	Parser	*/
-int			tablen(void **tab);
-void		parse_scene(char **argv, t_scene *scene);
-double		ft_strtod(const char *str);
-int			get_color(t_scene *scene, char *rgb);
-t_vec3		get_vec3(t_scene *scene, char *numbers);
-void		parse_sphere(t_scene *scene, char **columns);
-void		parse_cylinder(t_scene *scene, char **columns);
-void		parse_plane(t_scene *scene, char **columns);
-void		parse_spot(t_scene *scene, char **columns);
-void		parse_ambient(t_scene *scene, char **columns);
-void		parse_camera(t_scene *scene, char **columns);
+int		tablen(void **tab);
+int		ft_countchar(const char *str, char c);
+void	parse_scene(char **argv, t_scene *scene);
+double	ft_strtod(const char *str);
+int		get_color(t_scene *scene, char *rgb);
+t_vec3	get_vec3(t_scene *scene, char *numbers);
+void	parse_sphere(t_scene *scene, char **columns);
+void	parse_cylinder(t_scene *scene, char **columns);
+void	parse_plane(t_scene *scene, char **columns);
+void	parse_spot(t_scene *scene, char **columns);
+void	parse_ambient(t_scene *scene, char **columns);
+void	parse_camera(t_scene *scene, char **columns);
 
 /*	Checks */
 int	is_ratio(char *str);

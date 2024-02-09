@@ -65,20 +65,6 @@ static int	is_numstr(const char *str)
 	return (1);
 }
 
-static int	ft_countchar(const char *str, char c)
-{
-	int	cnt;
-
-	cnt = 0;
-	while (*str)
-	{
-		if (*str == c)
-			cnt++;
-		str++;
-	}
-	return (cnt);
-}
-
 // checks if a given string can be converted to a double. Not all
 // double convertable strings are considered valid, there are limitations!
 int	is_double(const char *str)
@@ -86,7 +72,7 @@ int	is_double(const char *str)
 	char	**tab;
 	int		return_value;
 
-	if (str == NULL)
+	if (str == NULL || str[0] == '\n' || str[0] == '\0')
 		return (0);
 	if (str[0] == '-')
 		str++;

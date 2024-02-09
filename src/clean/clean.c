@@ -28,6 +28,7 @@ int     error_msg(const char *info)
 {
   //      char    *errno_readable;
 
+		write(STDERR_FILENO, "Error\n", ft_strlen("Error\n"));
         write(STDERR_FILENO, "miniRT: ", 8); 
         if (info)
                 write(STDERR_FILENO, info, ft_strlen(info));

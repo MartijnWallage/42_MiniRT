@@ -76,11 +76,11 @@ static void	parse_line(t_scene *scene, char *line)
 	columns = ft_split(line, ' ');
 	free(line);
 	protect_malloc(scene, NULL, columns);
-	if (!ft_strcmp("A", columns[0]))
+	if (!ft_strcmp("A", columns[0]) && !(scene->ambient))
 		parse_ambient(scene, columns);
-	else if (!ft_strcmp("C", columns[0]))
+	else if (!ft_strcmp("C", columns[0]) && !(scene->camera))
 		parse_camera(scene, columns);
-	else if (!ft_strcmp("L", columns[0]))
+	else if (!ft_strcmp("L", columns[0]) && !(scene->spots))
 		parse_spot(scene, columns);
 	else if (!ft_strcmp("sp", columns[0]))
 		parse_sphere(scene, columns);

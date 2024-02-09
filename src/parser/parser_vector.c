@@ -18,6 +18,8 @@ int	is_normal_vector(char *str)
 
 	if (!is_vector(str))
 		return (0);
+	if (!CHECK_PARSING_NORMAL)
+		return (1);
 	tab = ft_split(str, ',');
 	if (!tab)
 		return (0);
@@ -55,6 +57,8 @@ int	is_vector(char *str)
 {
 	char	**tab;
 
+	if (ft_countchar(str, ',') != 2)
+		return (0);
 	tab = ft_split(str, ',');
 	if (!tab)
 		return (0);
