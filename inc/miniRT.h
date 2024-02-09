@@ -24,8 +24,8 @@
 
 # define ACTIVATE_COLOR 1
 
-# define MAX_DIGITS_DOUBLE_INT_PART 6
-# define MAX_DIGITS_DOUBLE_FRAC_PART 2
+# define MAX_DIGITS_INT_PART 6
+# define MAX_DIGITS_FRAC_PART 6
 # define MAX_LEN_DOUBLE (MAX_DIGITS_DOUBLE_INT_PART \
 						+ MAX_DIGITS_DOUBLE_FRAC_PART + 1)
 # define MIN_color	0
@@ -130,10 +130,11 @@ void	exit_minirt(t_scene *scene, char *message, int status);
 void	free_tab(void **tab);
 void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr);
 // void	protect_malloc(t_minirt *minirt, void *check_ptr);
+
 /*	Parser	*/
 int			tablen(void **tab);
 void		parse_scene(char **argv, t_scene *scene);
-double		ft_strtod(char *str);
+double		ft_strtod(const char *str);
 int			get_color(t_scene *scene, char *rgb);
 t_vec3		get_vec3(t_scene *scene, char *numbers);
 void		parse_sphere(t_scene *scene, char **columns);
@@ -142,12 +143,16 @@ void		parse_plane(t_scene *scene, char **columns);
 void		parse_spot(t_scene *scene, char **columns);
 void		parse_ambient(t_scene *scene, char **columns);
 void		parse_camera(t_scene *scene, char **columns);
+
 /*	Checks */
-int			is_numstr(const char *str);
-int			is_valid_double(const char *str);
-// int			is_rbg(int color);
-//int 		is_vector(char *str);
-int			is_normal(double vector[3]);
+int	is_ratio(char *str);
+int	is_angle(char *str);
+int	is_posnum(const char *str);
+int	is_double(const char *str);
+int is_vector(char *str);
+int	is_normal_vector(char *str);
+int	is_color_vector(char *str);
+int	is_in_range(double value, double min, double max);
 
 /*	RAYTRACER	*/
 /*	raytracer.c */

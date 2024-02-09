@@ -12,77 +12,109 @@
 
 #include "miniRT.h"
 
-// if the char given as argument is not contained in str, 
-// return len of str, if it is contained once, return position in string,
-// if contained more than once, return a negative value.
-static int  get_unique_char_pos(char c, const char *str)
+static void	extract_int(const char *source, char *dest)
 {
-	int cnt;
-	int pos;
-	int i;
+	int	i;
 
-	cnt = 0;
 	i = 0;
-	pos = ft_strlen(str);
+	while (source[i] && source[i] != '.' && i <= MAX_DIGITS_INT_PART)
+	{
+		dest[i] = source[i];
+		i++;
+	}
+	if (i == MAX_DIGITS_INT_PART + 1)
+		dest[0] = 'e';
+	else
+		dest[i] = '\0';
+	return ;
+}
+
+static void	extract_frac(const char *source, char *dest)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (source[i] && source[i] != '.')
+		i++;
+	if (!source[i])
+		dest[0] = '\0';
+	i++;
+	j = 0;
+	while (source[i] && j <= MAX_DIGITS_FRAC_PART)
+		dest[j++] = source[i++];
+	dest[j] = '\0';
+	if (j == MAX_DIGITS_INT_PART + 1)
+		dest[0] = 'e';
+	else
+		dest[j] = '\0';
+	return ;
+}
+
+static int	is_numstr(const char *str)
+{
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
-		if (str[i] == c)
-		{
-			pos = i;
-			cnt++;
-		}
+		if (!((str[i] >= '0' && str[i] <= '9') || str[i] == '\n'))
+			return (0);
 		i++;
-		if (cnt > 1)
-			return (-1);
 	}
-	return (pos);
+	return (1);
+}
+
+static int	ft_countchar(const char *str, char c)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (*str)
+	{
+		if (*str == c)
+			cnt++;
+		str++;
+	}
+	return (cnt);
 }
 
 // checks if a given string can be converted to a double. Not all
 // double convertable strings are considered valid, there are limitations!
-int	is_valid_double(const char *str)
+int	is_double(const char *str)
 {
-	int		pos_point;
-	char	int_part[MAX_DIGITS_DOUBLE_INT_PART + 1];
-	char	frac_part[MAX_DIGITS_DOUBLE_FRAC_PART + 1];
+	char	**tab;
+	int		return_value;
 
 	if (str == NULL)
 		return (0);
 	if (str[0] == '-')
 		str++;
-	pos_point = get_unique_char_pos('.', str);
-	if (pos_point < 0)
+	if (str[0] == '.' || ft_countchar(str, '.') > 1)
 		return (0);
-	if (pos_point > MAX_DIGITS_DOUBLE_INT_PART || (int)ft_strlen(str) \
-		- pos_point > MAX_DIGITS_DOUBLE_FRAC_PART + 1)
-			return (0);
-	ft_strlcpy(int_part, str, pos_point + 1);
-	if (!is_numstr(int_part))
+	tab = ft_split(str, '.');
+	if (!tab)
 		return (0);
-	if (pos_point == (int)ft_strlen(str))
-		return (1);
-	ft_strlcpy(frac_part, str + pos_point + 1, ft_strlen(str) + 1);
-	if (!is_numstr(frac_part))
-		return (0);
-	return (1);
+	return_value = is_numstr(tab[0]) && \
+		(ft_strlen(tab[0]) <= MAX_DIGITS_INT_PART);
+	if (tablen((void **)tab) == 2)
+		return_value = return_value && is_numstr(tab[1]) && \
+			(ft_strlen(tab[1]) <= MAX_DIGITS_FRAC_PART);
+	free_tab((void **)tab);
+	return (return_value);
 }
 
-// converts a valid string ito a double value, restrictions are 
-double	ft_strtod(char *str)
+double	ft_strtod(const char *str)
 {
-	char	int_part[MAX_DIGITS_DOUBLE_INT_PART + 1];
-	char	frac_part[MAX_DIGITS_DOUBLE_FRAC_PART + 1];
+	char	int_part[MAX_DIGITS_INT_PART + 2];
+	char	frac_part[MAX_DIGITS_FRAC_PART + 1];
 	double	result;
-	int		pos_point;
 	double	frac;
 	int		i;
 
-	pos_point = get_unique_char_pos('.', str);
-	ft_strlcpy(int_part, str, pos_point + 1);
+	extract_int(str, (char *)int_part);
+	extract_frac(str, (char *)frac_part);
 	result = (double)ft_atoi(int_part);
-	if (pos_point == (int)ft_strlen(str))
-		return (result);
-	ft_strlcpy(frac_part, str + pos_point + 1, ft_strlen(str) + 1);
 	frac = (double)ft_atoi(frac_part);
 	i = (int)ft_strlen(frac_part);
 	while (i > 0)

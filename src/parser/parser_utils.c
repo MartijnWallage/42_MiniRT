@@ -14,8 +14,8 @@
 
 int	tablen(void **tab)
 {
-	int 	len;
-	
+	int	len;
+
 	len = 0;
 	while ((char *) tab[len])
 		len++;
@@ -48,9 +48,9 @@ int	get_color(t_scene *scene, char *rgb)
 	if (!tab || tablen((void **)tab) != 3)
 		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
 	color = get_rgba(ft_atoi(tab[0]),
-		ft_atoi(tab[1]),
-		ft_atoi(tab[2]),
-		0xff);
+			ft_atoi(tab[1]),
+			ft_atoi(tab[2]),
+			0xff);
 	free_tab((void **)tab);
 	return (color);
 }

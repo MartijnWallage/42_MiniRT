@@ -111,6 +111,7 @@ void	parse_scene(char **argv, t_scene *scene)
 		exit_minirt(scene,
 			"Argument should be of the form:\n\t\t<filename>.rt", EXIT_FAILURE);
 	fd = open(argv[1], O_RDONLY);
+	// TODO: Close file descriptor also in case where parsing of line fails
 	if (fd == -1)
 		exit_minirt(scene, CANNOT_OPEN_FILE, EXIT_FAILURE);
 	line = get_next_line(fd);
@@ -119,6 +120,7 @@ void	parse_scene(char **argv, t_scene *scene)
 		parse_line(scene, line);
 		line = get_next_line(fd);
 	}
+	close(fd);
 	if (scene->ambient == NULL || scene->camera == NULL)
 		exit_minirt(scene, REQUIRE_LIGHT_AND_CAMERA, EXIT_FAILURE);
 }
