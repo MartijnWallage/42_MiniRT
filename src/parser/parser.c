@@ -67,6 +67,11 @@ static void	parse_line(t_scene *scene, char *line)
 
 	if (*line == 0)
 		return ;
+	if (line[0] == '\n')
+	{
+		free(line);
+		return ;
+	}
 	printf("Line: %s", line);
 	columns = ft_split(line, ' ');
 	free(line);
