@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/12 12:55:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/12 14:29:56 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define ACTIVATE_COLOR 1
-# define CHECK_PARSING_NORMAL 0
+# define ACTIVATE_COLOR 			1
+# define CHECK_PARSING_NORMAL 		0
 
-# define MAX_DIGITS_INT_PART 6
-# define MAX_DIGITS_FRAC_PART 6
+# define MAX_DIGITS_INT_PART 		6
+# define MAX_DIGITS_FRAC_PART 		6
 # define MAX_LEN_DOUBLE (MAX_DIGITS_DOUBLE_INT_PART \
 						+ MAX_DIGITS_DOUBLE_FRAC_PART + 1)
-# define MIN_color	0
-# define MAX_color	255
-# define EPSILON	0.000001
-# define TRANSLATION_SPEED 1
-# define ROTATION_SPEED 0.2
-# define ARGUMENT_ERROR	"Wrong number of arguments. Expected a file name"
-# define MALLOC_FAILED	"Malloc: Allocation error"
-# define MALLOC_EXITCODE	2
-# define PARSING_EXITCODE	3
+# define MIN_color					0
+# define MAX_color					255
+# define EPSILON					0.000001
+# define TRANSLATION_SPEED 			1
+# define ROTATION_SPEED 			0.2
+# define ARGUMENT_ERROR				"Wrong number of arguments. Expected a file name"
+# define MALLOC_FAILED				"Malloc: Allocation error"
+# define MALLOC_EXITCODE			2
+# define PARSING_EXITCODE			3
 # define REQUIRE_LIGHT_AND_CAMERA	"Parsing error: Requires light and camera"
 # define CANNOT_OPEN_FILE			"Parsing error: Cannot open file"
 # define PARSING_ERROR				"Parsing error"
@@ -70,7 +70,6 @@ typedef struct s_vec3 {
 typedef struct s_ambient {
 	double			ratio;
 	int				color;
-	t_vec3			source;
 }	t_ambient;
 
 typedef struct s_spot {
