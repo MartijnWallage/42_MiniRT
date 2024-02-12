@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/12 15:18:54 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:22:04 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,6 @@ double	mix_colors(double color1, double color2, double ratio)
 int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 {
 	double	t = minirt->scene->ambient->ratio;
-/* 	double	r = mix_colors(get_r(camera_ray->object->color),
-		get_r(minirt->scene->ambient->color), minirt->scene->ambient->ratio);
-	double	g = mix_colors(get_g(camera_ray->object->color),
-		get_g(minirt->scene->ambient->color), minirt->scene->ambient->ratio);
-	double	b = mix_colors(get_b(camera_ray->object->color),
-		get_b(minirt->scene->ambient->color), minirt->scene->ambient->ratio); */
 	double	r = (double)get_r(camera_ray->object->color);
 	double	g = (double)get_g(camera_ray->object->color);
 	double	b = (double)get_b(camera_ray->object->color);
