@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/22 14:28:54 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:28:09 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	parse_line(t_scene *scene, char *line)
 		parse_ambient(scene, columns);
 	else if (!ft_strcmp("C", columns[0]) && !(scene->camera))
 		parse_camera(scene, columns);
-	else if (!ft_strcmp("L", columns[0]) && !(scene->spots))
+	else if (!ft_strcmp("L", columns[0])) // && !(scene->spots))
 		parse_spot(scene, columns);
 	else if (!ft_strcmp("sp", columns[0]))
 		parse_sphere(scene, columns);
@@ -90,8 +90,9 @@ static void	parse_line(t_scene *scene, char *line)
 		parse_plane(scene, columns);
 	else
 	{
-		free_tab((void **)columns);
-		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
+		printf("%s ignored\n", columns[0]);
+/* 		free_tab((void **)columns);
+		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE); */
 	}
 	free_tab((void **)columns);
 }

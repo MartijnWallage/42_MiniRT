@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/25 17:03:48 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/12 12:55:44 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@
 # define CANNOT_OPEN_FILE			"Parsing error: Cannot open file"
 # define PARSING_ERROR				"Parsing error"
 
-# define IMAGE_WIDTH 1000
-# define IMAGE_HEIGHT 500
+# define IMAGE_WIDTH 1200
+# define IMAGE_HEIGHT 800
 
 typedef enum e_identifier{
 	AMBIENT,

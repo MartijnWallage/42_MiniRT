@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/26 19:55:02 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:25:36 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 		if (light_ray.object == camera_ray->object)
 		{
 			t = spot->ratio * fmax(dot(camera_ray->normal, multiply(light_ray.direction, -1)), 0.0);
-			r = (1 - t) * (double)get_r(camera_ray->object->color) + t * (double) get_r(spot->color);
-			g = (1 - t) * (double)get_g(camera_ray->object->color) + t * (double) get_g(spot->color);
-			b = (1 - t) * (double)get_b(camera_ray->object->color) + t * (double) get_b(spot->color);		
+			r = (1 - t) * r + t * (double) get_r(spot->color);
+			g = (1 - t) * g + t * (double) get_g(spot->color);
+			b = (1 - t) * b + t * (double) get_b(spot->color);
 		}
-		spot = spot->next;		// so far only works for the last spot in the list
+		spot = spot->next;
 	}
 	return (get_rgba(r, g, b, 0xff));
 }
@@ -132,7 +132,7 @@ void	raytracer(void *param)
 					ft_put_pixel(minirt->image, x, y, camera_ray.object->color);
 			}
 			else
-				ft_put_pixel(minirt->image, x, y, minirt->scene->ambient->color);
+				ft_put_pixel(minirt->image, x, y, 0);
 		}
 	}
 }
