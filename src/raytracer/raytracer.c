@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/13 13:26:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:21:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,28 +133,30 @@ void	*begin_thread(void *param)
 
 	bundle = (t_bundle *)param;
 	minirt = bundle->minirt;
-	x = bundle->x;
 	y = bundle->y;
-	compute_camera_ray(minirt, x, y, &camera_ray);
-	compute_ray_object_intersection(minirt, &camera_ray);
-	if (camera_ray.object)
+	x = -1;
+	while (++x < minirt->image->width)
 	{
-		if (ACTIVATE_COLOR)
-			ft_put_pixel(minirt->image, x, y, compute_color(minirt, &camera_ray));
+		compute_camera_ray(minirt, x, y, &camera_ray);
+		compute_ray_object_intersection(minirt, &camera_ray);
+		if (camera_ray.object)
+		{
+			if (ACTIVATE_COLOR)
+				ft_put_pixel(minirt->image, x, y, compute_color(minirt, &camera_ray));
+			else
+				ft_put_pixel(minirt->image, x, y, camera_ray.object->color);
+		}
 		else
-			ft_put_pixel(minirt->image, x, y, camera_ray.object->color);
+			ft_put_pixel(minirt->image, x, y, 0xFF);	
 	}
-	else
-		ft_put_pixel(minirt->image, x, y, 0xFF);
 	return (NULL);
 }
 
 void	raytracer(void *param)
 {
-	uint32_t	x;
 	uint32_t	y;
 	t_minirt	*minirt;
-//	pthread_t	threads[IMAGE_HEIGHT][IMAGE_WIDTH];
+	pthread_t	threads[IMAGE_WIDTH];
 	t_bundle	bundle;
 
 	minirt = (t_minirt *)param;
@@ -162,22 +164,11 @@ void	raytracer(void *param)
 	y = -1;
 	while (++y < minirt->image->height)
 	{
-		x = -1;
-		while (++x < minirt->image->width)
-		{
-			bundle.x = x;
-			bundle.y = y;
-			bundle.minirt = minirt;
-			begin_thread(&bundle);
-		}
+		bundle.y = y;
+		bundle.minirt = minirt;
+		pthread_create(&threads[y], NULL, &begin_thread, &bundle);
 	}
-/* 	y = -1;
+	y = -1;
 	while (++y < minirt->image->height)
-	{
-		x = -1;
-		while (++x < minirt->image->width)
-		{
-			pthread_join(threads[y][x], NULL);
-		}
-	} */
+		pthread_join(threads[y], NULL);
 }
