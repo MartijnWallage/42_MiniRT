@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/12 14:29:56 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/13 12:36:54 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <math.h>
 # include <errno.h>
 # include <string.h>
+# include <pthread.h>
 # include "libft.h"
 # include "MLX42.h"
 
@@ -106,25 +107,36 @@ typedef struct s_ray {
 	t_vec3		origin;
 	t_vec3		direction;
 	double		intersection;
-	t_vec3		normal;			// surface normal for shading
+	t_vec3		normal;
 	t_object	*object;
 } t_ray;
 
-typedef struct s_scene{
+typedef struct s_scene
+{
 	t_ambient	*ambient;
 	t_spot		*spots;
 	t_camera	*camera;
 	t_object	*objects;
 }	t_scene;
 
-typedef struct s_minirt{
+typedef struct s_minirt
+{
 	t_scene		*scene;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_object	*obj_selected;
 	t_spot		*spot_selected;
 	t_key_mode	mode;
-} t_minirt;
+}	t_minirt;
+
+typedef struct s_bundle
+{
+	t_minirt	*minirt;
+	t_ray		*camera_ray;	
+	uint32_t	x;
+	uint32_t	y;
+}	t_bundle;
+
 
 /*	Cleaner	*/
 void	exit_minirt(t_scene *scene, char *message, int status);
