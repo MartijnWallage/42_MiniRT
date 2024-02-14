@@ -27,3 +27,8 @@ double	ft_abs(double value)
 		return (value);
 	return (-value);
 }
+
+double	norm2(t_vec3 vector)
+{
+	return (pow2(vector.x) + pow2(vector.y) + pow2(vector.z));
+}

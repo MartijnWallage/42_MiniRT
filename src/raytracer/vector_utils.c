@@ -6,28 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:37:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:38:40 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:38:00 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-/// @brief 		Computes the angle in radians between two vectors
-/// @param a 	First vector
-/// @param b 	Second vector
-/// @return 	The angle in radians, or 0 if norm a or norm b is 0
-double	angle(const t_vec3 a, const t_vec3 b)
-{
-	double	cosine;
-
-	if (norm(a) * norm(b) != 0)
-	{
-		cosine = dot(a, b) / (norm(a) * norm(b));
-		return (acos(cosine));
-	}
-	else
-		return (0);
-}
 
 /// @brief 			Computes cross product of two vectors
 /// @param a 

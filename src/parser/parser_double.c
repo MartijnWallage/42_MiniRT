@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_double.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/17 15:15:20 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:38:32 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	extract_int(const char *source, char *dest)
 	int	i;
 
 	i = 0;
-	while (source[i] && source[i] != '.' && i <= MAX_DIGITS_INT_PART)
+	while (source[i] && is_digit(source[i]) && i <= MAX_DIGITS_INT_PART)
 	{
 		dest[i] = source[i];
 		i++;
@@ -35,7 +35,7 @@ static void	extract_frac(const char *source, char *dest)
 	int	j;
 
 	i = 0;
-	while (source[i] && source[i] != '.')
+	while (source[i] && is_digit(source[i]))
 		i++;
 	if (!source[i])
 		dest[0] = '\0';
@@ -56,7 +56,7 @@ static int	is_numstr(const char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != ' ')
 	{
 		if (!((str[i] >= '0' && str[i] <= '9') || str[i] == '\n'))
 			return (0);

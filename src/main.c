@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 13:57:49 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:11:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,24 @@
 
 static void	init_scene(t_scene *scene)
 {
-	scene->ambient = NULL;
-	scene->camera = NULL;
 	scene->objects = NULL;
-	scene->spot = NULL;
 }
 
 static void	init_minirt(t_minirt *minirt, t_scene *scene)
 {
 	minirt->scene = scene;
 	minirt->obj_selected = scene->objects;
-	minirt->spot_selected = scene->spot;
-	minirt->scene->camera->up.x = 0;
-	minirt->scene->camera->up.y = 1;
-	minirt->scene->camera->up.z = 0;
-	if (norm(cross(minirt->scene->camera->direction, \
-		minirt->scene->camera->up)) < 0.001)
+	minirt->spot_selected = &scene->spot;
+	minirt->scene->camera.up.x = 0;
+	minirt->scene->camera.up.y = 1;
+	minirt->scene->camera.up.z = 0;
+	if (norm(cross(minirt->scene->camera.direction, \
+		minirt->scene->camera.up)) < 0.001)
 	{
-		minirt->scene->camera->up.x = \
-			minirt->scene->camera->direction.y;
-		minirt->scene->camera->up.y = 0;
-		minirt->scene->camera->up.z = 0;
+		minirt->scene->camera.up.x = \
+			minirt->scene->camera.direction.y;
+		minirt->scene->camera.up.y = 0;
+		minirt->scene->camera.up.z = 0;
 	}
 	minirt->mode = MODE_CAMERA;
 }

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 13:56:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:41:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,19 @@
 
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
-# define MAX_LEN_DOUBLE (MAX_DIGITS_DOUBLE_INT_PART \
-						+ MAX_DIGITS_DOUBLE_FRAC_PART + 1)
-# define MIN_color					0
-# define MAX_color					255
 # define EPSILON					0.000001
 # define TRANSLATION_SPEED 			1
 # define ROTATION_SPEED 			0.2
-# define ARGUMENT_ERROR				"Wrong number of arguments. Expected a file name"
-# define MALLOC_FAILED				"Malloc: Allocation error"
+# define ARGUMENT_ERROR				"format: ./miniRT scenes/___.rt"
+# define MALLOC_FAILED				"malloc: allocation error"
 # define MALLOC_EXITCODE			2
 # define PARSING_EXITCODE			3
-# define REQUIRE_LIGHT_AND_CAMERA	"Parsing error: Requires light and camera"
-# define CANNOT_OPEN_FILE			"Parsing error: Cannot open file"
-# define PARSING_ERROR				"Parsing error"
+# define REQUIRE_LIGHT_AND_CAMERA	"parsing error: requires light and camera"
+# define CANNOT_OPEN_FILE			"parsing error: cannot open file"
+# define PARSING_ERROR				"parsing error"
 
-# define IMAGE_WIDTH 1200
-# define IMAGE_HEIGHT 800
+# define IMAGE_WIDTH 1000
+# define IMAGE_HEIGHT 500
 
 typedef enum e_identifier{
 	AMBIENT,
@@ -68,13 +64,13 @@ typedef struct s_vec3 {
 }	t_vec3;
 
 typedef struct s_ambient {
-	double			ratio;
-	int				color;
+	double		ratio;
+	int			color;
 }	t_ambient;
 
 typedef struct s_spot {
-	double			ratio;
-	t_vec3			source;
+	double		ratio;
+	t_vec3		source;
 }	t_spot;
 
 typedef struct s_camera{
@@ -110,9 +106,9 @@ typedef struct s_ray {
 
 typedef struct s_scene
 {
-	t_ambient	*ambient;
-	t_spot		*spot;
-	t_camera	*camera;
+	t_ambient	ambient;
+	t_spot		spot;
+	t_camera	camera;
 	t_object	*objects;
 }	t_scene;
 
@@ -126,25 +122,43 @@ typedef struct s_minirt
 	t_key_mode	mode;
 }	t_minirt;
 
+typedef	enum	e_int_type
+{
+	BOTH_NEGATIVE,
+	FIRST_VALUE,
+	SECOND_VALUE,
+} t_int_type;
+
+typedef struct s_intersections
+{
+	t_vec3	n_x_a;
+	double	norm_nxa;
+	t_vec3	b_x_a;
+	t_vec3	b;
+	double	d_hull;
+	double	d_cap;
+	double	t_hull;
+	int		orientation_cap;
+} t_intersections;
+
 /*	Cleaner	*/
 void	exit_minirt(t_scene *scene, char *message, int status);
 void	free_tab(void **tab);
-void	protect_malloc(t_scene *scene, void *free_ptr, void *check_ptr);
-// void	protect_malloc(t_minirt *minirt, void *check_ptr);
+void	protect_malloc(void *check_ptr, t_scene *scene, void *free_ptr);
 
 /*	Parser	*/
 int		tablen(void **tab);
 int		ft_countchar(const char *str, char c);
 void	parse_scene(char **argv, t_scene *scene);
 double	ft_strtod(const char *str);
-int		get_color(t_scene *scene, char *rgb);
+int		get_color(t_scene *scene, char *rgb, int *success);
 t_vec3	get_vec3(t_scene *scene, char *numbers);
-int		parse_sphere(t_scene *scene, char **columns);
-int		parse_cylinder(t_scene *scene, char **columns);
-int		parse_plane(t_scene *scene, char **columns);
-int		parse_spot(t_scene *scene, char **columns);
-int		parse_ambient(t_scene *scene, char **columns);
-int		parse_camera(t_scene *scene, char **columns);
+int		parse_sphere(t_scene *scene, char *line);
+int		parse_cylinder(t_scene *scene, char *line);
+int		parse_plane(t_scene *scene, char *line);
+int		parse_spot(t_scene *scene, char *line);
+int		parse_ambient(t_scene *scene, char *line);
+int		parse_camera(t_scene *scene, char *line);
 
 /*	Checks */
 int		is_ratio(char *str);
@@ -153,7 +167,6 @@ int		is_posnum(const char *str);
 int		is_double(const char *str);
 int 	is_vector(char *str);
 int		is_normal_vector(char *str);
-int		is_color_vector(char *str);
 int		is_in_range(double value, double min, double max);
 
 /*	RAYTRACER	*/
@@ -161,6 +174,9 @@ int		is_in_range(double value, double min, double max);
 void	raytracer(void *minirt);
 void	compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray);
 void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
+void	compute_light_ray(t_ray *camera_ray, t_spot *spot, t_ray *light_ray);
+int		mix_colors(int color1, int color2, float ratio);
+int		compute_color(t_minirt *minirt, t_ray *camera_ray);
 
 /*	vector_utils.c	*/
 double	angle(const t_vec3 a, const t_vec3 b);
@@ -176,6 +192,7 @@ t_vec3	normalize(const t_vec3 vec);
 double	ft_min_positive(double value1, double value2);
 double	pow2(double value);
 double	ft_abs(double value);
+double	norm2(t_vec3 vector);
 
 /* intersections.c */
 void	calc_plane_intersection(t_ray *ray, t_object *plane);
@@ -184,7 +201,6 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder);
 
 /* Graphics */
 void	ft_hook(void *param);
-void	ft_resize(int width, int height, void *params);
 void 	ft_mousefunc(mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 void	rotation_hooks(t_minirt *minirt);
 void    ft_put_pixel(mlx_image_t* image, unsigned int x, unsigned int y, int color);
@@ -196,8 +212,5 @@ int 	get_r(int rgba);
 int 	get_g(int rgba);
 int 	get_b(int rgba);
 int 	get_a(int rgba);
-
-/*	TEST 	*/
-void	print_scene(t_scene *scene);
 
 #endif

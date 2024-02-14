@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 14:00:17 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:35:29 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,24 @@
 
 static int	parse_line(t_scene *scene, char *line)
 {
-	char	**columns;
-	int		ret;
+	int	ret;
 
-	if (*line == 0 || line[0] == '\n')
+	if (*line == 0 || line[0] == '\n' || ft_strlen(line) < 9)
 		return (0);
-	columns = ft_split(line, ' ');
-	protect_malloc(scene, line, columns);
-	if (!ft_strcmp("A", columns[0]) && !(scene->ambient))
-		ret = parse_ambient(scene, columns);
-	else if (!ft_strcmp("C", columns[0]) && !(scene->camera))
-		ret = parse_camera(scene, columns);
-	else if (!ft_strcmp("L", columns[0]) && !(scene->spot))
-		ret = parse_spot(scene, columns);
-	else if (!ft_strcmp("sp", columns[0]))
-		ret = parse_sphere(scene, columns);
-	else if (!ft_strcmp("cy", columns[0]))
-		ret = parse_cylinder(scene, columns);
-	else if (!ft_strcmp("pl", columns[0]))
-		ret = parse_plane(scene, columns);
+	if (!ft_strncmp("A ", line, 2))
+		ret = parse_ambient(scene, line + 2);
+	else if (!ft_strncmp("C ", line, 2))
+		ret = parse_camera(scene, line + 2);
+	else if (!ft_strncmp("L ", line, 2))
+		ret = parse_spot(scene, line + 2);
+	else if (!ft_strncmp("sp ", line, 3))
+		ret = parse_sphere(scene, line + 3);
+	else if (!ft_strncmp("cy ", line, 3))
+		ret = parse_cylinder(scene, line + 3);
+	else if (!ft_strncmp("pl ", line, 3))
+		ret = parse_plane(scene, line + 3);
 	else
-		ret = 0;
-	free_tab((void **)columns);
-	return (ret);
+		return (0);
 }
 
 int	is_valid_filename(char *path)
@@ -52,8 +47,8 @@ int	is_valid_filename(char *path)
 /// @param scene 	end result
 void	parse_scene(char **argv, t_scene *scene)
 {
-	int		fd;
-	char	*line;
+	int				fd;
+	char			*line;
 
 	if (!is_valid_filename(argv[1]))
 		exit_minirt(scene,
@@ -64,16 +59,14 @@ void	parse_scene(char **argv, t_scene *scene)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!parse_line(scene, line))
+		if (parse_line(scene, line))
 		{
-			free(line);
 			close(fd);
-			exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
-		}		
+			free(line);
+			exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
+		}
 		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
-	if (scene->ambient == NULL || scene->camera == NULL)
-		exit_minirt(scene, REQUIRE_LIGHT_AND_CAMERA, EXIT_FAILURE);
 }

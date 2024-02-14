@@ -6,12 +6,12 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/14 13:58:06 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/14 16:00:53 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -pthread -Wunreachable-code -Ofast -g
+CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -23,10 +23,10 @@ HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc -I$(MLXDIR)/include/MLX42
 LIBS		:= -L$(LIBFTDIR) -lft $(MLX)
 UNAME_S		:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	LIBS	:= $(LIBS) -ldl -lglfw -pthread -lm
+	LIBS	:= $(LIBS) -ldl -lglfw -lm
 endif
 ifeq ($(UNAME_S),Darwin)
-	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/" -pthread -lm
+	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/" -lm
 endif
 SRC			:= main.c \
 				parser/parser.c \
@@ -46,7 +46,8 @@ SRC			:= main.c \
 				raytracer/vector_utils.c \
 				raytracer/intersections.c \
 				raytracer/math_utils.c \
-				raytracer/cylinder.c
+				raytracer/cylinder.c \
+				raytracer/compute_color.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 MAKE		:= make

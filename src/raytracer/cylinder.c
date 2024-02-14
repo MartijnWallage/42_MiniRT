@@ -1,28 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/14 14:38:51 by mwallage          #+#    #+#             */
+/*   Updated: 2024/02/14 14:42:16 by mwallage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
-
-typedef	enum	e_int_type
-{
-	BOTH_NEGATIVE,
-	FIRST_VALUE,
-	SECOND_VALUE,
-} t_int_type;
-
-typedef struct s_intersections
-{
-	t_vec3	n_x_a;
-	double	norm_nxa;
-	t_vec3	b_x_a;
-	t_vec3	b;
-	double	d_hull;
-	double	d_cap;
-	double	t_hull;
-	int		orientation_cap;
-} t_intersections;
-
-double	norm2(t_vec3 vector)
-{
-	return (pow2(vector.x) + pow2(vector.y) + pow2(vector.z));
-}
 
 static t_intersections	init_ints_struct(t_ray	*ray, t_object *cylinder)
 {

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:45:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:59:07 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,31 @@ t_vec3	get_vec3(t_scene *scene, char *numbers)
 	return ((t_vec3){x, y, z});
 }
 
-int	get_color(t_scene *scene, char *rgb)
+int	get_color(t_scene *scene, char *rgb, int fd)
 {
 	char	**tab;
-	int		color;
+	int		rgb[3];
 
 	tab = ft_split(rgb, ',');
-	if (!tab || tablen((void **)tab) != 3)
+	protect_malloc(tab, scene, NULL, fd);
+	if (tablen((void **)tab) != 3)
+	{
+		free_tab((void **)tab);
+		close(fd);
 		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
-	color = get_rgba(ft_atoi(tab[0]),
-			ft_atoi(tab[1]),
-			ft_atoi(tab[2]),
-			0xff);
-	free_tab((void **)tab);
-	return (color);
+	}
+	rgb[0] = ft_atoi(tab[0]);
+	rgb[1] = ft_atoi(tab[1]);
+	rgb[2] = ft_atoi(tab[2]);
+	free_tab((void**)tab);
+	if ((rgb[0] < 0 || rgb[0] > 255)
+		|| (rgb[1] < 0 || rgb[1] > 255)
+		|| (rgb[2] < 0 || rgb[2] > 255))
+	{
+		close(fd);
+		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
+	}
+	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 
 int	ft_countchar(const char *str, char c)

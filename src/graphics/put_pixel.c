@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:37 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/20 16:48:00 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:51:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,3 @@ void	ft_put_pixel(mlx_image_t *image, unsigned int x, \
 		*(pixel++) = (unsigned char)get_a(color);
 	}
 }
-/*
-
-//= Public =//
-*/
-/* void    ft_put_pixel(mlx_image_t* image, uint32_t x, \
-			uint32_t y, uint32_t color)
-{
-	MLX_NONNULL(image);
-	MLX_ASSERT(x < image->width, "Pixel is out of bounds");
-	MLX_ASSERT(y < image->height, "Pixel is out of bounds");
-
-	uint8_t* pixelstart = &image->pixels[(y * \
-		image->width + x) * sizeof(uint32_t)];
-	mlx_draw_pixel(pixelstart, color);
-}*/
