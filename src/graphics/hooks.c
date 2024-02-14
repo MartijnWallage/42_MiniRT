@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 14:30:14 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:06:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,9 @@ static void	translation_hooks(t_minirt *minirt)
 /// @param minirt A pointer to struct that contains program parameters
 static void	mode_hooks(t_minirt *minirt)
 {
+	minirt->spot_selected = minirt->scene->spot;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_L))
-	{
-		if (minirt->mode == MODE_SPOT)
-		{
-			if (minirt->spot_selected == NULL || \
-				minirt->spot_selected->next == NULL)
-				minirt->spot_selected = minirt->scene->spots;
-			else
-				minirt->spot_selected = minirt->spot_selected->next;
-		}
 		minirt->mode = MODE_SPOT;
-	}
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_O))
 	{
 		if (minirt->mode == MODE_OBJECT)

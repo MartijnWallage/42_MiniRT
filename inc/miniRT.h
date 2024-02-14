@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/13 17:20:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:56:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 # include <math.h>
 # include <errno.h>
 # include <string.h>
-# include <pthread.h>
 # include <unistd.h>
 # include "libft.h"
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define ACTIVATE_COLOR 			1
 # define CHECK_PARSING_NORMAL 		0
 
 # define MAX_DIGITS_INT_PART 		6
@@ -76,9 +74,7 @@ typedef struct s_ambient {
 
 typedef struct s_spot {
 	double			ratio;
-	int				color;
 	t_vec3			source;
-	struct s_spot	*next;
 }	t_spot;
 
 typedef struct s_camera{
@@ -115,7 +111,7 @@ typedef struct s_ray {
 typedef struct s_scene
 {
 	t_ambient	*ambient;
-	t_spot		*spots;
+	t_spot		*spot;
 	t_camera	*camera;
 	t_object	*objects;
 }	t_scene;
@@ -130,15 +126,6 @@ typedef struct s_minirt
 	t_key_mode	mode;
 }	t_minirt;
 
-typedef struct s_bundle
-{
-	t_minirt	*minirt;
-	t_ray		*camera_ray;	
-	uint32_t	x;
-	uint32_t	y;
-}	t_bundle;
-
-
 /*	Cleaner	*/
 void	exit_minirt(t_scene *scene, char *message, int status);
 void	free_tab(void **tab);
@@ -152,22 +139,22 @@ void	parse_scene(char **argv, t_scene *scene);
 double	ft_strtod(const char *str);
 int		get_color(t_scene *scene, char *rgb);
 t_vec3	get_vec3(t_scene *scene, char *numbers);
-void	parse_sphere(t_scene *scene, char **columns);
-void	parse_cylinder(t_scene *scene, char **columns);
-void	parse_plane(t_scene *scene, char **columns);
-void	parse_spot(t_scene *scene, char **columns);
-void	parse_ambient(t_scene *scene, char **columns);
-void	parse_camera(t_scene *scene, char **columns);
+int		parse_sphere(t_scene *scene, char **columns);
+int		parse_cylinder(t_scene *scene, char **columns);
+int		parse_plane(t_scene *scene, char **columns);
+int		parse_spot(t_scene *scene, char **columns);
+int		parse_ambient(t_scene *scene, char **columns);
+int		parse_camera(t_scene *scene, char **columns);
 
 /*	Checks */
-int	is_ratio(char *str);
-int	is_angle(char *str);
-int	is_posnum(const char *str);
-int	is_double(const char *str);
-int is_vector(char *str);
-int	is_normal_vector(char *str);
-int	is_color_vector(char *str);
-int	is_in_range(double value, double min, double max);
+int		is_ratio(char *str);
+int		is_angle(char *str);
+int		is_posnum(const char *str);
+int		is_double(const char *str);
+int 	is_vector(char *str);
+int		is_normal_vector(char *str);
+int		is_color_vector(char *str);
+int		is_in_range(double value, double min, double max);
 
 /*	RAYTRACER	*/
 /*	raytracer.c */

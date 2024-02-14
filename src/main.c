@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/21 13:13:26 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:57:49 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static void	init_scene(t_scene *scene)
 	scene->ambient = NULL;
 	scene->camera = NULL;
 	scene->objects = NULL;
-	scene->spots = NULL;
+	scene->spot = NULL;
 }
 
 static void	init_minirt(t_minirt *minirt, t_scene *scene)
 {
 	minirt->scene = scene;
 	minirt->obj_selected = scene->objects;
-	minirt->spot_selected = scene->spots;
+	minirt->spot_selected = scene->spot;
 	minirt->scene->camera->up.x = 0;
 	minirt->scene->camera->up.y = 1;
 	minirt->scene->camera->up.z = 0;
@@ -67,13 +67,11 @@ int	main(int argc, char **argv)
 	t_scene		scene;
 	t_minirt	minirt;
 
-	// initialisation & parsing
 	init_scene(&scene);
 	if (argc != 2)
 		exit_minirt(&scene, ARGUMENT_ERROR, EXIT_FAILURE);
 	parse_scene(argv, &scene);
 	init_minirt(&minirt, &scene);
-	//print_scene(&scene);
 	graphics_wrapper(&minirt);
 	exit_minirt(&scene, NULL, EXIT_SUCCESS);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/22 15:52:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:43:56 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,6 @@ void	free_objects(t_object *head)
 	}
 }
 
-void	free_spots(t_spot *head)
-{
-	t_spot	*next;
-
-	while (head)
-	{
-		next = head->next;
-		free(head);
-		head = next;
-	}
-}
-
 void	exit_minirt(t_scene *scene, char *message, int status)
 {
 	if (scene->ambient)
@@ -74,8 +62,8 @@ void	exit_minirt(t_scene *scene, char *message, int status)
 		free(scene->camera);
 	if (scene->objects)
 		free_objects(scene->objects);
-	if (scene->spots)
-		free_spots(scene->spots);
+	if (scene->spot)
+		free(scene->spot);
 	if (status)
 		error_msg(message);
 	exit(status);

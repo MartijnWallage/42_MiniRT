@@ -6,19 +6,19 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/01/22 14:28:54 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:53:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void	parse_plane(t_scene *scene, char **tab)
+int	parse_plane(t_scene *scene, char **tab)
 {
 	t_object	*plane;
 
 	if (tablen((void **)tab) != 4 || !is_vector(tab[1]) || \
 		!is_normal_vector(tab[2]) || !is_color_vector(tab[3]))
-		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
+		return (0);
 	plane = malloc(sizeof(t_object));
 	protect_malloc(scene, NULL, plane);
 	plane->type = PLANE;
@@ -33,16 +33,17 @@ void	parse_plane(t_scene *scene, char **tab)
 	}
 	plane->next = scene->objects;
 	scene->objects = plane;
+	return (1);
 }
 
-void	parse_cylinder(t_scene *scene, char **tab)
+int	parse_cylinder(t_scene *scene, char **tab)
 {
 	t_object	*cylinder;
 
 	if (tablen((void **)tab) != 6 || !is_vector(tab[1]) || \
 		!is_normal_vector(tab[2]) || !is_posnum(tab[3]) || \
 		!is_posnum(tab[4]) || !is_color_vector(tab[5]))
-		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
+		return (0);
 	cylinder = malloc(sizeof(t_object));
 	protect_malloc(scene, NULL, cylinder);
 	cylinder->type = CYLINDER;
@@ -59,15 +60,16 @@ void	parse_cylinder(t_scene *scene, char **tab)
 	}
 	cylinder->next = scene->objects;
 	scene->objects = cylinder;
+	return (1);
 }
 
-void	parse_sphere(t_scene *scene, char **tab)
+int	parse_sphere(t_scene *scene, char **tab)
 {
 	t_object	*sphere;
 
 	if (tablen((void **)tab) != 4 || !is_vector(tab[1]) || \
 		!is_posnum(tab[2]) || !is_color_vector(tab[3]))
-		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
+		return (0);
 	sphere = malloc(sizeof(t_object));
 	protect_malloc(scene, NULL, sphere);
 	sphere->type = SPHERE;
@@ -76,4 +78,5 @@ void	parse_sphere(t_scene *scene, char **tab)
 	sphere->color = get_color(scene, *++tab);
 	sphere->next = scene->objects;
 	scene->objects = sphere;
+	return (1);
 }

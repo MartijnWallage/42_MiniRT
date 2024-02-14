@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/13 17:21:34 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:10:44 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,85 +90,48 @@ double	mix_colors(double color1, double color2, double ratio)
 int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 {
 	double	t = minirt->scene->ambient->ratio;
-	double	r = mix_colors(get_r(camera_ray->object->color) * minirt->scene->ambient->ratio, get_r(minirt->scene->ambient->color), minirt->scene->ambient->ratio);
-	double	g = mix_colors(get_g(camera_ray->object->color) * minirt->scene->ambient->ratio, get_g(minirt->scene->ambient->color), minirt->scene->ambient->ratio);
-	double	b = mix_colors(get_b(camera_ray->object->color) * minirt->scene->ambient->ratio, get_b(minirt->scene->ambient->color), minirt->scene->ambient->ratio);
+	double	rgb[3];
 	t_ray	light_ray;
-	t_spot	*spot;
-/* 	int		counter;
-	double	average_light; */
-	
-/* 	average_light = 0;
-	counter = 0; */
-	spot = minirt->scene->spots;
-	while (spot)
+
+	rgb[0] = mix_colors(get_r(camera_ray->object->color) * minirt->scene->ambient->ratio, get_r(minirt->scene->ambient->color), minirt->scene->ambient->ratio);
+	rgb[1] = mix_colors(get_g(camera_ray->object->color) * minirt->scene->ambient->ratio, get_g(minirt->scene->ambient->color), minirt->scene->ambient->ratio);
+	rgb[2] = mix_colors(get_b(camera_ray->object->color) * minirt->scene->ambient->ratio, get_b(minirt->scene->ambient->color), minirt->scene->ambient->ratio);
+	if (minirt->scene->spot)
 	{
-		compute_light_ray(camera_ray, spot, &light_ray);
+		compute_light_ray(camera_ray, minirt->scene->spot, &light_ray);
 		compute_ray_object_intersection(minirt, &light_ray);
 		if (light_ray.object == camera_ray->object)
 		{
-			t = spot->ratio * fmax(dot(camera_ray->normal, multiply(light_ray.direction, -1)), 0.0);
-			r = mix_colors(r, 0.5 * (get_r(spot->color) + get_r(camera_ray->object->color)), t);
-			g = mix_colors(g, 0.5 * (get_g(spot->color) + get_g(camera_ray->object->color)), t);
-			b = mix_colors(b, 0.5 * (get_b(spot->color) + get_b(camera_ray->object->color)), t);
+			t = minirt->scene->spot->ratio * fmax(dot(camera_ray->normal, multiply(light_ray.direction, -1)), 0.0);
+			rgb[0] = mix_colors(rgb[0], 0.5 * (0xff + get_r(camera_ray->object->color)), t);
+			rgb[1] = mix_colors(rgb[1], 0.5 * (0xff + get_g(camera_ray->object->color)), t);
+			rgb[2] = mix_colors(rgb[2], 0.5 * (0xff + get_b(camera_ray->object->color)), t);
 		}
-/* 		average_light += spot->ratio;
-		counter++; */
-		spot = spot->next;
 	}
-/* 	average_light /= counter;
-	r = mix_colors(r * average_light, get_r(minirt->scene->ambient->color) * minirt->scene->ambient->ratio, 0.5);
-	g = mix_colors(g * average_light, get_g(minirt->scene->ambient->color) * minirt->scene->ambient->ratio, 0.5);
-	b = mix_colors(b * average_light, get_b(minirt->scene->ambient->color) * minirt->scene->ambient->ratio, 0.5); */
-	return (get_rgba(r, g, b, 0xff));
-}
-
-void	*begin_thread(void *param)
-{
-	t_bundle	*bundle;
-	t_minirt	*minirt;
-	t_ray		camera_ray;
-	uint32_t	x;
-	uint32_t	y;
-
-	bundle = (t_bundle *)param;
-	minirt = bundle->minirt;
-	y = bundle->y;
-	x = -1;
-	while (++x < minirt->image->width)
-	{
-		compute_camera_ray(minirt, x, y, &camera_ray);
-		compute_ray_object_intersection(minirt, &camera_ray);
-		if (camera_ray.object)
-		{
-			if (ACTIVATE_COLOR)
-				ft_put_pixel(minirt->image, x, y, compute_color(minirt, &camera_ray));
-			else
-				ft_put_pixel(minirt->image, x, y, camera_ray.object->color);
-		}
-		else
-			ft_put_pixel(minirt->image, x, y, 0xFF);	
-	}
-	return (NULL);
+	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 
 void	raytracer(void *param)
 {
 	uint32_t	y;
+	uint32_t	x;
+	t_ray		camera_ray;
 	t_minirt	*minirt;
-	pthread_t	threads[IMAGE_WIDTH];
-	t_bundle	bundle;
 
 	minirt = (t_minirt *)param;
 	compute_viewport(minirt);
 	y = -1;
 	while (++y < minirt->image->height)
 	{
-		bundle.y = y;
-		bundle.minirt = minirt;
-		pthread_create(&threads[y], NULL, &begin_thread, &bundle);
+		x = -1;
+		while (++x < minirt->image->width)
+		{
+			compute_camera_ray(minirt, x, y, &camera_ray);
+			compute_ray_object_intersection(minirt, &camera_ray);
+			if (camera_ray.object)
+				ft_put_pixel(minirt->image, x, y, compute_color(minirt, &camera_ray));
+			else
+				ft_put_pixel(minirt->image, x, y, 0xFF);
+		}
 	}
-	y = -1;
-	while (++y < minirt->image->height)
-		pthread_join(threads[y], NULL);
 }

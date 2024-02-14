@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/13 12:24:18 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/14 13:58:06 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ ifeq ($(UNAME_S),Darwin)
 	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/" -pthread -lm
 endif
 SRC			:= main.c \
-				test.c \
 				parser/parser.c \
 				parser/parser_checks.c \
 				parser/parser_objects.c \

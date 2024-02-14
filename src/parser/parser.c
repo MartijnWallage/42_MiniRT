@@ -6,95 +6,37 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/12 13:28:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/14 14:00:17 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-/* void parse_ambient(t_scene *scene, char **columns)
-{
-	if (get_str_array_len(columns) != 3 || scene->ambient)
-	{
-		free_tab((void **)columns);
-		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
-	}
-	scene->ambient = malloc(sizeof(t_ambient));
-	if (!scene->ambient || !is_valid_double(columns[1]) || \
-		!is_vector(columns[2]))
-	{
-		free_tab((void **)columns);
-		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
-	}
-	scene->ambient->ratio = ft_strtod(columns[1]);
-	get_color(scene->ambient->color, columns[2]);
-	if (scene->ambient->ratio < 0.0 || scene->ambient->ratio > 1.0 ||
-		!is_rbg(scene->ambient->color))
-	{
-		free_tab((void **)columns);
-		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
-	}
-}
-
-void parse_camera(t_scene *scene, char **columns)
-{
-	if (get_str_array_len(columns) != 4 || scene->camera)
-	{
-		free_tab((void **)columns);
-		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
-	}
-	scene->camera = malloc(sizeof(t_camera));
-	if (!scene->camera || !is_vector(columns[1]) || \
-		!is_vector(columns[2]) || !is_valid_double(columns[3]))
-	{
-		free_tab((void **) columns);
-		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
-	}
-	get_vec3(scene->camera->viewpoint, columns[1]);
-	get_vec3(scene->camera->direction, columns[2]);
-	scene->camera->fov = ft_strtod(columns[3]);
-	if (!is_normal(scene->camera->direction) || scene->camera->fov < 0.0 ||
-		scene->camera->fov > 180.0)
-	{
-		free_tab((void **) columns);
-		exit_minirt(scene, "not a valid vector", EXIT_FAILURE);
-	}
-} */
-
-static void	parse_line(t_scene *scene, char *line)
+static int	parse_line(t_scene *scene, char *line)
 {
 	char	**columns;
+	int		ret;
 
-	if (*line == 0)
-		return ;
-	if (line[0] == '\n')
-	{
-		free(line);
-		return ;
-	}
-	printf("Line: %s", line);
+	if (*line == 0 || line[0] == '\n')
+		return (0);
 	columns = ft_split(line, ' ');
-	free(line);
-	protect_malloc(scene, NULL, columns);
+	protect_malloc(scene, line, columns);
 	if (!ft_strcmp("A", columns[0]) && !(scene->ambient))
-		parse_ambient(scene, columns);
+		ret = parse_ambient(scene, columns);
 	else if (!ft_strcmp("C", columns[0]) && !(scene->camera))
-		parse_camera(scene, columns);
-	else if (!ft_strcmp("L", columns[0])) // && !(scene->spots))
-		parse_spot(scene, columns);
+		ret = parse_camera(scene, columns);
+	else if (!ft_strcmp("L", columns[0]) && !(scene->spot))
+		ret = parse_spot(scene, columns);
 	else if (!ft_strcmp("sp", columns[0]))
-		parse_sphere(scene, columns);
+		ret = parse_sphere(scene, columns);
 	else if (!ft_strcmp("cy", columns[0]))
-		parse_cylinder(scene, columns);
+		ret = parse_cylinder(scene, columns);
 	else if (!ft_strcmp("pl", columns[0]))
-		parse_plane(scene, columns);
+		ret = parse_plane(scene, columns);
 	else
-	{
-		printf("%s ignored\n", columns[0]);
-/* 		free_tab((void **)columns);
-		exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE); */
-	}
+		ret = 0;
 	free_tab((void **)columns);
+	return (ret);
 }
 
 int	is_valid_filename(char *path)
@@ -117,13 +59,18 @@ void	parse_scene(char **argv, t_scene *scene)
 		exit_minirt(scene,
 			"Argument should be of the form:\n\t\t<filename>.rt", EXIT_FAILURE);
 	fd = open(argv[1], O_RDONLY);
-	// TODO: Close file descriptor also in case where parsing of line fails
 	if (fd == -1)
 		exit_minirt(scene, CANNOT_OPEN_FILE, EXIT_FAILURE);
 	line = get_next_line(fd);
 	while (line)
 	{
-		parse_line(scene, line);
+		if (!parse_line(scene, line))
+		{
+			free(line);
+			close(fd);
+			exit_minirt(scene, PARSING_ERROR, EXIT_FAILURE);
+		}		
+		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
