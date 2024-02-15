@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 13:04:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:47:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,23 @@ static void	graphics_wrapper(t_minirt *minirt)
 	mlx_terminate(mlx);
 }
 
-static void	init_build(t_build *build, t_scene *scene, t_minirt *minirt)
+static void	init_build(t_build *build, t_scene *scene)
 {
 	build->tab = NULL;
 	build->line = NULL;
 	build->fd = 0;
 	build->scene = scene;
-	build->minirt = minirt;
+	build->check_ambient = 0;
+	build->check_camera = 0;
 }
+
 int	main(int argc, char **argv)
 {
 	t_scene		scene;
 	t_minirt	minirt;
 	t_build		build;
 
-	init_build(&build, &scene, &minirt);
+	init_build(&build, &scene);
 	init_scene(build.scene);
 	if (argc != 2)
 		exit_minirt_build(&build, ARGUMENT_ERROR, EXIT_FAILURE);

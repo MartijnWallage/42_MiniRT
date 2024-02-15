@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 12:56:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:34:26 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int     error_msg(const char *info)
 {
 	char    *errno_readable;
 
-	write(STDERR_FILENO, "Error\n", ft_strlen("Error\n"));
 	write(STDERR_FILENO, "miniRT: ", 8); 
 	if (info)
 		write(STDERR_FILENO, info, ft_strlen(info));
@@ -64,6 +63,8 @@ void	exit_minirt_build(t_build *build, char *message, int status)
 		close(build->fd);
 	if (build->scene->objects)
 		free_objects(build->scene->objects);
+	if (build->scene->spot)
+		free(build->scene->spot);
 	if (status)
 		error_msg(message);
 	exit(status);

@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:35:59 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 13:03:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:23:56 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void	parse_ambient(t_build *build)
+int	parse_ambient(t_build *build)
 {
 	t_scene	*scene;
 
@@ -25,6 +25,7 @@ void	parse_ambient(t_build *build)
 	if (scene->ambient.ratio > 1.0)
 		exit_minirt_build(build, "Ambient ratio must be <= 1.0", PARSING_EXITCODE);
 	scene->ambient.color = get_color(build, build->tab[2]);
+	return (1);
 }
 
 void	parse_spot(t_build *build)

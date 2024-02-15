@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 13:03:41 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:44:07 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ typedef struct s_build
 	char		**tab;
 	char		*line;
 	int			fd;
-	t_minirt	*minirt;
+	int			check_ambient;
+	int			check_camera;
 }	t_build;
 
 typedef	enum	e_int_type
@@ -167,8 +168,8 @@ void	parse_sphere(t_build *build);
 void	parse_cylinder(t_build *build);
 void	parse_plane(t_build *build);
 void	parse_spot(t_build *build);
-void	parse_ambient(t_build *build);
-void	parse_camera(t_build *build);
+int		parse_ambient(t_build *build);
+int		parse_camera(t_build *build);
 
 /*	Checks */
 int		is_ratio(char *str);
