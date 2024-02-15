@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 10:13:48 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:56:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,25 @@ void	free_objects(t_object *head)
 	}
 }
 
-void	exit_minirt(t_build *build, char *message, int status)
+void	exit_minirt_build(t_build *build, char *message, int status)
 {
 	if (build->tab)
-		free_tab(build->tab);
-	if (build->str)
-		free(build->str);
+		free_tab((void**)build->tab);
+	if (build->line)
+		free(build->line);
 	if (build->fd)
-		close(fd);
+		close(build->fd);
 	if (build->scene->objects)
 		free_objects(build->scene->objects);
+	if (status)
+		error_msg(message);
+	exit(status);
+}
+
+void	exit_minirt(t_minirt *minirt, char *message, int status)
+{
+	if (minirt->scene->objects)
+		free_objects(minirt->scene->objects);
 	if (status)
 		error_msg(message);
 	exit(status);
@@ -72,5 +81,5 @@ void	exit_minirt(t_build *build, char *message, int status)
 void	protect_malloc(t_build *build, void *check_ptr)
 {
 	if (check_ptr == NULL)
-		exit_minirt(build, MALLOC_FAILED, MALLOC_EXITCODE);
+		exit_minirt_build(build, MALLOC_FAILED, MALLOC_EXITCODE);
 }

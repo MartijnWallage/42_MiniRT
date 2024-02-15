@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 17:10:48 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:04:58 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	translation_hooks(t_minirt *minirt)
 	t_vec3	*position;
 
 	if (minirt->mode == MODE_CAMERA)
-		position = &(minirt->scene->camera->viewpoint);
+		position = &(minirt->scene->camera.viewpoint);
 	else if (minirt->mode == MODE_OBJECT)
 		position = &(minirt->obj_selected->center);
 	else if (minirt->mode == MODE_SPOT)
@@ -44,8 +44,11 @@ static void	translation_hooks(t_minirt *minirt)
 /// @param minirt A pointer to struct that contains program parameters
 static void	mode_hooks(t_minirt *minirt)
 {
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_L))
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_L) && minirt->scene->spot)
+	{
+		minirt->spot_selected = minirt->scene->spot;
 		minirt->mode = MODE_SPOT;
+	}
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_O))
 	{
 		if (minirt->mode == MODE_OBJECT)
@@ -127,6 +130,6 @@ void	ft_resizefunc(int width, int height, void *param)
 	{
 		mlx_close_window(mlx);
 		mlx_terminate(mlx);
-		exit_minirt(minirt->scene, "MLX failed\n", EXIT_FAILURE);
+		exit_minirt(minirt, "MLX failed\n", EXIT_FAILURE);
 	}
 }

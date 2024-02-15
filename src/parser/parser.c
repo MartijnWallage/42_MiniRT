@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 10:19:30 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:58:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static void	parse_line(t_build *build)
 {
 	if (build->line[0] == 0 || build->line[0] == '\n')
-		exit_minirt(build, PARSING_ERROR, PARSING_EXITCODE);
-	build->tab = ft_split(line, ' ');
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	build->tab = ft_split(build->line, ' ');
 	protect_malloc(build, build->tab);
 	if (!ft_strcmp("A", build->tab[0]))
 		parse_ambient(build);
@@ -31,8 +31,8 @@ static void	parse_line(t_build *build)
 	else if (!ft_strcmp("pl", build->tab[0]))
 		parse_plane(build);
 	else
-		exit_minirt(build, PARSING_ERROR, PARSING_EXITCODE);
-	free_tab(build->tab);
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	free_tab((void**)build->tab);
 }
 
 int	is_valid_filename(char *path)
@@ -46,23 +46,19 @@ int	is_valid_filename(char *path)
 /// @brief Parse the scene that is given as input into a struct
 /// @param argv 	argv from main
 /// @param scene 	end result
-void	parse_scene(char **argv, t_scene *scene)
+void	parse_scene(char **argv, t_build *build)
 {
-	t_build		build;
-
 	if (!is_valid_filename(argv[1]))
-		exit_minirt(scene, ARGUMENT_ERROR, EXIT_FAILURE);
-	build.fd = open(argv[1], O_RDONLY);
-	if (build.fd == -1)
-		exit_minirt(scene, CANNOT_OPEN_FILE, EXIT_FAILURE);
-	build.scene = scene;
-	build.tab = NULL;
-	build.line = get_next_line(fd);
-	while (build.line)
+		exit_minirt_build(build, ARGUMENT_ERROR, EXIT_FAILURE);
+	build->fd = open(argv[1], O_RDONLY);
+	if (build->fd == -1)
+		exit_minirt_build(build, CANNOT_OPEN_FILE, EXIT_FAILURE);
+	build->line = get_next_line(build->fd);
+	while (build->line)
 	{
-		parse_line(&build);
-		free(line);
-		build.line = get_next_line(build.fd);
+		parse_line(build);
+		free(build->line);
+		build->line = get_next_line(build->fd);
 	}
-	close(build.fd);
+	close(build->fd);
 }

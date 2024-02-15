@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotations.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thofting <thofting@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:52:58 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/03 14:53:00 by thofting         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:00:32 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ void	rotation_hooks(t_minirt *minirt)
 
 	if (minirt->mode == MODE_CAMERA)
 	{
-		direction = &(minirt->scene->camera->direction);
-		up = &(minirt->scene->camera->up);
+		direction = &(minirt->scene->camera.direction);
+		up = &(minirt->scene->camera.up);
 	}
 	else if (minirt->mode == MODE_OBJECT)
 	{

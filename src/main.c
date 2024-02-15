@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 17:11:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:04:01 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 static void	init_scene(t_scene *scene)
 {
 	scene->objects = NULL;
+	scene->spot = NULL;
 }
 
 static void	init_minirt(t_minirt *minirt, t_scene *scene)
 {
 	minirt->scene = scene;
 	minirt->obj_selected = scene->objects;
-	minirt->spot_selected = &scene->spot;
+	minirt->spot_selected = NULL;
 	minirt->scene->camera.up.x = 0;
 	minirt->scene->camera.up.y = 1;
 	minirt->scene->camera.up.z = 0;
@@ -38,18 +39,18 @@ static void	init_minirt(t_minirt *minirt, t_scene *scene)
 
 static void	graphics_wrapper(t_minirt *minirt)
 {
-	mlx_t	*mlx;
+	mlx_t		*mlx;
 
 	mlx = mlx_init(IMAGE_WIDTH, IMAGE_HEIGHT, "miniRT", true);
 	if (!mlx)
-		exit_minirt(minirt->scene, "MLX failed\n", EXIT_FAILURE);
+		exit_minirt(minirt, "MLX failed\n", EXIT_FAILURE);
 	minirt->mlx = mlx;
 	minirt->image = mlx_new_image(mlx, IMAGE_WIDTH, IMAGE_HEIGHT);
 	if (!minirt->image || mlx_image_to_window(mlx, minirt->image, 0, 0) == -1)
 	{
 		mlx_close_window(mlx);
 		mlx_terminate(mlx);
-		exit_minirt(minirt->scene, "MLX failed\n", EXIT_FAILURE);
+		exit_minirt(minirt, "MLX failed\n", EXIT_FAILURE);
 	}
 	mlx_loop_hook(mlx, &ft_hook, minirt);
 	mlx_loop_hook(mlx, &raytracer, minirt);
@@ -59,17 +60,26 @@ static void	graphics_wrapper(t_minirt *minirt)
 	mlx_terminate(mlx);
 }
 
+static void	init_build(t_build *build, t_scene *scene, t_minirt *minirt)
+{
+	build->tab = NULL;
+	build->line = NULL;
+	build->fd = 0;
+	build->scene = scene;
+	build->minirt = minirt;
+}
 int	main(int argc, char **argv)
 {
 	t_scene		scene;
 	t_minirt	minirt;
+	t_build		build;
 
-	init_scene(&scene);
+	init_build(&build, &scene, &minirt);
+	init_scene(build.scene);
 	if (argc != 2)
-		exit_minirt(&scene, ARGUMENT_ERROR, EXIT_FAILURE);
-	parse_scene(argv, &scene);
+		exit_minirt_build(&build, ARGUMENT_ERROR, EXIT_FAILURE);
+	parse_scene(argv, &build);
 	init_minirt(&minirt, &scene);
 	graphics_wrapper(&minirt);
-	exit_minirt(&scene, NULL, EXIT_SUCCESS);
-	return (0);
+	exit_minirt(&minirt, NULL, EXIT_SUCCESS);
 }

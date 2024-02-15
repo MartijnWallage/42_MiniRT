@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 16:58:34 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:01:49 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 	t_ray	light_ray;
 
 	ret = mix_colors(camera_ray->object->color,
-		minirt->scene->ambient->color,
-		minirt->scene->ambient->ratio);
+		minirt->scene->ambient.color,
+		minirt->scene->ambient.ratio);
 	if (minirt->scene->spot)
 	{
 		compute_light_ray(camera_ray, minirt->scene->spot, &light_ray);

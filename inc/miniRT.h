@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 10:46:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:03:41 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_ray {
 typedef struct s_scene
 {
 	t_ambient	ambient;
-	t_spot		spot;
+	t_spot		*spot;
 	t_camera	camera;
 	t_object	*objects;
 }	t_scene;
@@ -128,6 +128,7 @@ typedef struct s_build
 	char		**tab;
 	char		*line;
 	int			fd;
+	t_minirt	*minirt;
 }	t_build;
 
 typedef	enum	e_int_type
@@ -151,13 +152,14 @@ typedef struct s_intersections
 
 /*	Cleaner	*/
 void	free_tab(void **tab);		// add to libft
-void	exit_minirt(t_build *build, char *message, int status);
+void	exit_minirt(t_minirt *minirt, char *message, int status);
+void	exit_minirt_build(t_build *build, char *message, int status);
 void	protect_malloc(t_build *build, void *check_ptr);
 
 /*	Parser	*/
 int		tablen(void **tab);		// add to libft
 int		ft_countchar(const char *str, char c);
-void	parse_scene(char **argv, t_scene *scene);
+void	parse_scene(char **argv, t_build *build);
 double	ft_strtod(const char *str);
 int		get_color(t_build *build, char *rgb);
 t_vec3	get_vec3(t_build *build, char *numbers);

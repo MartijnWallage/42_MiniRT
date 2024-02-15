@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_vector.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:36 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 10:45:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:48:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_normal_vector(t_build *build, char *str)
 {
 	char	**tab;
 
-	if (!is_vector(str))
+	if (!is_vector(build, str))
 		return (0);
 	if (!CHECK_PARSING_NORMAL)
 		return (1);
