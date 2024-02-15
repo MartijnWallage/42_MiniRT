@@ -3,32 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   parser_lights.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:35:59 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 17:40:42 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:36:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-int	parse_ambient(t_scene *scene, char *line)
+void	parse_ambient(t_build *build)
 {
-	scene->ambient.ratio = ft_strtod(line);
-	if (scene->ambient.ratio <= 0.0 || scene->ambient.ratio > 1.0)
-		return (0);
-	while (*line && *line != ' ')
-		line++;
-	scene->ambient.color = get_color(scene, line);
-	return (1);
+	t_scene	*scene;
+
+	if (tablen((void **)build->tab) != 3)
+		exit_minirt(build, PARSING_ERROR, PARSING_EXITCODE);
+	scene = build->scene;
+	scene->ambient.ratio = ft_strtod(build->tab[1]);
+	if (scene->ambient.ratio <= 0.0)
+		exit_minirt(build, "'Objects are never completely in the dark'", PARSING_EXITCODE);
+	if (scene->ambient.ratio > 1.0)
+		exit_minirt(build, "Ambient ratio must be <= 1.0", PARSING_EXITCODE);
+	scene->ambient.color = get_color(build, tab[2]);
 }
 
-int	parse_spot(t_scene *scene, char **tab)
+void	parse_spot(t_build *build)
 {
-	if (tablen((void **)tab) != 4 || !is_vector(tab[1]) || \
-		!is_ratio(tab[2]))
-		return (0);
-	scene->spot.source = get_vec3(scene, *++tab);
-	scene->spot.ratio = ft_strtod(*++tab);
-	return (1);
+	if (tablen((void **)build->tab) != 4 || !is_vector(build->tab[1]) || \
+		!is_ratio(build->tab[2]))
+		exit_minirt(build, PARSING_ERROR, PARSING_EXITCODE);
+	build->scene->spot.source = get_vec3(build, build->tab[1]));
+	build->scene->spot.ratio = ft_strtod(build->tab[2]);
 }

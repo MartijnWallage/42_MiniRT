@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 17:59:07 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:44:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	tablen(void **tab)
 	return (len);
 }
 
-t_vec3	get_vec3(t_scene *scene, char *numbers)
+t_vec3	get_vec3(t_build *build, char *numbers)
 {
 	char	**tab;
 	double	x;
@@ -31,7 +31,7 @@ t_vec3	get_vec3(t_scene *scene, char *numbers)
 
 	tab = ft_split(numbers, ',');
 	if (!tab || tablen((void **)tab) != 3)
-		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
+		exit_minirt(build, PARSING_ERROR, PARSING_EXITCODE);
 	x = ft_strtod(tab[0]);
 	y = ft_strtod(tab[1]);
 	z = ft_strtod(tab[2]);
@@ -39,18 +39,17 @@ t_vec3	get_vec3(t_scene *scene, char *numbers)
 	return ((t_vec3){x, y, z});
 }
 
-int	get_color(t_scene *scene, char *rgb, int fd)
+int	get_color(t_scene *build, char *rgb)
 {
 	char	**tab;
 	int		rgb[3];
 
 	tab = ft_split(rgb, ',');
-	protect_malloc(tab, scene, NULL, fd);
+	protect_malloc(build, tab);
 	if (tablen((void **)tab) != 3)
 	{
 		free_tab((void **)tab);
-		close(fd);
-		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
+		exit_minirt(build, PARSING_ERROR, PARSING_EXITCODE);
 	}
 	rgb[0] = ft_atoi(tab[0]);
 	rgb[1] = ft_atoi(tab[1]);
@@ -59,10 +58,7 @@ int	get_color(t_scene *scene, char *rgb, int fd)
 	if ((rgb[0] < 0 || rgb[0] > 255)
 		|| (rgb[1] < 0 || rgb[1] > 255)
 		|| (rgb[2] < 0 || rgb[2] > 255))
-	{
-		close(fd);
-		exit_minirt(scene, PARSING_ERROR, PARSING_EXITCODE);
-	}
+		exit_minirt(build, PARSING_ERROR, PARSING_EXITCODE);
 	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 

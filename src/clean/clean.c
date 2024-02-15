@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 17:33:36 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:13:48 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,23 @@ void	free_objects(t_object *head)
 	}
 }
 
-void	exit_minirt(t_scene *scene, char *message, int status)
+void	exit_minirt(t_build *build, char *message, int status)
 {
-	if (scene->objects)
-		free_objects(scene->objects);
+	if (build->tab)
+		free_tab(build->tab);
+	if (build->str)
+		free(build->str);
+	if (build->fd)
+		close(fd);
+	if (build->scene->objects)
+		free_objects(build->scene->objects);
 	if (status)
 		error_msg(message);
 	exit(status);
 }
 
-void	protect_malloc(void *check_ptr, t_scene *scene, void *free_ptr)
+void	protect_malloc(t_build *build, void *check_ptr)
 {
 	if (check_ptr == NULL)
-	{
-		if (free_ptr)
-			free(free_ptr);
-		exit_minirt(scene, MALLOC_FAILED, MALLOC_EXITCODE);
-	}
+		exit_minirt(build, MALLOC_FAILED, MALLOC_EXITCODE);
 }

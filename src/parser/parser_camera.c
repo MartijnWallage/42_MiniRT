@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parser_camera.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:41 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 16:45:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:23:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-int	parse_camera(t_scene *scene, char **tab)
+void	parse_camera(t_build *build)
 {
-	if (tablen((void **)tab) != 4 || !is_vector(tab[1]) || \
-		!is_normal_vector(tab[2]) || !is_angle(tab[3]))
-		return (0);
-	scene->camera.viewpoint = get_vec3(scene, tab[1]);
-	scene->camera.direction = get_vec3(scene, tab[2]);
-	scene->camera.fov = ft_strtod(tab[3]);
-	return (1);
+	if (tablen((void **)build->tab) != 4 || !is_vector(build->tab[1]) || \
+		!is_normal_vector(build->tab[2]) || !is_angle(build->tab[3]))
+		exit_minirt(build, PARSING_ERROR, PARSING_EXITCODE);
+	build->scene->camera.viewpoint = get_vec3(build, build->tab[1]);
+	build->scene->camera.direction = get_vec3(build, build->tab[2]);
+	build->scene->camera.fov = ft_strtod(build->tab[3]);
 }

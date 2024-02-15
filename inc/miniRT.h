@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 17:41:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:46:03 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,14 @@ typedef struct s_minirt
 	t_key_mode	mode;
 }	t_minirt;
 
+typedef struct s_build
+{
+	t_scene		*scene;
+	char		**tab;
+	char		*line;
+	int			fd;
+}	t_build;
+
 typedef	enum	e_int_type
 {
 	BOTH_NEGATIVE,
@@ -142,31 +150,31 @@ typedef struct s_intersections
 } t_intersections;
 
 /*	Cleaner	*/
-void	exit_minirt(t_scene *scene, char *message, int status);
-void	free_tab(void **tab);
-void	protect_malloc(void *check_ptr, t_scene *scene, void *free_ptr);
+void	free_tab(void **tab);		// add to libft
+void	exit_minirt(t_build *build, char *message, int status);
+void	protect_malloc(t_build *build, void *check_ptr);
 
 /*	Parser	*/
-int		tablen(void **tab);
+int		tablen(void **tab);		// add to libft
 int		ft_countchar(const char *str, char c);
 void	parse_scene(char **argv, t_scene *scene);
 double	ft_strtod(const char *str);
-int		get_color(t_scene *scene, char *rgb, int *success);
-t_vec3	get_vec3(t_scene *scene, char *numbers);
-int		parse_sphere(t_scene *scene, char *line);
-int		parse_cylinder(t_scene *scene, char *line);
-int		parse_plane(t_scene *scene, char *line);
-int		parse_spot(t_scene *scene, char *line);
-int		parse_ambient(t_scene *scene, char *line);
-int		parse_camera(t_scene *scene, char *line);
+int		get_color(t_build *build, char *rgb);
+t_vec3	get_vec3(t_build *build, char *numbers);
+void	parse_sphere(t_build *build);
+void	parse_cylinder(t_build *build);
+void	parse_plane(t_build *build);
+void	parse_spot(t_build *build);
+void	parse_ambient(t_build *build);
+void	parse_camera(t_build *build);
 
 /*	Checks */
 int		is_ratio(char *str);
 int		is_angle(char *str);
 int		is_posnum(const char *str);
 int		is_double(const char *str);
-int 	is_vector(char *str);
-int		is_normal_vector(char *str);
+int 	is_vector(t_build *build, char *str);
+int		is_normal_vector(t_build *build, char *str);
 int		is_in_range(double value, double min, double max);
 
 /*	RAYTRACER	*/
