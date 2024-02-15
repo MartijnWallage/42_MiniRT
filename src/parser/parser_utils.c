@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 12:58:24 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 15:10:30 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	tablen(void **tab)
 	int	len;
 
 	len = 0;
-	while ((char *) tab[len])
+	while (tab[len] != NULL)
 		len++;
 	return (len);
 }
@@ -30,11 +30,15 @@ t_vec3	get_vec3(t_build *build, char *numbers)
 	double	z;
 
 	tab = ft_split(numbers, ',');
-	if (!tab || tablen((void **)tab) != 3)
+	protect_malloc(build, (void *)tab);
+	if (tablen((void **)tab) != 3)
+	{
+		free_tab((void **)tab);
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	x = ft_strtod(tab[0]);
-	y = ft_strtod(tab[1]);
-	z = ft_strtod(tab[2]);
+	}
+	x = ft_strtod(build, tab[0]);
+	y = ft_strtod(build, tab[1]);
+	z = ft_strtod(build, tab[2]);
 	free_tab((void **)tab);
 	return ((t_vec3){x, y, z});
 }
@@ -49,7 +53,7 @@ int	get_color(t_build *build, char *colorstr)
 	if (tablen((void **)tab) != 3)
 	{
 		free_tab((void **)tab);
-		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+		exit_minirt_build(build, "invalid color vector", PARSING_EXITCODE);
 	}
 	rgb[0] = ft_atoi(tab[0]);
 	rgb[1] = ft_atoi(tab[1]);
@@ -58,7 +62,7 @@ int	get_color(t_build *build, char *colorstr)
 	if ((rgb[0] < 0 || rgb[0] > 255)
 		|| (rgb[1] < 0 || rgb[1] > 255)
 		|| (rgb[2] < 0 || rgb[2] > 255))
-		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+		exit_minirt_build(build, "invalid color values", PARSING_EXITCODE);
 	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 

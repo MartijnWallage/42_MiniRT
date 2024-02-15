@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 13:44:07 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 15:14:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	protect_malloc(t_build *build, void *check_ptr);
 int		tablen(void **tab);		// add to libft
 int		ft_countchar(const char *str, char c);
 void	parse_scene(char **argv, t_build *build);
-double	ft_strtod(const char *str);
+double	ft_strtod(t_build *build, const char *str);
 int		get_color(t_build *build, char *rgb);
 t_vec3	get_vec3(t_build *build, char *numbers);
 void	parse_sphere(t_build *build);
@@ -172,11 +172,12 @@ int		parse_ambient(t_build *build);
 int		parse_camera(t_build *build);
 
 /*	Checks */
-int		is_ratio(char *str);
-int		is_angle(char *str);
-int		is_posnum(const char *str);
+int		is_ratio(t_build *build, char *str);
+int		is_angle(t_build *build, char *str);
+int		is_posnum(t_build *build, const char *str);
 int		is_double(const char *str);
 int 	is_vector(t_build *build, char *str);
+int		is_color(t_build *build, char *str);
 int		is_normal_vector(t_build *build, char *str);
 int		is_in_range(double value, double min, double max);
 

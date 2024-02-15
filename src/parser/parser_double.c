@@ -6,50 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 12:48:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/15 15:13:59 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-static void	extract_int(const char *source, char *dest)
-{
-	int	i;
-
-	i = 0;
-	while (source[i] && ft_isdigit(source[i]) && i <= MAX_DIGITS_INT_PART)
-	{
-		dest[i] = source[i];
-		i++;
-	}
-	if (i == MAX_DIGITS_INT_PART + 1)
-		dest[0] = 'e';
-	else
-		dest[i] = '\0';
-	return ;
-}
-
-static void	extract_frac(const char *source, char *dest)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (source[i] && ft_isdigit(source[i]))
-		i++;
-	if (!source[i])
-		dest[0] = '\0';
-	i++;
-	j = 0;
-	while (source[i] && j <= MAX_DIGITS_FRAC_PART)
-		dest[j++] = source[i++];
-	dest[j] = '\0';
-	if (j == MAX_DIGITS_INT_PART + 1)
-		dest[0] = 'e';
-	else
-		dest[j] = '\0';
-	return ;
-}
 
 static int	is_numstr(const char *str)
 {
@@ -90,19 +51,24 @@ int	is_double(const char *str)
 	return (return_value);
 }
 
-double	ft_strtod(const char *str)
+double	ft_strtod(t_build *build, const char *str)
 {
-	char	int_part[MAX_DIGITS_INT_PART + 2];
-	char	frac_part[MAX_DIGITS_FRAC_PART + 1];
 	double	result;
 	double	frac;
 	int		i;
-
-	extract_int(str, (char *)int_part);
-	extract_frac(str, (char *)frac_part);
-	result = (double)ft_atoi(int_part);
-	frac = (double)ft_atoi(frac_part);
-	i = (int)ft_strlen(frac_part);
+	char	**tab;
+	
+	if (!str || str[0] == 0 || str[0] == '.')
+		exit_minirt_build(build, "invalid double", PARSING_EXITCODE);
+	tab = ft_split(str, '.');
+	protect_malloc(build, tab);
+	if (tablen((void**)tab) == 0 || tablen((void**)tab) > 2)
+		exit_minirt_build(build, "invalid double", PARSING_EXITCODE);
+	result = (double)ft_atoi(tab[0]);
+	if (tab[1] == NULL)
+		return (result);
+	frac = (double)ft_atoi(tab[1]);
+	i = (int)ft_strlen(tab[1]);
 	while (i > 0)
 	{
 		frac /= 10;
