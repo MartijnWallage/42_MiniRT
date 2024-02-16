@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:19:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray)
 	while (curr)
 	{
 		if (curr->type == PLANE)
-			calc_plane_intersection(ray, curr);
+			compute_plane_intersection(ray, curr);
 		if (curr->type == SPHERE)
-			calc_sphere_intersection(ray, curr);
+			compute_sphere_intersection(ray, curr);
 		if (curr->type == CYLINDER)
-			calc_cylinder_intersection(ray, curr);
+			compute_cylinder_intersection(ray, curr);
 		curr = curr->next;
 	}
 }
