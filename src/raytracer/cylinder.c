@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:38:51 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 14:40:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:44:58 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	check_dt(t_real dt[2][2], t_ray *ray, t_object *cyl,
 	}
 }
 
-void	compute_cyl_hull(t_cylinder *ints, t_ray *ray, t_object *cylinder)
+static void	compute_cyl_hull(t_cylinder *ints, t_ray *ray, t_object *cylinder)
 {
 	t_real		norm_nxa2;
 	t_real		delta;
@@ -59,7 +59,7 @@ void	compute_cyl_hull(t_cylinder *ints, t_ray *ray, t_object *cylinder)
 	ints->d_hull = dt[0][type];
 }
 
-void	compute_cyl_cap(t_cylinder *ints, t_ray *ray, t_object *cylinder)
+static void	compute_cyl_cap(t_cylinder *ints, t_ray *ray, t_object *cylinder)
 {
 	t_real		dot_ray_cyl;
 	t_vec3		cap_center;
