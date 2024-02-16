@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/09 16:39:20 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:48:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
 # define EPSILON					0.000001
-# define TRANSLATION_SPEED 			1
+# define TRANSLATION_SPEED 			2
 # define ROTATION_SPEED 			0.2
 # define ARGUMENT_ERROR				"format: ./miniRT scenes/___.rt"
 # define MALLOC_FAILED				"malloc: allocation error"
 # define MALLOC_EXITCODE			2
 # define PARSING_EXITCODE			3
 # define REQUIRE_LIGHT_AND_CAMERA	"parsing error: requires light and camera"
-# define CANNOT_OPEN_FILE			"parsing error: cannot open file"
+# define CANNOT_OPEN_FILE			"cannot open file"
 # define PARSING_ERROR				"parsing error"
 
 # define IMAGE_WIDTH 1000
@@ -57,10 +57,11 @@ typedef enum e_key_mode{
 	MODE_SPOT,
 }	t_key_mode;
 
-typedef struct s_vec3 {
-	double x;
-	double y;
-	double z;
+typedef struct s_vec3
+{
+	double	x;
+	double	y;
+	double	z;
 }	t_vec3;
 
 typedef struct s_ambient {
@@ -102,7 +103,7 @@ typedef struct s_ray {
 	double		intersection;
 	t_vec3		normal;
 	t_object	*object;
-} t_ray;
+}	t_ray;
 
 typedef struct s_scene
 {
@@ -132,12 +133,12 @@ typedef struct s_build
 	int			check_camera;
 }	t_build;
 
-typedef	enum	e_int_type
+typedef enum e_int_type
 {
 	BOTH_NEGATIVE,
 	FIRST_VALUE,
 	SECOND_VALUE,
-} t_int_type;
+}	t_int_type;
 
 typedef struct s_intersections
 {
@@ -149,7 +150,7 @@ typedef struct s_intersections
 	double	d_cap;
 	double	t_hull;
 	int		orientation_cap;
-} t_intersections;
+}	t_intersections;
 
 /*	Cleaner	*/
 void	exit_minirt(t_minirt *minirt, char *message, int status);
@@ -174,7 +175,7 @@ int		is_ratio(t_build *build, char *str);
 int		is_angle(t_build *build, char *str);
 int		is_posnum(t_build *build, const char *str);
 int		is_double(const char *str);
-int 	is_vector(t_build *build, char *str);
+int		is_vector(t_build *build, char *str);
 int		is_color(t_build *build, char *str);
 int		is_normal_vector(t_build *build, char *str);
 int		is_in_range(double value, double min, double max);
@@ -211,16 +212,18 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder);
 
 /* Graphics */
 void	ft_hook(void *param);
-void 	ft_mousefunc(mouse_key_t button, action_t action, modifier_key_t mods, void* param);
+void	ft_mousefunc(mouse_key_t button, action_t action,
+			modifier_key_t mods, void *param);
 void	rotation_hooks(t_minirt *minirt);
-void    ft_put_pixel(mlx_image_t* image, unsigned int x, unsigned int y, int color);
+void	ft_put_pixel(mlx_image_t *image, unsigned int x,
+			unsigned int y, int color);
 void	ft_resizefunc(int width, int height, void *param);
 
 /*	Colors	*/
-int 	get_rgba(int r, int g, int b, int a);
-int 	get_r(int rgba);
-int 	get_g(int rgba);
-int 	get_b(int rgba);
-int 	get_a(int rgba);
+int		get_rgba(int r, int g, int b, int a);
+int		get_r(int rgba);
+int		get_g(int rgba);
+int		get_b(int rgba);
+int		get_a(int rgba);
 
 #endif

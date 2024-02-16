@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/09 16:39:43 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:29:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ double	ft_strtod(t_build *build, const char *str)
 	double	frac;
 	int		i;
 	char	**tab;
-	
+
 	if (!str || str[0] == 0 || str[0] == '.')
 		exit_minirt_build(build, "invalid double", PARSING_EXITCODE);
 	tab = ft_split(str, '.');
 	protect_malloc(build, tab);
-	if (ft_tablen((void**)tab) == 0 || ft_tablen((void**)tab) > 2)
+	if (ft_tablen((void **)tab) == 0 || ft_tablen((void **)tab) > 2)
 		exit_minirt_build(build, "invalid double", PARSING_EXITCODE);
 	result = (double)ft_atoi(tab[0]);
 	if (tab[1] == NULL)

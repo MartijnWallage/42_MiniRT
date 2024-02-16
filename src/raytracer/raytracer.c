@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 13:58:43 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:39:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 	scalex = ((double)x / minirt->image->width - 0.5) * camera->width;
 	scaley = ((double)y / minirt->image->height - 0.5) * camera->height;
 	ray->direction = add(
-		multiply(camera->right, scalex),
-		multiply(camera->up, -scaley));
+			multiply(camera->right, scalex),
+			multiply(camera->up, -scaley));
 	ray->direction = normalize(add(ray->direction, camera->direction));
 	ray->intersection = -1;
 	ray->object = NULL;
@@ -64,7 +64,8 @@ void	compute_light_ray(t_ray *camera_ray, t_spot *spot, t_ray *light_ray)
 {
 	t_vec3		hitpoint;
 
-	hitpoint = add(multiply(camera_ray->direction, camera_ray->intersection), camera_ray->origin);
+	hitpoint = multiply(camera_ray->direction, camera_ray->intersection);
+	hitpoint = add(hitpoint, camera_ray->origin);
 	light_ray->origin = spot->source;
 	light_ray->direction = normalize(subtract(hitpoint, light_ray->origin));
 	light_ray->intersection = norm(subtract(hitpoint, light_ray->origin));
@@ -80,6 +81,7 @@ void	raytracer(void *param)
 	uint32_t	x;
 	t_ray		camera_ray;
 	t_minirt	*minirt;
+	int			color;
 
 	minirt = (t_minirt *)param;
 	compute_viewport(minirt);
@@ -92,9 +94,10 @@ void	raytracer(void *param)
 			compute_camera_ray(minirt, x, y, &camera_ray);
 			compute_ray_object_intersection(minirt, &camera_ray);
 			if (camera_ray.object)
-				ft_put_pixel(minirt->image, x, y, compute_color(minirt, &camera_ray));
+				color = compute_color(minirt, &camera_ray);
 			else
-				ft_put_pixel(minirt->image, x, y, 0xFF);
+				color = 0xff;
+			ft_put_pixel(minirt->image, x, y, color);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:38:51 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/09 16:58:23 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:41:14 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	calc_cylinder_hull_intersections(t_intersections *ints, \
 	{
 		temp = subtract(multiply(ray->direction, d1), ints->b);
 		t1 = dot(cylinder->direction, temp);
-		if (t1 < - cylinder->height / 2 || t1 > cylinder->height / 2)
+		if (t1 < -cylinder->height / 2 || t1 > cylinder->height / 2)
 			d1 = -1;
 	}
 	if (d2 > 0)
@@ -92,7 +92,8 @@ void	calc_cylinder_hull_intersections(t_intersections *ints, \
 	return ;
 }
 
-void calc_cylinder_cap_intersections(t_intersections *ints, t_ray *ray, t_object *cylinder)
+void	calc_cylinder_cap_intersections(t_intersections *ints,
+	t_ray *ray, t_object *cylinder)
 {
 	double		dot_temp;
 	t_vec3		cap_center;
@@ -110,11 +111,13 @@ void calc_cylinder_cap_intersections(t_intersections *ints, t_ray *ray, t_object
 	half_axis = multiply(cylinder->direction, cylinder->height / 2);
 	cap_center = subtract(add(cylinder->center, half_axis), ray->origin);
 	d1 = dot(cylinder->direction, cap_center) / dot_temp;
-	if (norm2(subtract(multiply(ray->direction, d1), cap_center)) >= pow2(cylinder->radius))
+	if (norm2(subtract(multiply(ray->direction, d1), cap_center))
+		>= pow2(cylinder->radius))
 		d1 = -1;
 	cap_center = subtract(subtract(cylinder->center, half_axis), ray->origin);
 	d2 = dot(cylinder->direction, cap_center) / dot_temp;
-	if (norm2(subtract(multiply(ray->direction, d2), cap_center)) >= pow2(cylinder->radius))
+	if (norm2(subtract(multiply(ray->direction, d2), cap_center))
+		>= pow2(cylinder->radius))
 		d2 = -1;
 	type = get_min_positive(d1, d2);
 	if (type == SECOND_VALUE)
@@ -147,7 +150,8 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder)
 		ray->intersection = ints.d_hull;
 		normal_surface = multiply(ray->direction, ray->intersection);
 		normal_surface = subtract(normal_surface, ints.b);
-		ray->normal = normalize(subtract(normal_surface, multiply(cylinder->direction, ints.t_hull)));
+		ray->normal = multiply(cylinder->direction, ints.t_hull);
+		ray->normal = normalize(subtract(normal_surface, ray->normal));
 	}
 	if (type == SECOND_VALUE)
 	{

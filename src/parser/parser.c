@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/09 16:38:57 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:28:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	parse_line(t_build *build)
 		parse_plane(build);
 	else
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	ft_freetab((void**)build->tab);
+	ft_freetab((void **)build->tab);
 	build->tab = NULL;
 }
 
@@ -64,6 +64,6 @@ void	parse_scene(char **argv, t_build *build)
 		build->line = get_next_line(build->fd);
 	}
 	if (build->check_ambient + build->check_camera != 2)
-		exit_minirt_build(build, "camera and ambient are mandatory", PARSING_EXITCODE);
+		exit_minirt_build(build, REQUIRE_LIGHT_AND_CAMERA, PARSING_EXITCODE);
 	close(build->fd);
 }

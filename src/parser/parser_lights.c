@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:35:59 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/09 16:39:43 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:29:30 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ void	parse_spot(t_build *build)
 	build->scene->spot->ratio = ft_strtod(build, build->tab[2]);
 	if (build->scene->spot->ratio <= 0)
 		exit_minirt_build(build,
-			"it makes no sense to have a spotlight without brightness", PARSING_EXITCODE);
+			"spotlight needs brightness", PARSING_EXITCODE);
 }

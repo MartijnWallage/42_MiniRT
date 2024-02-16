@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/09 16:43:19 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:31:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	get_color(t_build *build, char *colorstr)
 	rgb[0] = ft_atoi(tab[0]);
 	rgb[1] = ft_atoi(tab[1]);
 	rgb[2] = ft_atoi(tab[2]);
-	ft_freetab((void**)tab);
+	ft_freetab((void **)tab);
 	if ((rgb[0] < 0 || rgb[0] > 255)
 		|| (rgb[1] < 0 || rgb[1] > 255)
 		|| (rgb[2] < 0 || rgb[2] > 255))

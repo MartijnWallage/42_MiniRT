@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 14:42:10 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:33:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,9 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere)
 		return ;
 	ray->intersection = scalar;
 	ray->object = sphere;
-	ray->normal = normalize(
-		subtract(
-			add(
-				multiply(ray->direction, ray->intersection), 
-					ray->origin),
-				sphere->center));
+	ray->normal = multiply(ray->direction, ray->intersection);
+	ray->normal = add(ray->normal, ray->origin);
+	ray->normal = normalize(subtract(ray->normal, sphere->center));
 	if (dot(ray->normal, ray->direction) > 0)
 		ray->normal = multiply(ray->normal, -1);
 }

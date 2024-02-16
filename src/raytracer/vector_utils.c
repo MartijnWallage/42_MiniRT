@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:37:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/14 14:38:00 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:39:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,14 @@
 /// @param result 	Cross product of a and b
 t_vec3	cross(const t_vec3 a, const t_vec3 b)
 {
-	return ((t_vec3){a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x});
+	double	x;
+	double	y;
+	double	z;
+
+	x = a.y * b.z - a.z * b.y;
+	y = a.z * b.x - a.x * b.z;
+	z = a.x * b.y - a.y * b.x;
+	return ((t_vec3){x, y, z});
 }
 
 /// @brief 		computes dot product of two vectors.
@@ -29,7 +36,6 @@ double	dot(const t_vec3 a, const t_vec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
-
 
 /// @brief adds vectors a and b and stores result 
 ///		   Can also be used for offset.
