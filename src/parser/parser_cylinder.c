@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cylinder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:02:40 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 13:07:53 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:19:33 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 static void	check_cylinder_tab(t_build *build)
 {
 	char		**tab;
-	t_scene		*scene;
 
 	tab = build->tab;
-	scene = build->scene;
 	if (ft_tablen((void **)tab) != 6
 		|| !is_vector(build, tab[1])
 		|| !is_normal_vector(build, tab[2])

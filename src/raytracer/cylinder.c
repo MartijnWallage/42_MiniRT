@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:38:51 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 14:44:58 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:20:49 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,8 @@ static void	compute_cyl_cap(t_cylinder *ints, t_ray *ray, t_object *cylinder)
 void	compute_cylinder_intersection(t_ray *ray, t_object *cylinder)
 {
 	t_cylinder	ints;
-	t_real		t;
 	int			type;
 
-	t = 0;
 	ints = init_ints_struct(ray, cylinder);
 	compute_cyl_hull(&ints, ray, cylinder);
 	compute_cyl_cap(&ints, ray, cylinder);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 12:08:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:35:22 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void	ft_mousefunc(mouse_key_t button, action_t action, \
 		else
 			minirt->mode = MODE_CAMERA;
 	}
-	mods = 0;
+	if (mods == MLX_SHIFT)
+		param++;
 }
 
 /// @brief Function that gives the event for resizing the window
