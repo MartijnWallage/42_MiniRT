@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 11:33:58 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:34:11 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// @param value1 first value
 /// @param value2 second value
 /// @return the minimal positive of the inputs, if both negative -1
-double	ft_min_positive(double value1, double value2)
+t_real	ft_min_positive(t_real value1, t_real value2)
 {
 	if (value1 > value2 && value2 >= 0)
 		return (value2);
@@ -28,19 +28,19 @@ double	ft_min_positive(double value1, double value2)
 /// @brief computes the square of the input parameter
 /// @param value given number
 /// @return square of the input
-double	pow2(double value)
+t_real	pow2(t_real value)
 {
 	return (value * value);
 }
 
-double	ft_abs(double value)
+t_real	ft_abs(t_real value)
 {
 	if (value >= 0)
 		return (value);
 	return (-value);
 }
 
-double	norm2(t_vec3 vector)
+t_real	norm2(t_vec3 vector)
 {
 	return (pow2(vector.x) + pow2(vector.y) + pow2(vector.z));
 }

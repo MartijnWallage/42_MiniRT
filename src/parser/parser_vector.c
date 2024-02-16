@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:36 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:31:23 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:52:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	is_vector(t_build *build, char *str)
 		return (0);
 	tab = ft_split(str, ',');
 	protect_malloc(build, tab);
-	if (ft_tablen((void **)tab) != 3 || !is_double(tab[0]) || \
-		!is_double(tab[1]) || !is_double(tab[2]))
+	if (ft_tablen((void **)tab) != 3 || !is_real(tab[0]) || \
+		!is_real(tab[1]) || !is_real(tab[2]))
 	{
 		ft_freetab((void **)tab);
 		return (0);

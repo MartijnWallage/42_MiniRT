@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:52:58 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/15 13:00:32 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 /// @param axis The axis of rotation.
 /// @param angle The angle of rotation in radians.
 /// @return The rotated 3D vector.
-static t_vec3	rotate_around_axis(t_vec3 vector, t_vec3 axis, double angle)
+static t_vec3	rotate_around_axis(t_vec3 vector, t_vec3 axis, t_real angle)
 {
 	t_vec3	parallel;
 	t_vec3	orthogonal;
 	t_vec3	product;
 	t_vec3	rotated;
-	double	sin_part;
+	t_real	sin_part;
 
 	parallel = multiply(axis, dot(vector, axis));
 	orthogonal = subtract(vector, parallel);
@@ -46,7 +46,7 @@ static t_vec3	rotate_around_axis(t_vec3 vector, t_vec3 axis, double angle)
 /// @param direction Front orientation vactor of a target
 /// @param up Upper orientation vector of a target
 /// @param angle The angle of roll rotation in radians.
-static void	roll_rotation(t_vec3 *direction, t_vec3 *up, double angle)
+static void	roll_rotation(t_vec3 *direction, t_vec3 *up, t_real angle)
 {
 	*up = rotate_around_axis(*up, *direction, angle);
 }
@@ -59,7 +59,7 @@ static void	roll_rotation(t_vec3 *direction, t_vec3 *up, double angle)
 /// @param direction Front orientation vactor of a target
 /// @param up Upper orientation vector of a target
 /// @param angle The angle of yaw rotation in radians.
-static void	yaw_rotation(t_vec3 *direction, t_vec3 *up, double angle)
+static void	yaw_rotation(t_vec3 *direction, t_vec3 *up, t_real angle)
 {
 	*direction = rotate_around_axis(*direction, *up, angle);
 }
@@ -72,7 +72,7 @@ static void	yaw_rotation(t_vec3 *direction, t_vec3 *up, double angle)
 /// @param direction Front orientation vactor of a target
 /// @param up Upper orientation vector of a target
 /// @param angle The angle of pitch rotation in radians.
-static void	pitch_rotation(t_vec3 *direction, t_vec3 *up, double angle)
+static void	pitch_rotation(t_vec3 *direction, t_vec3 *up, t_real angle)
 {
 	t_vec3	right;
 

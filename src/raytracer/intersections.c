@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:33:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	calc_plane_intersection(t_ray *ray, t_object *plane)
 {
-	double	denom;
-	double	scalar;
+	t_real	denom;
+	t_real	scalar;
 
 	denom = dot(ray->direction, plane->direction);
 	if (fabs(denom) < EPSILON)
@@ -34,13 +34,13 @@ void	calc_plane_intersection(t_ray *ray, t_object *plane)
 void	calc_sphere_intersection(t_ray *ray, t_object *sphere)
 {
 	t_vec3	oc;
-	double	a;
-	double	b;
-	double	c;
-	double	delta;
-	double	scalar;
-	double	t0;
-	double	t1;
+	t_real	a;
+	t_real	b;
+	t_real	c;
+	t_real	delta;
+	t_real	scalar;
+	t_real	t0;
+	t_real	t1;
 
 	oc = subtract(ray->origin, sphere->center);
 	a = dot(ray->direction, ray->direction);

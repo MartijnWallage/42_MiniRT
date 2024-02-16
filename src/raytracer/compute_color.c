@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:35:40 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	mix_colors(int color1, int color2, float ratio)
 {
-	double	rgb[3];
+	t_real	rgb[3];
 
 	rgb[0] = (1 - ratio) * (float)get_r(color1) + ratio * (float)get_r(color2);
 	rgb[1] = (1 - ratio) * (float)get_g(color1) + ratio * (float)get_g(color2);

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:39:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	compute_viewport(t_minirt *minirt)
 {
 	t_camera	*camera;
-	double		aspect_ratio;
+	t_real		aspect_ratio;
 
 	camera = &minirt->scene->camera;
 	camera->right = normalize(cross(camera->direction, camera->up));
@@ -28,13 +28,13 @@ void	compute_viewport(t_minirt *minirt)
 void	compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray)
 {
 	t_camera	*camera;
-	double		scalex;
-	double		scaley;
+	t_real		scalex;
+	t_real		scaley;
 
 	camera = &minirt->scene->camera;
 	ray->origin = camera->viewpoint;
-	scalex = ((double)x / minirt->image->width - 0.5) * camera->width;
-	scaley = ((double)y / minirt->image->height - 0.5) * camera->height;
+	scalex = ((t_real)x / minirt->image->width - 0.5) * camera->width;
+	scaley = ((t_real)y / minirt->image->height - 0.5) * camera->height;
 	ray->direction = add(
 			multiply(camera->right, scalex),
 			multiply(camera->up, -scaley));

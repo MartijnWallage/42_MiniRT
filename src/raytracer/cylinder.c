@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:38:51 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:41:14 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_intersections	init_ints_struct(t_ray	*ray, t_object *cylinder)
 	return (ints);
 }
 
-t_int_type	get_min_positive(double value1, double value2)
+t_int_type	get_min_positive(t_real value1, t_real value2)
 {
 	if (value1 < 0 && value2 < 0)
 		return (BOTH_NEGATIVE);
@@ -43,13 +43,13 @@ void	calc_cylinder_hull_intersections(t_intersections *ints, \
 	t_ray *ray, t_object *cylinder)
 {
 	t_vec3		temp;
-	double		norm_nxa2;
-	double		dot_temp;
-	double		delta;
-	double		d1;
-	double		d2;
-	double		t1;
-	double		t2;
+	t_real		norm_nxa2;
+	t_real		dot_temp;
+	t_real		delta;
+	t_real		d1;
+	t_real		d2;
+	t_real		t1;
+	t_real		t2;
 	t_int_type	type;
 
 	norm_nxa2 = norm2(ints->n_x_a);
@@ -95,10 +95,10 @@ void	calc_cylinder_hull_intersections(t_intersections *ints, \
 void	calc_cylinder_cap_intersections(t_intersections *ints,
 	t_ray *ray, t_object *cylinder)
 {
-	double		dot_temp;
+	t_real		dot_temp;
 	t_vec3		cap_center;
-	double		d1;
-	double		d2;
+	t_real		d1;
+	t_real		d2;
 	t_int_type	type;
 	t_vec3		half_axis;
 
@@ -136,7 +136,7 @@ void	calc_cylinder_intersection(t_ray *ray, t_object *cylinder)
 {
 	t_intersections	ints;
 	t_vec3			normal_surface;
-	double			t;
+	t_real			t;
 	t_int_type		type;
 
 	t = 0;

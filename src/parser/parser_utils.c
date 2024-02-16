@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:31:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 t_vec3	get_vec3(t_build *build, char *numbers)
 {
 	char	**tab;
-	double	x;
-	double	y;
-	double	z;
+	t_real	x;
+	t_real	y;
+	t_real	z;
 
 	tab = ft_split(numbers, ',');
 	protect_malloc(build, (void *)tab);

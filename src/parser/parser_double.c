@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:29:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:52:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	is_numstr(const char *str)
 	return (1);
 }
 
-// checks if a given string can be converted to a double. Not all
-// double convertable strings are considered valid, there are limitations!
-int	is_double(const char *str)
+// checks if a given string can be converted to a t_real. Not all
+// t_real convertable strings are considered valid, there are limitations!
+int	is_real(const char *str)
 {
 	char	**tab;
 	int		return_value;
@@ -51,23 +51,23 @@ int	is_double(const char *str)
 	return (return_value);
 }
 
-double	ft_strtod(t_build *build, const char *str)
+t_real	ft_strtod(t_build *build, const char *str)
 {
-	double	result;
-	double	frac;
+	t_real	result;
+	t_real	frac;
 	int		i;
 	char	**tab;
 
 	if (!str || str[0] == 0 || str[0] == '.')
-		exit_minirt_build(build, "invalid double", PARSING_EXITCODE);
+		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
 	tab = ft_split(str, '.');
 	protect_malloc(build, tab);
 	if (ft_tablen((void **)tab) == 0 || ft_tablen((void **)tab) > 2)
-		exit_minirt_build(build, "invalid double", PARSING_EXITCODE);
-	result = (double)ft_atoi(tab[0]);
+		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
+	result = (t_real)ft_atoi(tab[0]);
 	if (tab[1] == NULL)
 		return (result);
-	frac = (double)ft_atoi(tab[1]);
+	frac = (t_real)ft_atoi(tab[1]);
 	i = (int)ft_strlen(tab[1]);
 	while (i > 0)
 	{

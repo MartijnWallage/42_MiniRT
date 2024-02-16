@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:48:31 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:52:24 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # define IMAGE_WIDTH 1000
 # define IMAGE_HEIGHT 500
 
+typedef float	t_real;
+
 typedef enum e_identifier{
 	AMBIENT,
 	CAMERA,
@@ -59,31 +61,31 @@ typedef enum e_key_mode{
 
 typedef struct s_vec3
 {
-	double	x;
-	double	y;
-	double	z;
+	t_real	x;
+	t_real	y;
+	t_real	z;
 }	t_vec3;
 
 typedef struct s_ambient {
-	double		ratio;
+	t_real		ratio;
 	int			color;
 }	t_ambient;
 
 typedef struct s_spot {
-	double		ratio;
+	t_real		ratio;
 	t_vec3		source;
 }	t_spot;
 
 typedef struct s_camera{
 	t_vec3		viewpoint;
 	t_vec3		direction;
-	double		fov;
+	t_real		fov;
 	int			tilt;
 	t_vec3		corners[2][2];
 	t_vec3		up;
 	t_vec3		right;
-	double		width;
-	double		height;
+	t_real		width;
+	t_real		height;
 }	t_camera;
 
 typedef struct s_object{
@@ -92,15 +94,15 @@ typedef struct s_object{
 	int				color;
 	t_vec3			direction;
 	t_vec3			up;
-	double			radius;
-	double			height;
+	t_real			radius;
+	t_real			height;
 	struct s_object	*next;
 }	t_object;
 
 typedef struct s_ray {
 	t_vec3		origin;
 	t_vec3		direction;
-	double		intersection;
+	t_real		intersection;
 	t_vec3		normal;
 	t_object	*object;
 }	t_ray;
@@ -143,12 +145,12 @@ typedef enum e_int_type
 typedef struct s_intersections
 {
 	t_vec3	n_x_a;
-	double	norm_nxa;
+	t_real	norm_nxa;
 	t_vec3	b_x_a;
 	t_vec3	b;
-	double	d_hull;
-	double	d_cap;
-	double	t_hull;
+	t_real	d_hull;
+	t_real	d_cap;
+	t_real	t_hull;
 	int		orientation_cap;
 }	t_intersections;
 
@@ -160,7 +162,7 @@ void	protect_malloc(t_build *build, void *check_ptr);
 /*	Parser	*/
 int		ft_countchar(const char *str, char c);
 void	parse_scene(char **argv, t_build *build);
-double	ft_strtod(t_build *build, const char *str);
+t_real	ft_strtod(t_build *build, const char *str);
 int		get_color(t_build *build, char *rgb);
 t_vec3	get_vec3(t_build *build, char *numbers);
 void	parse_sphere(t_build *build);
@@ -174,11 +176,11 @@ int		parse_camera(t_build *build);
 int		is_ratio(t_build *build, char *str);
 int		is_angle(t_build *build, char *str);
 int		is_posnum(t_build *build, const char *str);
-int		is_double(const char *str);
+int		is_real(const char *str);
 int		is_vector(t_build *build, char *str);
 int		is_color(t_build *build, char *str);
 int		is_normal_vector(t_build *build, char *str);
-int		is_in_range(double value, double min, double max);
+int		is_in_range(t_real value, t_real min, t_real max);
 
 /*	RAYTRACER	*/
 /*	raytracer.c */
@@ -190,20 +192,20 @@ int		mix_colors(int color1, int color2, float ratio);
 int		compute_color(t_minirt *minirt, t_ray *camera_ray);
 
 /*	vector_utils.c	*/
-double	angle(const t_vec3 a, const t_vec3 b);
+t_real	angle(const t_vec3 a, const t_vec3 b);
 t_vec3	cross(const t_vec3 a, const t_vec3 b);
-double	dot(const t_vec3 a, const t_vec3 b);
+t_real	dot(const t_vec3 a, const t_vec3 b);
 t_vec3	add(const t_vec3 a, const t_vec3 b);
 t_vec3	subtract(const t_vec3 a, const t_vec3 b);
-t_vec3	multiply(const t_vec3 a, const double scalar);
-double	norm(const t_vec3 vec);
+t_vec3	multiply(const t_vec3 a, const t_real scalar);
+t_real	norm(const t_vec3 vec);
 t_vec3	normalize(const t_vec3 vec);
 
 /* math_utils.c	*/
-double	ft_min_positive(double value1, double value2);
-double	pow2(double value);
-double	ft_abs(double value);
-double	norm2(t_vec3 vector);
+t_real	ft_min_positive(t_real value1, t_real value2);
+t_real	pow2(t_real value);
+t_real	ft_abs(t_real value);
+t_real	norm2(t_vec3 vector);
 
 /* intersections.c */
 void	calc_plane_intersection(t_ray *ray, t_object *plane);
