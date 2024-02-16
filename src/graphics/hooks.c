@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/09 16:45:50 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:08:37 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,6 @@ void	ft_mousefunc(mouse_key_t button, action_t action, \
 			minirt->mode = MODE_CAMERA;
 	}
 	mods = 0;
-	if (mods == 2)
-		printf("WTF??");
 }
 
 /// @brief Function that gives the event for resizing the window

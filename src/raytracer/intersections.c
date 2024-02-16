@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:23:53 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ void	calc_sphere_intersection(t_ray *ray, t_object *sphere)
 	b = 2.0 * dot(oc, ray->direction);
 	c = dot(oc, oc) - pow2(sphere->radius);
 	delta = pow2(b) - 4 * a * c;
-	if (delta < 0)
+	if (delta < EPSILON)
 		return ;
 	t0 = (-b - sqrt(delta)) / (2.0 * a);
 	t1 = (-b + sqrt(delta)) / (2.0 * a);
-	if (t0 < t1 && t0 >= 0)
+	if (t0 < t1 && t0 >= EPSILON)
 		scalar = t0;
 	else
 		scalar = t1;
-	if (scalar < 0 || (ray->intersection != -1 && scalar > ray->intersection))
+	if (scalar < EPSILON || (ray->intersection != -1 && scalar > ray->intersection))
 		return ;
 	ray->intersection = scalar;
 	ray->object = sphere;
