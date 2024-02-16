@@ -35,6 +35,7 @@ static void	init_minirt(t_minirt *minirt, t_scene *scene)
 		minirt->scene->camera.up.z = 0;
 	}
 	minirt->mode = MODE_CAMERA;
+	minirt->num = pow2(2 * SIZE_ANTIALISING + 1);
 }
 
 static void	graphics_wrapper(t_minirt *minirt)

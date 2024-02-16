@@ -25,24 +25,6 @@ void	compute_viewport(t_minirt *minirt)
 	camera->width = aspect_ratio * camera->height;
 }
 
-void	compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray)
-{
-	t_camera	*camera;
-	t_real		scalex;
-	t_real		scaley;
-
-	camera = &minirt->scene->camera;
-	ray->origin = camera->viewpoint;
-	scalex = ((t_real)x / minirt->image->width - 0.5) * camera->width;
-	scaley = ((t_real)y / minirt->image->height - 0.5) * camera->height;
-	ray->direction = add(
-			multiply(camera->right, scalex),
-			multiply(camera->up, -scaley));
-	ray->direction = normalize(add(ray->direction, camera->direction));
-	ray->intersection = -1;
-	ray->object = NULL;
-}
-
 void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray)
 {
 	t_object	*curr;
@@ -60,26 +42,55 @@ void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray)
 	}
 }
 
-void	compute_light_ray(t_ray *camera_ray, t_spot *spot, t_ray *light_ray)
+static void	set_rgb_array(int rgb[3], int r, int g, int b)
 {
-	t_vec3		hitpoint;
+	if (r == -1)
+	{
+		rgb[0] = 0;
+		rgb[1] = 0;
+		rgb[2] = 0;
+	}
+	else
+	{
+		rgb[0] += r;
+		rgb[1] += g;
+		rgb[2] += b;
+	}
+}
 
-	hitpoint = multiply(camera_ray->direction, camera_ray->intersection);
-	hitpoint = add(hitpoint, camera_ray->origin);
-	light_ray->origin = spot->source;
-	light_ray->direction = normalize(subtract(hitpoint, light_ray->origin));
-	light_ray->intersection = norm(subtract(hitpoint, light_ray->origin));
-	light_ray->object = camera_ray->object;
-	light_ray->normal = multiply(camera_ray->normal, 1);
-	if (dot(light_ray->normal, light_ray->direction) > 0)
-		light_ray->normal = multiply(camera_ray->normal, -1);
+static int	get_smooth_color(t_minirt *rt, uint32_t x, uint32_t y)
+{
+	int		color;
+	int		a[3];
+	t_ray	camera_ray;
+	int		i;
+	int		j;
+
+	i = -SIZE_ANTIALISING - 1;
+	set_rgb_array(a, -1, -1, -1);
+	while (++i < SIZE_ANTIALISING + 1)
+	{
+		j = -SIZE_ANTIALISING - 1;
+		while (++j < SIZE_ANTIALISING + 1)
+		{
+			compute_camera_ray(rt, (t_real)x + (t_real)j / \
+				(2 * (SIZE_ANTIALISING + 1)), (t_real)y + \
+				(t_real)i / (2 * (SIZE_ANTIALISING + 1)), &camera_ray);
+			compute_ray_object_intersection(rt, &camera_ray);
+			if (camera_ray.object)
+				color = compute_color(rt, &camera_ray);
+			else
+				color = 0xff;
+			set_rgb_array(a, get_r(color), get_g(color), get_b(color));
+		}
+	}
+	return (get_rgba(a[0] / rt->num, a[1] / rt->num, a[2] / rt->num, 255));
 }
 
 void	raytracer(void *param)
 {
 	uint32_t	y;
 	uint32_t	x;
-	t_ray		camera_ray;
 	t_minirt	*minirt;
 	int			color;
 
@@ -91,12 +102,7 @@ void	raytracer(void *param)
 		x = -1;
 		while (++x < minirt->image->width)
 		{
-			compute_camera_ray(minirt, x, y, &camera_ray);
-			compute_ray_object_intersection(minirt, &camera_ray);
-			if (camera_ray.object)
-				color = compute_color(minirt, &camera_ray);
-			else
-				color = 0xff;
+			color = get_smooth_color(minirt, x, y);
 			ft_put_pixel(minirt->image, x, y, color);
 		}
 	}

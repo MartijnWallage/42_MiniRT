@@ -44,6 +44,7 @@ SRC			:= main.c \
 				graphics/colors.c \
 				graphics/rotations.c \
 				raytracer/raytracer.c \
+				raytracer/compute_rays.c \
 				raytracer/vector_utils.c \
 				raytracer/vector_utils_norm.c \
 				raytracer/intersections.c \

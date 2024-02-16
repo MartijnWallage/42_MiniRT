@@ -25,6 +25,7 @@
 
 // DEBUGGING FLAGS
 # define CHECK_PARSING_NORMAL 		0
+# define SIZE_ANTIALISING			1
 
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
@@ -123,6 +124,7 @@ typedef struct s_minirt
 	t_object	*obj_selected;
 	t_spot		*spot_selected;
 	t_key_mode	mode;
+	int			num;
 }	t_minirt;
 
 typedef struct s_build
@@ -178,7 +180,7 @@ int			is_in_range(t_real value, t_real min, t_real max);
 /*	RAYTRACER	*/
 /*	raytracer.c */
 void		raytracer(void *minirt);
-void		compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray);
+void		compute_camera_ray(t_minirt *minirt, t_real x, t_real y, t_ray *ray);
 void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
 void		compute_light_ray(t_ray *camera_ray, 
 				t_spot *spot, t_ray *light_ray);
