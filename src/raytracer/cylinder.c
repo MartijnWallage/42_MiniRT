@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:38:51 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 18:21:33 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:53:48 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,7 @@ int	first_is_visible(t_real a, t_real b, t_real scalar)
 {
 	if (a < 0 || (scalar != -1 && a > scalar))
 		return (0);
-	if (b < 0 || a <= b)
-		return (1);
-	return (0);
+	return (b < 0 || a <= b);
 }
 
 void	compute_cylinder_intersection(t_ray *ray, t_object *cylinder)
@@ -111,9 +109,8 @@ void	compute_cylinder_intersection(t_ray *ray, t_object *cylinder)
 		ray->normal = subtract(subtract(get_hitpoint(ray), ints.b),
 				multiply(cylinder->direction, ints.t_hull));
 		ray->normal = normalize(ray->normal);
-		return ;
 	}
-	if (first_is_visible(ints.d_cap, ints.d_hull, ray->intersection))
+	else if (first_is_visible(ints.d_cap, ints.d_hull, ray->intersection))
 	{
 		ray->object = cylinder;
 		ray->intersection = ints.d_cap;
