@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/17 11:45:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:24:20 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define CHECK_PARSING_NORMAL 		0
+# define CHECK_BONUS 				0
 
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
@@ -71,10 +71,13 @@ typedef struct s_ambient {
 	int			color;
 }	t_ambient;
 
-typedef struct s_spot {
-	t_real		ratio;
-	t_vec3		source;
-}	t_spot;
+typedef struct s_spotlights {
+	t_real				ratio;
+	t_vec3				source;
+	int					color;
+	t_real				specular;
+	struct s_spotlights	*next;
+}	t_spotlights;
 
 typedef struct s_camera{
 	t_vec3		viewpoint;
@@ -96,6 +99,8 @@ typedef struct s_object{
 	t_vec3			up;
 	t_real			radius;
 	t_real			height;
+	t_real			specular;
+	t_real			alpha;
 	struct s_object	*next;
 }	t_object;
 
@@ -110,7 +115,7 @@ typedef struct s_ray {
 typedef struct s_scene
 {
 	t_ambient	ambient;
-	t_spot		*spot;
+	t_spotlights		*spotlights;
 	t_camera	camera;
 	t_object	*objects;
 }	t_scene;
@@ -121,7 +126,7 @@ typedef struct s_minirt
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_object	*obj_selected;
-	t_spot		*spot_selected;
+	t_spotlights		*spotlights_selected;
 	t_key_mode	mode;
 }	t_minirt;
 
@@ -161,7 +166,7 @@ t_vec3		get_vec3(t_build *build, char *numbers);
 void		parse_sphere(t_build *build);
 void		parse_cyl(t_build *build);
 void		parse_plane(t_build *build);
-void		parse_spot(t_build *build);
+void		parse_spotlights(t_build *build);
 int			parse_ambient(t_build *build);
 int			parse_camera(t_build *build);
 
@@ -181,7 +186,7 @@ void		raytracer(void *minirt);
 void		compute_camera_ray(t_minirt *minirt, int x, int y, t_ray *ray);
 void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
 void		compute_light_ray(t_ray *camera_ray, 
-				t_spot *spot, t_ray *light_ray);
+				t_spotlights *spotlights, t_ray *light_ray);
 int			mix_colors(int color1, int color2, float ratio);
 int			compute_color(t_minirt *minirt, t_ray *camera_ray);
 

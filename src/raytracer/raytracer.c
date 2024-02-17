@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/17 11:45:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:15:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,6 @@ void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray)
 			compute_cyl_intersection(ray, curr);
 		curr = curr->next;
 	}
-}
-
-void	compute_light_ray(t_ray *camera_ray, t_spot *spot, t_ray *light_ray)
-{
-	t_vec3		hitpoint;
-
-	hitpoint = multiply(camera_ray->direction, camera_ray->intersection);
-	hitpoint = add(hitpoint, camera_ray->origin);
-	light_ray->origin = spot->source;
-	light_ray->direction = normalize(subtract(hitpoint, light_ray->origin));
-	light_ray->intersection = norm(subtract(hitpoint, light_ray->origin));
-	light_ray->object = camera_ray->object;
-	light_ray->normal = multiply(camera_ray->normal, 1);
-	if (dot(light_ray->normal, light_ray->direction) > 0)
-		light_ray->normal = multiply(camera_ray->normal, -1);
 }
 
 void	raytracer(void *param)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:36 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:52:08 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:53:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_normal_vector(t_build *build, char *str)
 
 	if (!is_vector(build, str))
 		return (0);
-	if (!CHECK_PARSING_NORMAL)
+	if (!CHECK_BONUS)
 		return (1);
 	tab = ft_split(str, ',');
 	protect_malloc(build, tab);

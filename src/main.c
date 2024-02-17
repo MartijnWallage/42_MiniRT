@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/15 13:47:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:57:32 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 static void	init_scene(t_scene *scene)
 {
 	scene->objects = NULL;
-	scene->spot = NULL;
+	scene->spotlights = NULL;
 }
 
 static void	init_minirt(t_minirt *minirt, t_scene *scene)
 {
 	minirt->scene = scene;
 	minirt->obj_selected = scene->objects;
-	minirt->spot_selected = NULL;
+	minirt->spotlights_selected = NULL;
 	minirt->scene->camera.up.x = 0;
 	minirt->scene->camera.up.y = 1;
 	minirt->scene->camera.up.z = 0;
