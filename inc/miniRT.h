@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/17 17:24:20 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 18:09:37 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define CHECK_BONUS 				0
-
+# define CHECK_BONUS 				1
+# define CHECK_NORMAL				0
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
 # define EPSILON					0.000001
