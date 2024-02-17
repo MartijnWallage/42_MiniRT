@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 18:23:23 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 07:57:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,8 @@ void		compute_plane_intersection(t_ray *ray, t_object *plane);
 void		compute_sphere_intersection(t_ray *ray, t_object *sphere);
 void		compute_cylinder_intersection(t_ray *ray, t_object *cylinder);
 t_cylinder	init_ints_struct(t_ray	*ray, t_object *cylinder);
-int			get_min_positive(t_real value1, t_real value2);
+int			get_min_positive(t_real value0, t_real value1);
+int			is_first_visible(t_real a, t_real b, t_real scalar);
 t_vec3		get_hitpoint(t_ray *ray);
 
 /* Graphics */

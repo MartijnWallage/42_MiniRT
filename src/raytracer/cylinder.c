@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:38:51 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 18:53:48 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 08:00:07 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,6 @@ static void	compute_cyl_cap(t_cylinder *ints, t_ray *ray, t_object *cylinder)
 	ints->d_cap = d[type];
 }
 
-int	first_is_visible(t_real a, t_real b, t_real scalar)
-{
-	if (a < 0 || (scalar != -1 && a > scalar))
-		return (0);
-	return (b < 0 || a <= b);
-}
-
 void	compute_cylinder_intersection(t_ray *ray, t_object *cylinder)
 {
 	t_cylinder	ints;
@@ -102,7 +95,7 @@ void	compute_cylinder_intersection(t_ray *ray, t_object *cylinder)
 	ints = init_ints_struct(ray, cylinder);
 	compute_cyl_hull(&ints, ray, cylinder);
 	compute_cyl_cap(&ints, ray, cylinder);
-	if (first_is_visible(ints.d_hull, ints.d_cap, ray->intersection))
+	if (is_first_visible(ints.d_hull, ints.d_cap, ray->intersection))
 	{
 		ray->object = cylinder;
 		ray->intersection = ints.d_hull;
@@ -110,10 +103,10 @@ void	compute_cylinder_intersection(t_ray *ray, t_object *cylinder)
 				multiply(cylinder->direction, ints.t_hull));
 		ray->normal = normalize(ray->normal);
 	}
-	else if (first_is_visible(ints.d_cap, ints.d_hull, ray->intersection))
+	else if (is_first_visible(ints.d_cap, ints.d_hull, ray->intersection))
 	{
 		ray->object = cylinder;
 		ray->intersection = ints.d_cap;
-		ray->normal = multiply(cylinder->direction, ints.orientation_cap);		
+		ray->normal = multiply(cylinder->direction, ints.orientation_cap);
 	}
 }
