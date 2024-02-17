@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder_utils.c                                   :+:      :+:    :+:   */
+/*   cyl_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,13 @@
 
 #include "miniRT.h"
 
-t_cylinder	init_ints_struct(t_ray	*ray, t_object *cylinder)
+t_cyl	init_ints_struct(t_ray	*ray, t_object *cyl)
 {
-	t_cylinder	ints;
+	t_cyl	ints;
 
-	ints.nxa = cross(ray->direction, cylinder->direction);
-	ints.b = subtract(cylinder->center, ray->origin);
-	ints.b_x_a = cross(ints.b, cylinder->direction);
+	ints.nxa = cross(ray->direction, cyl->direction);
+	ints.b = subtract(cyl->center, ray->origin);
+	ints.b_x_a = cross(ints.b, cyl->direction);
 	ints.d_cap = -1;
 	ints.d_hull = -1;
 	return (ints);

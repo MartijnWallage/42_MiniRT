@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/17 07:57:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 11:45:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ typedef struct s_build
 	int			check_camera;
 }	t_build;
 
-typedef struct s_cylinder
+typedef struct s_cyl
 {
 	t_vec3	nxa;
 	t_real	norm_nxa;
@@ -145,7 +145,7 @@ typedef struct s_cylinder
 	t_real	d_cap;
 	t_real	t_hull;
 	int		orientation_cap;
-}	t_cylinder;
+}	t_cyl;
 
 /*	Cleaner	*/
 void		exit_minirt(t_minirt *minirt, char *message, int status);
@@ -159,7 +159,7 @@ t_real		ft_strtod(t_build *build, const char *str);
 int			get_color(t_build *build, char *rgb);
 t_vec3		get_vec3(t_build *build, char *numbers);
 void		parse_sphere(t_build *build);
-void		parse_cylinder(t_build *build);
+void		parse_cyl(t_build *build);
 void		parse_plane(t_build *build);
 void		parse_spot(t_build *build);
 int			parse_ambient(t_build *build);
@@ -204,8 +204,8 @@ t_real		norm2(t_vec3 vector);
 /* intersections.c */
 void		compute_plane_intersection(t_ray *ray, t_object *plane);
 void		compute_sphere_intersection(t_ray *ray, t_object *sphere);
-void		compute_cylinder_intersection(t_ray *ray, t_object *cylinder);
-t_cylinder	init_ints_struct(t_ray	*ray, t_object *cylinder);
+void		compute_cyl_intersection(t_ray *ray, t_object *cyl);
+t_cyl	init_ints_struct(t_ray	*ray, t_object *cyl);
 int			get_min_positive(t_real value0, t_real value1);
 int			is_first_visible(t_real a, t_real b, t_real scalar);
 t_vec3		get_hitpoint(t_ray *ray);

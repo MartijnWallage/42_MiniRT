@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:28:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 11:45:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	parse_line(t_build *build)
 	else if (!ft_strcmp("sp", build->tab[0]))
 		parse_sphere(build);
 	else if (!ft_strcmp("cy", build->tab[0]))
-		parse_cylinder(build);
+		parse_cyl(build);
 	else if (!ft_strcmp("pl", build->tab[0]))
 		parse_plane(build);
 	else
