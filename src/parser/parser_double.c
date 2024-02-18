@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:52:08 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 12:48:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	is_real(const char *str)
 	return (return_value);
 }
 
-t_real	ft_strtod(t_build *build, const char *str)
+t_real	get_real(t_build *build, const char *str)
 {
 	t_real	result;
 	t_real	frac;

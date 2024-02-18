@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 13:03:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:15:25 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@ void	parse_plane(t_build *build)
 {
 	t_object	*plane;
 
-	if (ft_tablen((void **)build->tab) != 4
+	if (ft_tablen((void **)build->tab) != 4 + 4 * CHECK_BONUS
 		|| !is_vector(build, build->tab[1])
 		|| !is_normal_vector(build, build->tab[2])
-		|| !is_color(build, build->tab[3]))
+		|| !is_color(build, build->tab[3])
+		|| (CHECK_BONUS
+			&& (!is_real(build->tab[4])
+				|| !is_real(build->tab[5])
+				|| !is_real(build->tab[6])
+				|| !is_real(build->tab[7]))))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	plane = malloc(sizeof(t_object));
 	protect_malloc(build, plane);
@@ -33,6 +38,18 @@ void	parse_plane(t_build *build)
 		plane->up.x = plane->direction.y;
 		plane->up.y = 0;
 	}
+	plane->ambient = 1.0;
+	plane->diffuse = 1.0;
+	plane->specular = 0.0;
+	plane->shininess = 0.0;
+	if (CHECK_BONUS)
+	{
+		plane->ambient = get_real(build, build->tab[4]);
+		plane->diffuse = get_real(build, build->tab[5]);
+		plane->specular = get_real(build, build->tab[6]);
+		plane->shininess = get_real(build, build->tab[7]);
+		printf("plane specular and shininess: %f, %f\n", plane->specular, plane->shininess);
+	}
 	plane->next = build->scene->objects;
 	build->scene->objects = plane;
 }
@@ -45,18 +62,36 @@ void	parse_sphere(t_build *build)
 
 	tab = build->tab;
 	scene = build->scene;
-	if (ft_tablen((void **)tab) != 4 || !is_vector(build, tab[1])
-		|| !is_posnum(build, tab[2]) || !is_color(build, tab[3]))
+	if (ft_tablen((void **)tab) != 4 + 4 * CHECK_BONUS
+		|| !is_vector(build, tab[1])
+		|| !is_posnum(build, tab[2]) 
+		|| !is_color(build, tab[3])
+		|| (CHECK_BONUS
+			&& (!is_real(build->tab[4])
+				|| !is_real(build->tab[5])
+				|| !is_real(build->tab[6])
+				|| !is_real(build->tab[7]))))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	sphere = malloc(sizeof(t_object));
 	protect_malloc(build, sphere);
 	sphere->type = SPHERE;
 	sphere->center = get_vec3(build, tab[1]);
-	sphere->radius = ft_strtod(build, tab[2]) / 2;
+	sphere->radius = get_real(build, tab[2]) / 2;
 	if (sphere->radius <= 0)
 		exit_minirt_build(build,
 			"radius must be more than 0", PARSING_EXITCODE);
 	sphere->color = get_color(build, tab[3]);
+	sphere->ambient = 1.0;
+	sphere->diffuse = 1.0;
+	sphere->specular = 0.0;
+	sphere->shininess = 0.0;
+	if (CHECK_BONUS)
+	{
+		sphere->ambient = get_real(build, tab[4]);
+		sphere->diffuse = get_real(build, tab[5]);
+		sphere->specular = get_real(build, tab[6]);
+		sphere->shininess = get_real(build, tab[7]);
+	}
 	sphere->next = scene->objects;
 	scene->objects = sphere;
 }

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 12:48:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_vec3	get_vec3(t_build *build, char *numbers)
 		ft_freetab((void **)tab);
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	}
-	x = ft_strtod(build, tab[0]);
-	y = ft_strtod(build, tab[1]);
-	z = ft_strtod(build, tab[2]);
+	x = get_real(build, tab[0]);
+	y = get_real(build, tab[1]);
+	z = get_real(build, tab[2]);
 	ft_freetab((void **)tab);
 	return ((t_vec3){x, y, z});
 }

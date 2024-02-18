@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/17 16:57:32 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 16:29:51 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,18 @@ void	free_objects(t_object *head)
 	}
 }
 
+void	free_spotlights(t_spotlight *head)
+{
+	t_spotlight	*next;
+
+	while (head)
+	{
+		next = head->next;
+		free(head);
+		head = next;
+	}
+}
+
 void	exit_minirt_build(t_build *build, char *message, int status)
 {
 	if (build->tab)
@@ -52,7 +64,7 @@ void	exit_minirt_build(t_build *build, char *message, int status)
 	if (build->scene->objects)
 		free_objects(build->scene->objects);
 	if (build->scene->spotlights)
-		free(build->scene->spotlights);
+		free_spotlights(build->scene->spotlights);
 	if (status)
 		error_msg(message);
 	exit(status);

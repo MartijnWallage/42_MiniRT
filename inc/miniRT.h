@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/18 11:59:59 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 13:27:11 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define SIZE_ANTIALISING			0
+# define ANTIALIAS					0
 # define CHECK_BONUS 				1
 # define CHECK_NORMAL				0
 # define MAX_DIGITS_INT_PART 		6
@@ -76,6 +76,7 @@ typedef struct s_spotlight {
 	t_real				ratio;
 	t_vec3				source;
 	int					color;
+	t_real				diffuse;
 	t_real				specular;
 	struct s_spotlight	*next;
 }	t_spotlight;
@@ -100,8 +101,10 @@ typedef struct s_object{
 	t_vec3			up;
 	t_real			radius;
 	t_real			height;
+	t_real			ambient;
+	t_real			diffuse;
 	t_real			specular;
-	t_real			alpha;
+	t_real			shininess;
 	struct s_object	*next;
 }	t_object;
 
@@ -162,7 +165,7 @@ void		protect_malloc(t_build *build, void *check_ptr);
 /*	Parser	*/
 int			ft_countchar(const char *str, char c);
 void		parse_scene(char **argv, t_build *build);
-t_real		ft_strtod(t_build *build, const char *str);
+t_real		get_real(t_build *build, const char *str);
 int			get_color(t_build *build, char *rgb);
 t_vec3		get_vec3(t_build *build, char *numbers);
 void		parse_sphere(t_build *build);
@@ -189,7 +192,6 @@ void		compute_camera_ray(t_minirt *minirt, t_real x, t_real y, t_ray *ray);
 void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
 void		compute_light_ray(t_ray *camera_ray, 
 				t_spotlight *spotlights, t_ray *light_ray);
-int			mix_colors(int color1, int color2, float ratio);
 int			compute_color(t_minirt *minirt, t_ray *camera_ray);
 
 /*	vector_utils.c	*/

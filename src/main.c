@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/17 16:57:32 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 12:04:48 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	init_minirt(t_minirt *minirt, t_scene *scene)
 		minirt->scene->camera.up.z = 0;
 	}
 	minirt->mode = MODE_CAMERA;
-	minirt->num = pow2(2 * SIZE_ANTIALISING + 1);
+	minirt->num = pow2(2 * ANTIALIAS + 1);
 }
 
 static void	graphics_wrapper(t_minirt *minirt)

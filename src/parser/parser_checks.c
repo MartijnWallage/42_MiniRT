@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:49 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 12:57:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 12:48:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_posnum(t_build *build, const char *str)
 
 	if (!is_real(str))
 		return (0);
-	radius = ft_strtod(build, str);
+	radius = get_real(build, str);
 	if (radius <= 0)
 		return (0);
 	return (1);
@@ -37,7 +37,7 @@ int	is_ratio(t_build *build, char *str)
 
 	if (!is_real(str))
 		return (0);
-	ratio = ft_strtod(build, str);
+	ratio = get_real(build, str);
 	if (ratio < 0 || ratio > 1)
 		return (0);
 	return (1);
@@ -49,7 +49,7 @@ int	is_angle(t_build *build, char *str)
 
 	if (!is_real(str))
 		return (0);
-	angle = ft_strtod(build, str);
+	angle = get_real(build, str);
 	if (!is_in_range(angle, 0, 180))
 		return (0);
 	return (1);

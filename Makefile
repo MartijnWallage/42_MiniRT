@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/17 11:45:52 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/18 13:55:56 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ $(OBJDIR):
 	mkdir $(OBJDIR)/clean;
 
 $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
-	$(CC) $(OBJ) $(LIBS) $(HEADERS) -o $@
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/miniRT.h
 	$(CC) $(CFLAGS) -c $< $(HEADERS) -o $@

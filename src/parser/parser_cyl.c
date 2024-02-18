@@ -17,12 +17,17 @@ static void	check_cyl_tab(t_build *build)
 	char		**tab;
 
 	tab = build->tab;
-	if (ft_tablen((void **)tab) != 6
+	if (ft_tablen((void **)tab) != 6 + 4 * CHECK_BONUS
 		|| !is_vector(build, tab[1])
 		|| !is_normal_vector(build, tab[2])
 		|| !is_posnum(build, tab[3])
 		|| !is_posnum(build, tab[4])
-		|| !is_color(build, tab[5]))
+		|| !is_color(build, tab[5])
+		|| (CHECK_BONUS
+			&& (!is_real(build->tab[6])
+				|| !is_real(build->tab[7])
+				|| !is_real(build->tab[8])
+				|| !is_real(build->tab[9]))))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
@@ -30,7 +35,7 @@ static t_real	get_cyl_radius(t_build *build, char *rad)
 {
 	t_real	ret;
 
-	ret = ft_strtod(build, rad) / 2;
+	ret = get_real(build, rad) / 2;
 	if (ret <= 0)
 		exit_minirt_build(build,
 			"cyl radius must be more than 0", PARSING_EXITCODE);
@@ -41,7 +46,7 @@ static t_real	get_cyl_height(t_build *build, char *height)
 {
 	t_real	ret;
 
-	ret = ft_strtod(build, height);
+	ret = get_real(build, height);
 	if (ret <= 0)
 		exit_minirt_build(build,
 			"cyl height must be more than 0", PARSING_EXITCODE);
@@ -73,6 +78,17 @@ void	parse_cyl(t_build *build)
 		right.x = -cyl->direction.z;
 	}
 	cyl->up = cross(cyl->direction, right);
+	cyl->ambient = 1.0;
+	cyl->diffuse = 1.0;
+	cyl->specular = 0.0;
+	cyl->shininess = 0.0;
+	if (CHECK_BONUS)
+	{
+		cyl->ambient = get_real(build, tab[6]);
+		cyl->diffuse = get_real(build, tab[7]);
+		cyl->specular = get_real(build, tab[8]);
+		cyl->shininess = get_real(build, tab[9]);
+	}
 	cyl->next = scene->objects;
 	scene->objects = cyl;
 }
