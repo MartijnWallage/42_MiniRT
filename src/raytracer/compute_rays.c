@@ -3,21 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   compute_rays.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 15:38:19 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/18 11:53:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:45:01 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
+t_vec3	get_hitpoint(t_ray *ray)
+{
+	return (multiply(ray->direction, ray->intersection));
+}
+
 void	compute_light_ray(t_ray *camera_ray, t_spotlight *spot, t_ray *light_ray)
 {
 	t_vec3		hitpoint;
 
-	hitpoint = multiply(camera_ray->direction, camera_ray->intersection);
-	hitpoint = add(hitpoint, camera_ray->origin);
+	hitpoint = add(get_hitpoint(camera_ray), camera_ray->origin);
 	light_ray->origin = spot->source;
 	light_ray->direction = normalize(subtract(hitpoint, light_ray->origin));
 	light_ray->intersection = norm(subtract(hitpoint, light_ray->origin));

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/18 19:04:33 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 22:20:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	mix_colors(int color1, int color2)
 {
 	t_real	rgb[3];
 
-	rgb[0] = (t_real)get_r(color1) / 255 * (t_real)get_r(color2);
-	rgb[1] = (t_real)get_g(color1) / 255 * (t_real)get_g(color2);
-	rgb[2] = (t_real)get_b(color1) / 255 * (t_real)get_b(color2);
+	rgb[0] = (t_real)get_r(color1) / 255.0 * (t_real)get_r(color2);
+	rgb[1] = (t_real)get_g(color1) / 255.0 * (t_real)get_g(color2);
+	rgb[2] = (t_real)get_b(color1) / 255.0 * (t_real)get_b(color2);
 	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 
@@ -36,9 +36,9 @@ int add_colors(int color1, int color2)
 {
 	t_real	rgb[3];
 
-	rgb[0] = (t_real)(get_r(color1) + get_r(color2)) / 2;
-	rgb[1] = (t_real)(get_g(color1) + get_g(color2)) / 2;
-	rgb[2] = (t_real)(get_b(color1) + get_b(color2)) / 2;
+	rgb[0] = (t_real)(ft_min(get_r(color1) + get_r(color2), 255)) / 2;
+	rgb[1] = (t_real)(ft_min(get_g(color1) + get_g(color2), 255)) / 2;
+	rgb[2] = (t_real)(ft_min(get_b(color1) + get_b(color2), 255)) / 2;
 	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 
@@ -52,17 +52,6 @@ int	add_three_colors(int color1, int color2, int color3)
 	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 
-int	colorAdd(int c1, int c2)
-{
-/* 	int	rgb[3];
-
-	rgb[0] = get_r(c1) | get_r(c2);
-	rgb[1] = get_g(c1) | get_g(c2);
-	rgb[2] = get_b(c1) | get_b(c2);
-	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff)); */
-	return (c1 | c2);
-}
-
 int	colorScale(int c, t_real scale)
 {
 	t_real	rgb[3];
@@ -73,14 +62,16 @@ int	colorScale(int c, t_real scale)
 	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 
-t_vec3	get_reflection(t_vec3 ray, t_vec3 normal)
+t_vec3	get_reflection(t_ray *ray, t_vec3 normal)
 {
 	t_real	dot_ray_normal;
 	t_vec3	scaled_normal;
 
-	dot_ray_normal = dot(ray, normal);
+	dot_ray_normal = dot(ray->direction, normal);
+	if (dot_ray_normal >= 0)
+		return ((t_vec3){0,0,0});
 	scaled_normal = multiply(normal, 2.0 * dot_ray_normal);
-	return (subtract(scaled_normal, ray));
+	return (subtract(ray->direction, scaled_normal));
 }
 
 int	compute_ambient(t_ambient *ambient)
@@ -104,16 +95,19 @@ int	compute_specular(t_spotlight *spotlights, t_ray *camera_ray, t_ray *light_ra
 	t_vec3	reflection;
 	t_real	scalar;
 
-	reflection = get_reflection(light_ray->direction, camera_ray->normal);
-  	scalar = fmax(pow(dot(reflection, multiply(camera_ray->direction, -1.0)), 4), 0.0);
+	reflection = get_reflection(light_ray, camera_ray->normal);
+	if (reflection.x == 0 && reflection.y == 0 && reflection.z == 0)
+		return (0xff);
+  	scalar = 0.5 * pow(dot(reflection, multiply(camera_ray->direction, -1.0)), 12);
 	return (shade_colors(0xff, spotlights->color, scalar));
 }
 
-int	compute_phong(t_minirt *minirt, t_ray *camera_ray)
+int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 {
+	int		obj_color;
+	int 	specular;
 	int		ambient;
  	int		diffuse;
-	int		specular;
 	t_ray	light_ray;
 
 	ambient = compute_ambient(&(minirt->scene->ambient));
@@ -126,19 +120,9 @@ int	compute_phong(t_minirt *minirt, t_ray *camera_ray)
 		diffuse = compute_diffuse(minirt->scene->spotlights, camera_ray, &light_ray);
 		specular = compute_specular(minirt->scene->spotlights, camera_ray, &light_ray);
 	}
-	return (add_colors(add_colors(ambient, diffuse), specular));
-}
-
-int	compute_color(t_minirt *minirt, t_ray *camera_ray)
-{
-	int	total_light;
-	int	obj_color;
-	int	color;
-
-	total_light = compute_phong(minirt, camera_ray);
 	obj_color = camera_ray->object->color;
-	color = mix_colors(total_light, obj_color);
-	return (color);
+	obj_color = mix_colors(add_colors(ambient, diffuse), obj_color);
+	return (add_colors(obj_color, specular));
 }
 
 /* int	compute_color(t_minirt *minirt, t_ray *camera_ray)

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 17:29:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:44:07 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,4 @@ void	compute_sphere_intersection(t_ray *ray, t_object *sphere)
 	ray->normal = normalize(subtract(ray->normal, sphere->center));
 	if (dot(ray->normal, ray->direction) > 0)
 		ray->normal = multiply(ray->normal, -1);
-}
-
-t_vec3	get_hitpoint(t_ray *ray)
-{
-	return (multiply(ray->direction, ray->intersection));
 }
