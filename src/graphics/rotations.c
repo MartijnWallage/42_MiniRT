@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:52:58 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/16 11:51:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:08:35 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	rotation_hooks(t_minirt *minirt)
 		direction = &(minirt->obj_selected->direction);
 		up = &(minirt->obj_selected->up);
 	}
+	else
+		return ;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_A))
 		roll_rotation(direction, up, ROTATION_SPEED);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_D))

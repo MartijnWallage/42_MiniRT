@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 14:24:30 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 11:59:59 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define CHECK_PARSING_NORMAL 		0
-# define SIZE_ANTIALISING			1
-
+# define SIZE_ANTIALISING			0
+# define CHECK_BONUS 				1
+# define CHECK_NORMAL				0
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
 # define EPSILON					0.000001
@@ -72,10 +72,13 @@ typedef struct s_ambient {
 	int			color;
 }	t_ambient;
 
-typedef struct s_spot {
-	t_real		ratio;
-	t_vec3		source;
-}	t_spot;
+typedef struct s_spotlight {
+	t_real				ratio;
+	t_vec3				source;
+	int					color;
+	t_real				specular;
+	struct s_spotlight	*next;
+}	t_spotlight;
 
 typedef struct s_camera{
 	t_vec3		viewpoint;
@@ -97,6 +100,8 @@ typedef struct s_object{
 	t_vec3			up;
 	t_real			radius;
 	t_real			height;
+	t_real			specular;
+	t_real			alpha;
 	struct s_object	*next;
 }	t_object;
 
@@ -110,21 +115,21 @@ typedef struct s_ray {
 
 typedef struct s_scene
 {
-	t_ambient	ambient;
-	t_spot		*spot;
-	t_camera	camera;
-	t_object	*objects;
+	t_ambient		ambient;
+	t_spotlight		*spotlights;
+	t_camera		camera;
+	t_object		*objects;
 }	t_scene;
 
 typedef struct s_minirt
 {
-	t_scene		*scene;
-	mlx_t		*mlx;
-	mlx_image_t	*image;
-	t_object	*obj_selected;
-	t_spot		*spot_selected;
-	t_key_mode	mode;
-	int			num;
+	t_scene			*scene;
+	mlx_t			*mlx;
+	mlx_image_t		*image;
+	t_object		*obj_selected;
+	t_spotlight		*spotlights_selected;
+	t_key_mode		mode;
+	int				num;
 }	t_minirt;
 
 typedef struct s_build
@@ -137,7 +142,7 @@ typedef struct s_build
 	int			check_camera;
 }	t_build;
 
-typedef struct s_cylinder
+typedef struct s_cyl
 {
 	t_vec3	nxa;
 	t_real	norm_nxa;
@@ -147,7 +152,7 @@ typedef struct s_cylinder
 	t_real	d_cap;
 	t_real	t_hull;
 	int		orientation_cap;
-}	t_cylinder;
+}	t_cyl;
 
 /*	Cleaner	*/
 void		exit_minirt(t_minirt *minirt, char *message, int status);
@@ -161,9 +166,9 @@ t_real		ft_strtod(t_build *build, const char *str);
 int			get_color(t_build *build, char *rgb);
 t_vec3		get_vec3(t_build *build, char *numbers);
 void		parse_sphere(t_build *build);
-void		parse_cylinder(t_build *build);
+void		parse_cyl(t_build *build);
 void		parse_plane(t_build *build);
-void		parse_spot(t_build *build);
+void		parse_spotlights(t_build *build);
 int			parse_ambient(t_build *build);
 int			parse_camera(t_build *build);
 
@@ -183,7 +188,7 @@ void		raytracer(void *minirt);
 void		compute_camera_ray(t_minirt *minirt, t_real x, t_real y, t_ray *ray);
 void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
 void		compute_light_ray(t_ray *camera_ray, 
-				t_spot *spot, t_ray *light_ray);
+				t_spotlight *spotlights, t_ray *light_ray);
 int			mix_colors(int color1, int color2, float ratio);
 int			compute_color(t_minirt *minirt, t_ray *camera_ray);
 
@@ -206,9 +211,10 @@ t_real		norm2(t_vec3 vector);
 /* intersections.c */
 void		compute_plane_intersection(t_ray *ray, t_object *plane);
 void		compute_sphere_intersection(t_ray *ray, t_object *sphere);
-void		compute_cylinder_intersection(t_ray *ray, t_object *cylinder);
-t_cylinder	init_ints_struct(t_ray	*ray, t_object *cylinder);
-int			get_min_positive(t_real value1, t_real value2);
+void		compute_cyl_intersection(t_ray *ray, t_object *cyl);
+t_cyl	init_ints_struct(t_ray	*ray, t_object *cyl);
+int			get_min_positive(t_real value0, t_real value1);
+int			is_first_visible(t_real a, t_real b, t_real scalar);
 t_vec3		get_hitpoint(t_ray *ray);
 
 /* Graphics */

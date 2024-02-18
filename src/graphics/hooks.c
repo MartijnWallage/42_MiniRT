@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 12:08:37 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:07:26 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static void	translation_hooks(t_minirt *minirt)
 	else if (minirt->mode == MODE_OBJECT)
 		position = &(minirt->obj_selected->center);
 	else if (minirt->mode == MODE_SPOT)
-		position = &(minirt->spot_selected->source);
+		position = &(minirt->spotlights_selected->source);
+	else
+		return ;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
 		position->x += TRANSLATION_SPEED;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
@@ -39,14 +41,14 @@ static void	translation_hooks(t_minirt *minirt)
 }
 
 /// @brief Set mode of control if key is pressed. If L or O is pressed 
-///		multiple times in a row, the next spot or object respectively 
+///		multiple times in a row, the next spotlights or object respectively 
 ///		is selected
 /// @param minirt A pointer to struct that contains program parameters
 static void	mode_hooks(t_minirt *minirt)
 {
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_L) && minirt->scene->spot)
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_L) && minirt->scene->spotlights)
 	{
-		minirt->spot_selected = minirt->scene->spot;
+		minirt->spotlights_selected = minirt->scene->spotlights;
 		minirt->mode = MODE_SPOT;
 	}
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_O))
@@ -110,7 +112,8 @@ void	ft_mousefunc(mouse_key_t button, action_t action, \
 		else
 			minirt->mode = MODE_CAMERA;
 	}
-	mods = 0;
+	if (mods == MLX_SHIFT)
+		param++;
 }
 
 /// @brief Function that gives the event for resizing the window

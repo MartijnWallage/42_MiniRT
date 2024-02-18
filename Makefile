@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
+#    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/16 13:09:39 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/17 11:45:52 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC			:= main.c \
 				parser/parser.c \
 				parser/parser_checks.c \
 				parser/parser_objects.c \
-				parser/parser_cylinder.c \
+				parser/parser_cyl.c \
 				parser/parser_camera.c \
 				parser/parser_lights.c \
 				parser/parser_utils.c \
@@ -49,8 +49,8 @@ SRC			:= main.c \
 				raytracer/vector_utils_norm.c \
 				raytracer/intersections.c \
 				raytracer/math_utils.c \
-				raytracer/cylinder.c \
-				raytracer/cylinder_utils.c \
+				raytracer/cyl.c \
+				raytracer/cyl_utils.c \
 				raytracer/compute_color.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 12:20:34 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 11:57:12 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,26 @@ int	mix_colors(int color1, int color2, float ratio)
 
 int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 {
-	float	t;
-	int		ret;
-	t_ray	light_ray;
+	float			t;
+	int				ret;
+	t_ray			light_ray;
+	t_spotlight		*spotlights;
 
 	ret = mix_colors(camera_ray->object->color,
 			minirt->scene->ambient.color,
 			minirt->scene->ambient.ratio);
-	if (minirt->scene->spot)
+	spotlights = minirt->scene->spotlights;
+	while (spotlights)
 	{
-		compute_light_ray(camera_ray, minirt->scene->spot, &light_ray);
+		compute_light_ray(camera_ray, spotlights, &light_ray);
 		compute_ray_object_intersection(minirt, &light_ray);
 		if (light_ray.object == camera_ray->object)
 		{
-			t = minirt->scene->spot->ratio
-				* fmax(dot(camera_ray->normal,
+			t = spotlights->ratio * fmax(dot(camera_ray->normal,
 						multiply(light_ray.direction, -1)), 0.0);
-			ret = mix_colors(ret, 0xffffffff, t);
+			ret = mix_colors(ret, spotlights->color, t);
 		}
+		spotlights = spotlights->next;
 	}
 	return (ret);
 }

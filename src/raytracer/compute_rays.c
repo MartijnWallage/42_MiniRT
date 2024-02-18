@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   compute_rays.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thofting <thofting@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 15:38:19 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/16 15:38:20 by thofting         ###   ########.fr       */
+/*   Updated: 2024/02/18 11:53:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void	compute_light_ray(t_ray *camera_ray, t_spot *spot, t_ray *light_ray)
+void	compute_light_ray(t_ray *camera_ray, t_spotlight *spot, t_ray *light_ray)
 {
 	t_vec3		hitpoint;
 

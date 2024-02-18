@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:28:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:57:32 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static void	parse_line(t_build *build)
 	else if (!ft_strcmp("C", build->tab[0]) && !build->check_camera)
 		build->check_camera = parse_camera(build);
 	else if (!ft_strcmp("L", build->tab[0]))
-		parse_spot(build);
+		parse_spotlights(build);
 	else if (!ft_strcmp("sp", build->tab[0]))
 		parse_sphere(build);
 	else if (!ft_strcmp("cy", build->tab[0]))
-		parse_cylinder(build);
+		parse_cyl(build);
 	else if (!ft_strcmp("pl", build->tab[0]))
 		parse_plane(build);
 	else

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:35:59 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/16 11:29:30 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 11:56:10 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,31 @@ int	parse_ambient(t_build *build)
 	scene->ambient.ratio = ft_strtod(build, build->tab[1]);
 	if (scene->ambient.ratio <= 0.0)
 		exit_minirt_build(build,
-			"'Objects are never completely in the dark'", PARSING_EXITCODE);
+			"parsing: objects need light", PARSING_EXITCODE);
 	scene->ambient.color = get_color(build, build->tab[2]);
 	return (1);
 }
 
-void	parse_spot(t_build *build)
+void	parse_spotlights(t_build *build)
 {
-	if (ft_tablen((void **)build->tab) != 4 || !is_vector(build, build->tab[1])
-		|| !is_ratio(build, build->tab[2]))
+	t_spotlight	*new_light;
+
+	if (ft_tablen((void **)build->tab) != 4
+		|| !is_vector(build, build->tab[1])
+		|| !is_ratio(build, build->tab[2])
+		|| !is_color(build, build->tab[3])
+		|| (!CHECK_BONUS && build->scene->spotlights))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	build->scene->spot = malloc(sizeof(t_spot));
-	protect_malloc(build, build->scene->spot);
-	build->scene->spot->source = get_vec3(build, build->tab[1]);
-	build->scene->spot->ratio = ft_strtod(build, build->tab[2]);
-	if (build->scene->spot->ratio <= 0)
+	new_light = malloc(sizeof(t_spotlight));
+	protect_malloc(build, new_light);
+	new_light->source = get_vec3(build, build->tab[1]);
+	new_light->ratio = ft_strtod(build, build->tab[2]);
+	if (new_light->ratio <= 0)
 		exit_minirt_build(build,
-			"spotlight needs brightness", PARSING_EXITCODE);
+			"parsing: spotlight needs brightness", PARSING_EXITCODE);
+	new_light->color = 0xFFFFFFFF;
+	if (CHECK_BONUS)
+		new_light->color = get_color(build, build->tab[3]);
+	new_light->next = build->scene->spotlights;
+	build->scene->spotlights = new_light;
 }

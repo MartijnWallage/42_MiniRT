@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 15:50:01 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/09 16:38:57 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:57:32 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	exit_minirt_build(t_build *build, char *message, int status)
 		close(build->fd);
 	if (build->scene->objects)
 		free_objects(build->scene->objects);
-	if (build->scene->spot)
-		free(build->scene->spot);
+	if (build->scene->spotlights)
+		free(build->scene->spotlights);
 	if (status)
 		error_msg(message);
 	exit(status);
