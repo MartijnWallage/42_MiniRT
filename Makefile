@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
+#    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/18 13:55:56 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/18 18:39:36 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast
+CFLAGS		:=  -Wunreachable-code -Ofast #-Wall -Wextra -Werror
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc

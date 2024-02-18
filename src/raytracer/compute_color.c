@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compute_color.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/18 17:14:08 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/18 19:04:33 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ int	add_three_colors(int color1, int color2, int color3)
 
 int	colorAdd(int c1, int c2)
 {
-	int	rgb[3];
+/* 	int	rgb[3];
 
-	rgb[0] = get_r(c1) + get_r(c2);
-	rgb[1] = get_g(c1) + get_g(c2);
-	rgb[2] = get_b(c1) + get_b(c2);
-	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
+	rgb[0] = get_r(c1) | get_r(c2);
+	rgb[1] = get_g(c1) | get_g(c2);
+	rgb[2] = get_b(c1) | get_b(c2);
+	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff)); */
+	return (c1 | c2);
 }
 
 int	colorScale(int c, t_real scale)
@@ -87,33 +88,45 @@ int	compute_ambient(t_ambient *ambient)
 	return (colorScale(ambient->color, ambient->ratio));
 }
 
-int	compute_diffuse(t_spotlight *spotlights, t_vec3 normal, t_vec3 light_direction)
+int	compute_diffuse(t_spotlight *spotlights, t_ray *camera_ray, t_ray *light_ray)
 {
 	t_real	dot_product;
 
 	if (spotlights == NULL)
 		return (0xff);
-	dot_product = dot(normal, multiply(light_direction, -1.0));
-	if (dot <= 0)
-		dot_product = 0;
+	dot_product = spotlights->ratio * camera_ray->object->diffuse
+		* fmax(dot(camera_ray->normal, multiply(light_ray->direction, -1.0)), 0.0);
 	return (shade_colors(0xff, spotlights->color, dot_product));
+}
+
+int	compute_specular(t_spotlight *spotlights, t_ray *camera_ray, t_ray *light_ray)
+{
+	t_vec3	reflection;
+	t_real	scalar;
+
+	reflection = get_reflection(light_ray->direction, camera_ray->normal);
+  	scalar = fmax(pow(dot(reflection, multiply(camera_ray->direction, -1.0)), 4), 0.0);
+	return (shade_colors(0xff, spotlights->color, scalar));
 }
 
 int	compute_phong(t_minirt *minirt, t_ray *camera_ray)
 {
 	int		ambient;
  	int		diffuse;
-//	int		specular;
+	int		specular;
 	t_ray	light_ray;
 
 	ambient = compute_ambient(&(minirt->scene->ambient));
  	compute_light_ray(camera_ray, minirt->scene->spotlights, &light_ray);
 	compute_ray_object_intersection(minirt, &light_ray);
 	diffuse = 0xff;
+	specular = 0xff;
 	if (light_ray.object == camera_ray->object)
-		diffuse = compute_diffuse(minirt->scene->spotlights, camera_ray->normal, light_ray.direction);
-//	specular = compute_specular();
-	return (diffuse);
+	{
+		diffuse = compute_diffuse(minirt->scene->spotlights, camera_ray, &light_ray);
+		specular = compute_specular(minirt->scene->spotlights, camera_ray, &light_ray);
+	}
+	return (add_colors(add_colors(ambient, diffuse), specular));
 }
 
 int	compute_color(t_minirt *minirt, t_ray *camera_ray)
