@@ -17,7 +17,7 @@ static void	check_cyl_tab(t_build *build)
 	char		**tab;
 
 	tab = build->tab;
-	if (ft_tablen((void **)tab) != 6 + 4 * CHECK_BONUS
+	if (ft_tablen((void **)tab) != 6 + 2 * CHECK_BONUS
 		|| !is_vector(build, tab[1])
 		|| !is_normal_vector(build, tab[2])
 		|| !is_posnum(build, tab[3])
@@ -25,9 +25,7 @@ static void	check_cyl_tab(t_build *build)
 		|| !is_color(build, tab[5])
 		|| (CHECK_BONUS
 			&& (!is_real(build->tab[6])
-				|| !is_real(build->tab[7])
-				|| !is_real(build->tab[8])
-				|| !is_real(build->tab[9]))))
+				|| !is_real(build->tab[7]))))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
@@ -78,16 +76,12 @@ void	parse_cyl(t_build *build)
 		right.x = -cyl->direction.z;
 	}
 	cyl->up = cross(cyl->direction, right);
-	cyl->ambient = 1.0;
 	cyl->diffuse = 1.0;
-	cyl->specular = 0.0;
 	cyl->shininess = 0.0;
 	if (CHECK_BONUS)
 	{
-		cyl->ambient = get_real(build, tab[6]);
-		cyl->diffuse = get_real(build, tab[7]);
-		cyl->specular = get_real(build, tab[8]);
-		cyl->shininess = get_real(build, tab[9]);
+		cyl->diffuse = get_real(build, tab[6]);
+		cyl->shininess = get_real(build, tab[7]);
 	}
 	cyl->next = scene->objects;
 	scene->objects = cyl;

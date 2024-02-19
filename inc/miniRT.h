@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/18 13:27:11 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:44:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_ambient {
 }	t_ambient;
 
 typedef struct s_spotlight {
-	t_real				ratio;
 	t_vec3				source;
 	int					color;
 	t_real				diffuse;
@@ -101,9 +100,7 @@ typedef struct s_object{
 	t_vec3			up;
 	t_real			radius;
 	t_real			height;
-	t_real			ambient;
 	t_real			diffuse;
-	t_real			specular;
 	t_real			shininess;
 	struct s_object	*next;
 }	t_object;

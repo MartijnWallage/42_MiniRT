@@ -6,19 +6,29 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/19 11:53:24 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:56:51 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-int	shade_colors(int color1, int color2, float ratio)
+int	scale_color(int c, t_real scale)
 {
 	t_real	rgb[3];
 
-	rgb[0] = (1 - ratio) * (float)get_r(color1) + ratio * (float)get_r(color2);
-	rgb[1] = (1 - ratio) * (float)get_g(color1) + ratio * (float)get_g(color2);
-	rgb[2] = (1 - ratio) * (float)get_b(color1) + ratio * (float)get_b(color2);
+	rgb[0] = fmin((t_real)get_r(c) * scale, 255);
+	rgb[1] = fmin((t_real)get_g(c) * scale, 255);
+	rgb[2] = fmin((t_real)get_b(c) * scale, 255);
+	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
+}
+
+int alpha_shade(int c1, int c2, t_real alpha)
+{
+	t_real	rgb[3];
+
+ 	rgb[0] = (1 - alpha) * (t_real)get_r(c1) + alpha * (t_real)get_r(c2);
+	rgb[1] = (1 - alpha) * (t_real)get_g(c1) + alpha * (t_real)get_g(c2);
+	rgb[2] = (1 - alpha) * (t_real)get_b(c1) + alpha * (t_real)get_b(c2);
 	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 
@@ -36,32 +46,12 @@ int add_colors(int c1, int c2)
 {
 	t_real	rgb[3];
 
-/* 	rgb[0] = (t_real)(ft_min(get_r(color1) + get_r(color2), 255)) / 2;
-	rgb[1] = (t_real)(ft_min(get_g(color1) + get_g(color2), 255)) / 2;
-	rgb[2] = (t_real)(ft_min(get_b(color1) + get_b(color2), 255)) / 2; */
+/* 	rgb[0] = (t_real)(ft_min(get_r(c1) + get_r(c2), 255)) / 2;
+	rgb[1] = (t_real)(ft_min(get_g(c1) + get_g(c2), 255)) / 2;
+	rgb[2] = (t_real)(ft_min(get_b(c1) + get_b(c2), 255)) / 2; */
 	rgb[0] = ft_min(get_r(c1) + get_r(c2), 255);
 	rgb[1] = ft_min(get_g(c1) + get_g(c2), 255);
 	rgb[2] = ft_min(get_b(c1) + get_b(c2), 255);
-	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
-}
-
-int	add_three_colors(int color1, int color2, int color3)
-{
-	t_real	rgb[3];
-
-	rgb[0] = (t_real)(get_r(color1) + get_r(color2) + get_r(color3)) / 3;
-	rgb[1] = (t_real)(get_g(color1) + get_g(color2) + get_g(color3)) / 3;
-	rgb[2] = (t_real)(get_b(color1) + get_b(color2) + get_b(color3)) / 3;
-	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
-}
-
-int	colorScale(int c, t_real scale)
-{
-	t_real	rgb[3];
-
-	rgb[0] = fmin((t_real)get_r(c) * scale, 255);
-	rgb[1] = fmin((t_real)get_g(c) * scale, 255);
-	rgb[2] = fmin((t_real)get_b(c) * scale, 255);
 	return (get_rgba(rgb[0], rgb[1], rgb[2], 0xff));
 }
 
@@ -77,22 +67,23 @@ int	compute_specular(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray
 	dot_ray_normal = dot(light_ray->direction, camera_ray->normal);
 	scaled_normal = multiply(camera_ray->normal, 2.0 * dot_ray_normal);
 	reflection = subtract(light_ray->direction, scaled_normal);
-	scalar = spotlight->specular * pow(fmin(dot(reflection, camera_ray->direction), 0.0), 24);
-	return (shade_colors(0xff, spotlight->color, scalar));
+	scalar = (1 - obj->diffuse) * (spotlight->specular)
+		* pow(fmin(dot(reflection, camera_ray->direction), 0.0), obj->shininess);
+	return (scale_color(spotlight->color, scalar));
 }
 
 int	compute_diffuse(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray)
 {
 	t_real	dot_product;
 
-	dot_product = spotlight->ratio * camera_ray->object->diffuse
+	dot_product = spotlight->diffuse * camera_ray->object->diffuse
 		* fmax(dot(camera_ray->normal, multiply(light_ray->direction, -1.0)), 0.0);
-	return (shade_colors(0xff, spotlight->color, dot_product));
+	return (scale_color(spotlight->color, dot_product));
 }
 
 int	compute_ambient(t_ambient *ambient)
 {
-	return (shade_colors(0xff, ambient->color, ambient->ratio));
+	return (scale_color(ambient->color, ambient->ratio));
 }
 
 int	compute_color(t_minirt *minirt, t_ray *camera_ray)
