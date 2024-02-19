@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/18 12:25:33 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 08:19:09 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,7 @@ static int	get_smooth_color(t_minirt *minirt, uint32_t x, uint32_t y)
 				/ (2 * (ANTIALIAS + 1)), (t_real)y
 				+ (t_real)i / (2 * (ANTIALIAS + 1)), &camera_ray);
 			compute_ray_object_intersection(minirt, &camera_ray);
-			if (camera_ray.object)
-				color = compute_color(minirt, &camera_ray);
-			else
-				color = 0xff;
+			color = compute_color(minirt, &camera_ray);
 			set_rgb_array(a, get_r(color), get_g(color), get_b(color));
 		}
 	}
