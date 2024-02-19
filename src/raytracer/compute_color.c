@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/19 12:56:51 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:03:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,50 +117,3 @@ int	compute_color(t_minirt *minirt, t_ray *camera_ray)
 	obj_color = mix_colors(camera_ray->object->color, add_colors(ambient, diffuse));
 	return (add_colors(obj_color, specular));
 }
-
-/* int	compute_color(t_minirt *minirt, t_ray *camera_ray)
-{
-	float			t;
-	t_ray			light_ray;
-	t_spotlight		*spotlights;
-	int				ambient;
-	int				diffuse;
- 	t_real			specular_t;
-	t_vec3			reflection;
-
-
-	ret = mix_colors(
-			mix_colors(0xff, camera_ray->object->color, camera_ray->object->ambient),
-			minirt->scene->ambient.color,
-			minirt->scene->ambient.ratio);
-
-
-	ambient = mix_colors(camera_ray->object->color, minirt->scene->ambient.color);
-	ambient = colorScale(ambient, minirt->scene->ambient.color);
-//	ambient = shade_colors(0xff, ambient, camera_ray->object->ambient * minirt->scene->ambient.ratio);
-	diffuse = 0xff;
-	spotlights = minirt->scene->spotlights;
-	while (spotlights)
-	{
-		compute_light_ray(camera_ray, spotlights, &light_ray);
-		compute_ray_object_intersection(minirt, &light_ray);
-		if (light_ray.object == camera_ray->object)
-		{
- 			obj_color = mix_colors(camera_ray->object->color, spotlights->color);
-			obj_color = shade_colors(0xff, obj_color, spotlights->ratio * camera_ray->object->diffuse);
-
-
-			t = spotlights->ratio * camera_ray->object->diffuse * fmax(dot(camera_ray->normal,
-						multiply(light_ray.direction, -1)), 0.0);
-			reflection = get_reflection(light_ray.direction, camera_ray->normal);
-  			specular_t = dot(reflection, multiply(camera_ray->direction, -1.0));
-			if (specular_t < 0)
-				specular_t = 0;
-			else
-				specular_t = pow(specular_t, 6);
-			diffuse = shade_colors(diffuse, spotlights->color, t + specular_t);
-		}
-		spotlights = spotlights->next;
-	}
-	return (add_colors(ambient, diffuse));
-} */

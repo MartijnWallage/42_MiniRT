@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:52:58 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/17 17:08:35 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:26:31 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,7 @@ void	rotation_hooks(t_minirt *minirt)
 		yaw_rotation(direction, up, ROTATION_SPEED);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_E))
 		yaw_rotation(direction, up, -ROTATION_SPEED);
+	if (minirt->mode == MODE_CAMERA)
+		minirt->scene->camera.right = 
+			cross(minirt->scene->camera.direction, minirt->scene->camera.up);
 }

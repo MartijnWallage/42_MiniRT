@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/19 10:23:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:18:29 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,23 @@ static void	translation_hooks(t_minirt *minirt)
 	else
 		return ;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
-		position->x += TRANSLATION_SPEED;
+		*position = subtract(*position,
+			multiply(minirt->scene->camera.right, TRANSLATION_SPEED));
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
-		position->x -= TRANSLATION_SPEED;
+		*position = add(*position,
+			multiply(minirt->scene->camera.right, TRANSLATION_SPEED));
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_UP))
-		position->y += TRANSLATION_SPEED;
+		*position = add(*position,
+			multiply(minirt->scene->camera.up, TRANSLATION_SPEED));
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN))
-		position->y -= TRANSLATION_SPEED;
+		*position = subtract(*position,
+			multiply(minirt->scene->camera.up, TRANSLATION_SPEED));
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_EQUAL))
-		position->z += TRANSLATION_SPEED;
+		*position = add(*position,
+			multiply(minirt->scene->camera.direction, TRANSLATION_SPEED));
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_MINUS))
-		position->z -= TRANSLATION_SPEED;
+		*position = subtract(*position,
+			multiply(minirt->scene->camera.direction, TRANSLATION_SPEED));
 }
 
 /// @brief Set mode of control if key is pressed. If L or O is pressed 
@@ -56,15 +62,11 @@ static void	mode_hooks(t_minirt *minirt)
 	}
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_O))
 	{
-		if (minirt->mode == MODE_OBJECT)
-		{
-			if (minirt->obj_selected == NULL || \
-				minirt->obj_selected->next == NULL)
-				minirt->obj_selected = minirt->scene->objects;
-			else
-				minirt->obj_selected = minirt->obj_selected->next;
-		}
 		minirt->mode = MODE_OBJECT;
+		if (minirt->obj_selected && minirt->obj_selected->next)
+			minirt->obj_selected = minirt->obj_selected->next;
+		else
+			minirt->obj_selected = minirt->scene->objects;
 	}
 }
 
