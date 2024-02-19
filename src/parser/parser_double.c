@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/19 12:11:08 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:13:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_real	get_real(t_build *build, const char *str)
 	t_real	frac;
 	int		div;
 	char	**tab;
+	char	*frac_str;
 
 	if (!str || str[0] == 0|| (!ft_isdigit(str[0]) && str[0] != '-'))
 		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
@@ -71,11 +72,13 @@ t_real	get_real(t_build *build, const char *str)
 	if (tab[1] == NULL)
 		return (result);
 	div = 10;
-	while (ft_isdigit(*tab[1]))
+	frac_str = tab[1];
+	while (ft_isdigit(*frac_str))
 	{
 		result += (t_real)(*tab[1] - '0') / div;
 		div *= 10;
-		tab[1]++;
+		frac_str++;
 	}
+	ft_freetab((void **)tab);
 	return (result);
 }
