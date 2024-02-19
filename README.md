@@ -20,7 +20,7 @@ We parse this into a struct, which mainly consists of vectors, colours (stored a
 The idea of ray tracing is that, for each pixel in the image, you shoot a ray from the camera through the corresponding point in the viewport into the scene.
 You then calculate the nearest point (if any) where the ray intersects with an object in the scene. 
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Ray_trace_diagram.svg" alt="wikipedia image on raytracing">
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Ray_trace_diagram.svg" alt="wikipedia image on raytracing" height="250px">
 
 That is already enough information to make a basic picture: for each pixel whose ray intersects with an object, its colour will be the colour of the object mixed with the colour of the ambient lighting. The pixels whose rays don't intersect with any object will be black.
 
