@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/17 17:07:26 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 10:23:44 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ static void	mode_hooks(t_minirt *minirt)
 {
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_L) && minirt->scene->spotlights)
 	{
-		minirt->spotlights_selected = minirt->scene->spotlights;
 		minirt->mode = MODE_SPOT;
+		if (minirt->spotlights_selected && minirt->spotlights_selected->next)
+			minirt->spotlights_selected = minirt->spotlights_selected->next;
+		else
+			minirt->spotlights_selected = minirt->scene->spotlights;
 	}
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_O))
 	{

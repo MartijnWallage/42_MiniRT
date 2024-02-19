@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/18 12:48:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:11:08 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,27 @@ t_real	get_real(t_build *build, const char *str)
 {
 	t_real	result;
 	t_real	frac;
-	int		i;
+	int		div;
 	char	**tab;
 
-	if (!str || str[0] == 0 || str[0] == '.')
+	if (!str || str[0] == 0|| (!ft_isdigit(str[0]) && str[0] != '-'))
 		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
 	tab = ft_split(str, '.');
 	protect_malloc(build, tab);
 	if (ft_tablen((void **)tab) == 0 || ft_tablen((void **)tab) > 2)
+	{
+		ft_freetab((void **)tab);
 		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
+	}
 	result = (t_real)ft_atoi(tab[0]);
 	if (tab[1] == NULL)
 		return (result);
-	frac = (t_real)ft_atoi(tab[1]);
-	i = (int)ft_strlen(tab[1]);
-	while (i > 0)
+	div = 10;
+	while (ft_isdigit(*tab[1]))
 	{
-		frac /= 10;
-		i--;
+		result += (t_real)(*tab[1] - '0') / div;
+		div *= 10;
+		tab[1]++;
 	}
-	result += frac;
 	return (result);
 }
