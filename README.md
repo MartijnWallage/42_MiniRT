@@ -1,11 +1,12 @@
 # miniRT
 Authors: Thomas Höfting (thofting), Martijn Wallage (mwallage)
 
-## Components
+## A ray tracer in C and openGL
 
 MiniRT, a joint project of the <a href="https://42berlin.de/curriculum-42-berlin/">42 Core Curriculum</a>, is a ray tracer written in C. 
+
 We get to choose between two openGL graphics libraries, one bad and one good.
-After some deliberation, we chose the <a href="https://github.com/codam-coding-college/MLX42">good one</a>.
+After some deliberation, we chose the <a href="https://github.com/codam-coding-college/MLX42">good</a> one.
 
 ## Parsing
 
@@ -18,7 +19,7 @@ In addition, we need a viewport, a rectangular plane which by convention is at a
 
 We parse this into a struct, which mainly consists of vectors, colours (stored as ints, though perhaps vectors would have been better), and some additional information.
 
-## Raytracing
+## Ray tracing
 
 The idea of ray tracing is that, for each pixel in the image, you shoot a ray from the camera through the corresponding point in the viewport into the scene.
 You then calculate the nearest point (if any) where the ray intersects with an object in the scene. 
