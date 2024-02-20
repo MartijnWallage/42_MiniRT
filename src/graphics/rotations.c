@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 14:52:58 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/20 15:03:00 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:32:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,9 @@ void	rotation_hooks(t_minirt *minirt)
 	t_vec3	*direction;
 	t_vec3	*up;
 
-	if (minirt->mode == MODE_CAMERA)
-	{
-		direction = &(minirt->scene->camera.direction);
-		up = &(minirt->scene->camera.up);
-	}
-	else if (minirt->mode == MODE_OBJECT)
-	{
-		direction = &(minirt->obj_selected->direction);
-		up = &(minirt->obj_selected->up);
-	}
-	else
+	direction = set_direction(minirt);
+	up = set_up(minirt);
+	if (!direction || !up)
 		return ;
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_A))
 		roll_rotation(direction, up, ROTATION_SPEED);

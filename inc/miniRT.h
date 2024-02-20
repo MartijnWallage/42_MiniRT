@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:23:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:33:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@
 # include <errno.h>
 # include <string.h>
 # include <unistd.h>
+# include <pthread.h>
 # include "libft.h"
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define ANTIALIAS					0
+# define ANTIALIAS					1
 # ifndef BONUS
 #  define BONUS 					0
 # endif
+# define CORES						16
 # define CHECK_NORMAL				0
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
@@ -163,6 +165,13 @@ typedef struct s_cyl
 	int		orientation_cap;
 }	t_cyl;
 
+/// @brief A struct to act as param for multi-threading
+typedef struct s_row
+{
+	t_minirt	*minirt;
+	uint32_t	y;
+}	t_row;
+
 /*	PARSER	*/
 /*	parser.c	*/
 void		parse_scene(char **argv, t_build *build);
@@ -196,6 +205,9 @@ int			is_normal_vector(t_build *build, char *str);
 int			is_in_range(t_real value, t_real min, t_real max);
 
 /*	RAYTRACER		*/
+/*	compute_bonus.c	*/
+void		*init_thread(void *param);
+void		multi_thread(void *param);
 /*	color utils		*/
 int			scale_color(int c, t_real scale);
 int			alpha_shade(int c1, int c2, t_real alpha);
@@ -215,7 +227,8 @@ void		compute_camera_ray(t_minirt *rt, t_real x, t_real y, t_ray *camera);
 t_cyl		init_ints_struct(t_ray	*ray, t_object *cyl);
 int			get_min_positive(t_real value0, t_real value1);
 int			is_first_visible(t_real a, t_real b, t_real scalar);
-t_real		compute_d(t_ray *ray, t_object *cyl, t_vec3 cap_center, t_real dot_ray_cyl);
+t_real		compute_d(t_ray *ray, t_object *cyl,
+				t_vec3 cap_center, t_real dot_ray_cyl);
 /*	cylinder 		*/
 void		compute_cyl_intersection(t_ray *ray, t_object *cyl);
 /*	intersections	*/
@@ -223,6 +236,7 @@ void		compute_plane_intersection(t_ray *ray, t_object *plane);
 void		compute_sphere_intersection(t_ray *ray, t_object *sphere);
 void		compute_disk_intersection(t_ray *ray, t_object *disk);
 /*	raytracer.c		*/
+void		compute_viewport(t_minirt *minirt);
 void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
 void		raytracer(void *param);
 
@@ -253,6 +267,9 @@ int			get_r(int rgba);
 int			get_g(int rgba);
 int			get_b(int rgba);
 int			get_a(int rgba);
+/*	set_direction.c	*/
+t_vec3		*set_up(t_minirt *minirt);
+t_vec3		*set_direction(t_minirt *minirt);
 
 /*	MATH				*/
 /*	math_utils.c		*/

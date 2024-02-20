@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:03:33 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:24:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-static void	compute_viewport(t_minirt *minirt)
+void	compute_viewport(t_minirt *minirt)
 {
 	t_camera	*camera;
 	t_real		aspect_ratio;
@@ -44,56 +44,19 @@ void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray)
 	}
 }
 
-static void	set_rgb_array(int rgb[3], int r, int g, int b)
-{
-	if (r == -1)
-	{
-		rgb[0] = 0;
-		rgb[1] = 0;
-		rgb[2] = 0;
-	}
-	else
-	{
-		rgb[0] += r;
-		rgb[1] += g;
-		rgb[2] += b;
-	}
-}
-
-static int	get_smooth_color(t_minirt *minirt, uint32_t x, uint32_t y)
-{
-	int		color;
-	int		a[3];
-	t_ray	camera_ray;
-	int		i;
-	int		j;
-
-	i = -ANTIALIAS - 1;
-	set_rgb_array(a, -1, -1, -1);
-	while (++i < ANTIALIAS + 1)
-	{
-		j = -ANTIALIAS - 1;
-		while (++j < ANTIALIAS + 1)
-		{
-			compute_camera_ray(minirt, (t_real)x + (t_real)j
-				/ (2 * (ANTIALIAS + 1)), (t_real)y
-				+ (t_real)i / (2 * (ANTIALIAS + 1)), &camera_ray);
-			compute_ray_object_intersection(minirt, &camera_ray);
-			color = compute_color(minirt, &camera_ray);
-			set_rgb_array(a, get_r(color), get_g(color), get_b(color));
-		}
-	}
-	return (get_rgba(a[0] / minirt->num, a[1] / minirt->num, a[2]
-			/ minirt->num, 255));
-}
-
 void	raytracer(void *param)
 {
 	uint32_t	y;
 	uint32_t	x;
 	t_minirt	*minirt;
 	int			color;
+	t_ray		camera;
 
+	if (BONUS)
+	{
+		multi_thread(param);
+		return ;
+	}
 	minirt = (t_minirt *)param;
 	compute_viewport(minirt);
 	y = -1;
@@ -102,7 +65,9 @@ void	raytracer(void *param)
 		x = -1;
 		while (++x < minirt->image->width)
 		{
-			color = get_smooth_color(minirt, x, y);
+			compute_camera_ray(minirt, x, y, &camera);
+			compute_ray_object_intersection(minirt, &camera);
+			color = compute_color(minirt, &camera);
 			ft_put_pixel(minirt->image, x, y, color);
 		}
 	}

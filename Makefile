@@ -6,13 +6,13 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 15:55:18 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 17:31:38 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MAKE		:= make
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast
+CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast -pthread
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -37,6 +37,7 @@ SRC			:= main.c \
 				graphics/put_pixel.c \
 				graphics/colors.c \
 				graphics/rotations.c \
+				graphics/set_direction.c \
 				graphics/translate.c \
 				math/math_utils.c \
 				math/vector_utils_norm.c \
@@ -51,6 +52,7 @@ SRC			:= main.c \
 				parser/parser_utils.c \
 				parser/parser_vector.c \
 				parser/parser.c \
+				raytracer/compute_bonus.c \
 				raytracer/raytracer.c \
 				raytracer/compute_rays.c \
 				raytracer/intersections.c \
