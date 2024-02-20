@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:36:13 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:11:37 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static char	**make_tab(t_build *build, const char *str)
 t_real	get_real(t_build *build, const char *str)
 {
 	t_real	result;
-	t_real	frac;
 	int		div;
 	char	**tab;
 	char	*frac_str;

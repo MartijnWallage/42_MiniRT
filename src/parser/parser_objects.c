@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:57:22 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:17:12 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	check_plane_tabs(t_build *build)
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_color(build, build->tab[3]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	if (BONUS && (!is_real(build->tab[4]) || !is_real(build->tab[5])))
+	if (BONUS && (!is_ratio(build, build->tab[4])
+		|| !is_posnum(build, build->tab[5])))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
@@ -67,7 +68,8 @@ static void	check_sphere_tabs(t_build *build)
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_color(build, tab[3]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	if (BONUS && (!is_real(build->tab[4]) || !is_real(build->tab[5])))
+	if (BONUS && (!is_ratio(build, build->tab[4])
+		|| !is_posnum(build, build->tab[5])))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
@@ -108,8 +110,8 @@ static void	check_disk_tab(t_build *build)
 		|| !is_normal_vector(build, tab[2])
 		|| !is_posnum(build, tab[3])
 		|| !is_color(build, tab[4])
-		|| !is_real(build->tab[5])
-		|| !is_real(build->tab[6]))
+		|| !is_ratio(build, build->tab[5])
+		|| !is_posnum(build, build->tab[6]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 

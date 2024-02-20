@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:35:59 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 13:27:33 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:12:38 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	parse_spotlights(t_build *build)
 		|| !is_ratio(build, build->tab[2])
 		|| !is_color(build, build->tab[3])
 		|| (!BONUS && build->scene->spotlights)
-		|| (BONUS && !is_real(build->tab[4])))
+		|| (BONUS && !is_ratio(build, build->tab[4])))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	new_light = malloc(sizeof(t_spotlight));
 	protect_malloc(build, new_light);

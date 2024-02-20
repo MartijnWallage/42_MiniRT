@@ -17,15 +17,20 @@ static void	check_cyl_tab(t_build *build)
 	char		**tab;
 
 	tab = build->tab;
-	if (ft_tablen((void **)tab) != 6 + 2 * BONUS
-		|| !is_vector(build, tab[1])
-		|| !is_normal_vector(build, tab[2])
-		|| !is_posnum(build, tab[3])
-		|| !is_posnum(build, tab[4])
-		|| !is_color(build, tab[5])
-		|| (BONUS
-			&& (!is_real(build->tab[6])
-				|| !is_real(build->tab[7]))))
+	if (ft_tablen((void **)tab) != 6 + 2 * BONUS)
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_vector(build, tab[1]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_normal_vector(build, tab[2]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_posnum(build, tab[3]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_posnum(build, tab[4]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_color(build, tab[5]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (BONUS && (!is_ratio(build, build->tab[6])
+		|| !is_posnum(build, build->tab[7])))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 

@@ -6,13 +6,13 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 15:45:54 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 15:55:18 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MAKE		:= make
 CC			:= cc
-CFLAGS		:=  -Wunreachable-code -Ofast #-Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -21,7 +21,7 @@ LIBFT		:= $(LIBFTDIR)/libft.a
 MLXDIR		:= ./MLX42
 MLX			:= $(MLXDIR)/build/libmlx42.a
 HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc -I$(MLXDIR)/include/MLX42
-BONUS		:= 3
+BONUS		:= 0
 LIBS		:= -L$(LIBFTDIR) -lft $(MLX)
 UNAME_S		:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
