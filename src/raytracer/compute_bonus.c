@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:21:52 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 18:55:21 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:53:34 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,17 @@ void	*init_thread(void *param)
 void	multi_thread(t_minirt *minirt)
 {
 	uint32_t	y;
-	t_row		row[IMAGE_HEIGHT];
-	pthread_t	threads[IMAGE_HEIGHT];
+	t_row		row[minirt->image->height];
+	pthread_t	threads[minirt->image->height];
 
 	y = -1;
-	while (++y < IMAGE_HEIGHT)
+	while (++y < minirt->image->height)
 	{
 		row[y].y = y;
 		row[y].minirt = minirt;
 		pthread_create(&(threads[y]), NULL, &init_thread, &(row[y]));
 	}
 	y = -1;
-	while (++y < IMAGE_HEIGHT)
+	while (++y < minirt->image->height)
 		pthread_join(threads[y], NULL);
 }
