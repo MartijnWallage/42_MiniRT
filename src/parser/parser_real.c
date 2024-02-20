@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_double.c                                    :+:      :+:    :+:   */
+/*   parser_real.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 11:33:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:12:09 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "miniRT.h"
 
 static int	is_numstr(const char *str)
 {
@@ -59,7 +59,7 @@ t_real	get_real(t_build *build, const char *str)
 	char	**tab;
 	char	*frac_str;
 
-	if (!str || str[0] == 0|| (!ft_isdigit(str[0]) && str[0] != '-'))
+	if (!str || str[0] == 0 || (!ft_isdigit(str[0]) && str[0] != '-'))
 		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
 	tab = ft_split(str, '.');
 	protect_malloc(build, tab);

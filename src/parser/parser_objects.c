@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_objects.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 11:47:50 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:18:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "miniRT.h"
 
 void	parse_plane(t_build *build)
 {

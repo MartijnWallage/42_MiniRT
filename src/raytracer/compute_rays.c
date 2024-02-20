@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   compute_rays.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 15:38:19 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/20 11:00:44 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:04:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raytracer.h"
+#include "miniRT.h"
 
 t_vec3	get_hitpoint(t_ray *ray)
 {
 	return (multiply(ray->direction, ray->intersection));
 }
 
-void	compute_light_ray(t_ray *camera_ray, t_spotlight *spot, t_ray *light_ray)
+void	compute_light_ray(t_ray *camera, t_spotlight *spot, t_ray *light)
 {
 	t_vec3		hitpoint;
 
-	hitpoint = add(get_hitpoint(camera_ray), camera_ray->origin);
-	light_ray->origin = spot->source;
-	light_ray->direction = normalize(subtract(hitpoint, light_ray->origin));
-	light_ray->intersection = norm(subtract(hitpoint, light_ray->origin));
-	light_ray->object = camera_ray->object;
-	light_ray->normal = multiply(camera_ray->normal, 1);
-	if (dot(light_ray->normal, light_ray->direction) > 0)
-		light_ray->normal = multiply(camera_ray->normal, -1);
+	hitpoint = add(get_hitpoint(camera), camera->origin);
+	light->origin = spot->source;
+	light->direction = normalize(subtract(hitpoint, light->origin));
+	light->intersection = norm(subtract(hitpoint, light->origin));
+	light->object = camera->object;
+	light->normal = multiply(camera->normal, 1);
+	if (dot(light->normal, light->direction) > 0)
+		light->normal = multiply(camera->normal, -1);
 }
 
 void	compute_camera_ray(t_minirt *minirt, t_real x, t_real y, t_ray *ray)

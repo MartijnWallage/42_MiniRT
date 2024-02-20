@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 11:47:50 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:09:01 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 // DEBUGGING FLAGS
 # define ANTIALIAS					0
 # ifndef BONUS
-	# define BONUS 			1
+#  define BONUS 					0
 # endif
 # define CHECK_NORMAL				0
 # define MAX_DIGITS_INT_PART 		6
@@ -94,6 +94,7 @@ typedef struct s_camera{
 	t_real		height;
 }	t_camera;
 
+/// @brief Any object: cylinder, plane, or sphere
 typedef struct s_object{
 	t_identifier	type;
 	t_vec3			center;
@@ -107,6 +108,7 @@ typedef struct s_object{
 	struct s_object	*next;
 }	t_object;
 
+/// @brief A camera ray or light ray
 typedef struct s_ray {
 	t_vec3		origin;
 	t_vec3		direction;
@@ -115,6 +117,7 @@ typedef struct s_ray {
 	t_object	*object;
 }	t_ray;
 
+/// @brief The scene after parsing
 typedef struct s_scene
 {
 	t_ambient		ambient;
@@ -123,6 +126,7 @@ typedef struct s_scene
 	t_object		*objects;
 }	t_scene;
 
+/// @brief Main struct that contains everything we need after parsing
 typedef struct s_minirt
 {
 	t_scene			*scene;
@@ -134,8 +138,94 @@ typedef struct s_minirt
 	int				num;
 }	t_minirt;
 
+/// @brief Helper struct during parsing
+typedef struct s_build
+{
+	t_scene		*scene;
+	char		**tab;
+	char		*line;
+	int			fd;
+	int			check_ambient;
+	int			check_camera;
+}	t_build;
+
+/// @brief Helper struct for cylinder calculations
+typedef struct s_cyl
+{
+	t_vec3	nxa;
+	t_real	norm_nxa;
+	t_vec3	b_x_a;
+	t_vec3	b;
+	t_real	d_hull;
+	t_real	d_cap;
+	t_real	t_hull;
+	int		orientation_cap;
+}	t_cyl;
+
+/*	PARSER	*/
+/*	parser.c	*/
+void		parse_scene(char **argv, t_build *build);
+/*	parser_utils.c		*/
+int			ft_countchar(const char *str, char c);
+t_real		get_real(t_build *build, const char *str);
+int			get_color(t_build *build, char *rgb);
+t_vec3		get_vec3(t_build *build, char *numbers);
+/*	parse_cylinder.c	*/
+void		parse_cyl(t_build *build);
+/*	parse_objects.c		*/
+void		parse_sphere(t_build *build);
+void		parse_plane(t_build *build);
+/*	parse_lights.c		*/
+void		parse_spotlights(t_build *build);
+int			parse_ambient(t_build *build);
+/*	parse_camera.c		*/
+int			parse_camera(t_build *build);
+
+/*	Checks */
+int			is_ratio(t_build *build, char *str);
+int			is_angle(t_build *build, char *str);
+int			is_posnum(t_build *build, const char *str);
+int			is_real(const char *str);
+int			is_vector(t_build *build, char *str);
+int			is_color(t_build *build, char *str);
+int			is_normal_vector(t_build *build, char *str);
+int			is_in_range(t_real value, t_real min, t_real max);
+
+/*	RAYTRACER		*/
+/*	color utils		*/
+int			scale_color(int c, t_real scale);
+int			alpha_shade(int c1, int c2, t_real alpha);
+int			mix_colors(int color1, int color2);
+int			add_colors(int c1, int c2);
+/*	compute color	*/
+int			compute_specular(t_spotlight *spotlight, t_ray *camera, t_ray *light);
+int			compute_diffuse(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray);
+int			compute_color(t_minirt *minirt, t_ray *camera_ray);
+/*	compute ray		*/
+t_vec3		get_hitpoint(t_ray *ray);
+void		compute_light_ray(t_ray *camera, t_spotlight *spot, t_ray *light);
+void		compute_camera_ray(t_minirt *rt, t_real x, t_real y, t_ray *camera);
+/*	cylinder utils	*/
+t_cyl		init_ints_struct(t_ray	*ray, t_object *cyl);
+int			get_min_positive(t_real value0, t_real value1);
+int			is_first_visible(t_real a, t_real b, t_real scalar);
+/*	cylinder 		*/
+void		compute_cyl_intersection(t_ray *ray, t_object *cyl);
+void		compute_plane_intersection(t_ray *ray, t_object *plane);
+/*	intersections	*/
+void		compute_plane_intersection(t_ray *ray, t_object *plane);
+void		compute_sphere_intersection(t_ray *ray, t_object *sphere);
+void		compute_cyl_intersection(t_ray *ray, t_object *cyl);
+/*	raytracer.c		*/
+void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
+void		raytracer(void *param);
+
 /*	CLEAN		*/
 /*	clean.c		*/
+void		free_objects(t_object *head);
+int			error_msg(const char *info);
+void		free_spotlights(t_spotlight *head);
+/*	exit.c		*/
 void		exit_minirt(t_minirt *minirt, char *message, int status);
 void		exit_minirt_build(t_build *build, char *message, int status);
 void		protect_malloc(t_build *build, void *check_ptr);
@@ -149,8 +239,9 @@ void		rotation_hooks(t_minirt *minirt);
 void		ft_put_pixel(mlx_image_t *image, unsigned int x,
 				unsigned int y, int color);
 void		ft_resizefunc(int width, int height, void *param);
-
-/*	colors.c	*/
+/*	translate.c		*/
+void		translation_hooks(t_minirt *minirt);
+/*	colors.c		*/
 int			get_rgba(int r, int g, int b, int a);
 int			get_r(int rgba);
 int			get_g(int rgba);

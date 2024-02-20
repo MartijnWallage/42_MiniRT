@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "miniRT.h"
 
 static void	check_cyl_tab(t_build *build)
 {

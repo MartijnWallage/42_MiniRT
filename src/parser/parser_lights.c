@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_lights.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:35:59 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 11:47:50 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:27:33 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "miniRT.h"
 
 int	parse_ambient(t_build *build)
 {
@@ -49,7 +49,6 @@ void	parse_spotlights(t_build *build)
 	{
 		new_light->color = get_color(build, build->tab[3]);
 		new_light->specular = get_real(build, build->tab[4]);
-		printf("spotlight specular: %f\n", new_light->specular);
 	}
 	new_light->next = build->scene->spotlights;
 	build->scene->spotlights = new_light;

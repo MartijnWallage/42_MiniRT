@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raytracer.h"
+#include "miniRT.h"
 
 t_cyl	init_ints_struct(t_ray	*ray, t_object *cyl)
 {

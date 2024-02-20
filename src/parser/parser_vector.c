@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_vector.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:36 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 11:34:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:18:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "miniRT.h"
 
 int	is_normal_vector(t_build *build, char *str)
 {

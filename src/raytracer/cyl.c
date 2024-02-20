@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raytracer.h"
+#include "miniRT.h"
 
 static void	check_dt(t_real dt[2][2], t_ray *ray, t_object *cyl,
 	t_cyl *ints)
@@ -59,13 +59,14 @@ static void	compute_cyl_hull(t_cyl *ints, t_ray *ray, t_object *cyl)
 	ints->d_hull = dt[0][type];
 }
 
-
-static t_real	compute_d(t_ray *ray, t_object *cyl, t_vec3 cap_center, t_real dot_ray_cyl)
+static t_real	compute_d(t_ray *ray, t_object *cyl,
+	t_vec3 cap_center, t_real dot_ray_cyl)
 {
 	t_real	d;
 
 	d = dot(cyl->direction, cap_center) / dot_ray_cyl;
-	if (norm2(subtract(multiply(ray->direction, d), cap_center)) >= pow2(cyl->radius))
+	if (norm2(subtract(multiply(ray->direction, d), cap_center))
+		>= pow2(cyl->radius))
 		return (-1);
 	return (d);
 }
@@ -103,8 +104,8 @@ void	compute_cyl_intersection(t_ray *ray, t_object *cyl)
 		ray->object = cyl;
 		ray->intersection = ints.d_hull;
 		ray->normal = subtract(get_hitpoint(ray), ints.b);
- 		ray->normal = normalize(subtract(ray->normal,
-			multiply(cyl->direction, ints.t_hull)));
+		ray->normal = normalize(
+				subtract(ray->normal, multiply(cyl->direction, ints.t_hull)));
 	}
 	else if (is_first_visible(d_cap, ints.d_hull, ray->intersection))
 	{

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   raytracer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 11:25:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:03:33 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raytracer.h"
+#include "miniRT.h"
 
 static void	compute_viewport(t_minirt *minirt)
 {
@@ -81,7 +81,8 @@ static int	get_smooth_color(t_minirt *minirt, uint32_t x, uint32_t y)
 			set_rgb_array(a, get_r(color), get_g(color), get_b(color));
 		}
 	}
-	return (get_rgba(a[0] / minirt->num, a[1] / minirt->num, a[2] / minirt->num, 255));
+	return (get_rgba(a[0] / minirt->num, a[1] / minirt->num, a[2]
+			/ minirt->num, 255));
 }
 
 void	raytracer(void *param)

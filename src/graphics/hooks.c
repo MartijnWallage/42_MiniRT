@@ -6,45 +6,11 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/19 13:18:29 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:49:15 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-/// @brief Adapt position of selected object if keys are pressed
-/// @param minirt A pointer to struct that contains program parameters
-static void	translation_hooks(t_minirt *minirt)
-{
-	t_vec3	*position;
-
-	if (minirt->mode == MODE_CAMERA)
-		position = &(minirt->scene->camera.viewpoint);
-	else if (minirt->mode == MODE_OBJECT)
-		position = &(minirt->obj_selected->center);
-	else if (minirt->mode == MODE_SPOT)
-		position = &(minirt->spotlights_selected->source);
-	else
-		return ;
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
-		*position = subtract(*position,
-			multiply(minirt->scene->camera.right, TRANSLATION_SPEED));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
-		*position = add(*position,
-			multiply(minirt->scene->camera.right, TRANSLATION_SPEED));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_UP))
-		*position = add(*position,
-			multiply(minirt->scene->camera.up, TRANSLATION_SPEED));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN))
-		*position = subtract(*position,
-			multiply(minirt->scene->camera.up, TRANSLATION_SPEED));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_EQUAL))
-		*position = add(*position,
-			multiply(minirt->scene->camera.direction, TRANSLATION_SPEED));
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_MINUS))
-		*position = subtract(*position,
-			multiply(minirt->scene->camera.direction, TRANSLATION_SPEED));
-}
 
 /// @brief Set mode of control if key is pressed. If L or O is pressed 
 ///		multiple times in a row, the next spotlights or object respectively 

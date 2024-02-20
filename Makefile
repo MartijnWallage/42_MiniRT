@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 11:52:07 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 13:50:04 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,22 +31,24 @@ ifeq ($(UNAME_S),Darwin)
 endif
 SRC			:= main.c \
 				clean/clean.c \
+				clean/exit.c \
 				graphics/hooks.c \
 				graphics/put_pixel.c \
 				graphics/colors.c \
 				graphics/rotations.c \
+				graphics/translate.c \
 				math/math_utils.c \
 				math/vector_utils_norm.c \
 				math/vector_utils.c \
-				parser/parser.c \
-				parser/parser_checks.c \
-				parser/parser_objects.c \
-				parser/parser_cyl.c \
 				parser/parser_camera.c \
+				parser/parser_checks.c \
+				parser/parser_cyl.c \
 				parser/parser_lights.c \
+				parser/parser_objects.c \
+				parser/parser_real.c \
 				parser/parser_utils.c \
-				parser/parser_double.c \
 				parser/parser_vector.c \
+				parser/parser.c \
 				raytracer/raytracer.c \
 				raytracer/compute_rays.c \
 				raytracer/intersections.c \
@@ -80,6 +82,7 @@ $(OBJDIR):
 	mkdir $(OBJDIR)/raytracer;
 	mkdir $(OBJDIR)/graphics;
 	mkdir $(OBJDIR)/clean;
+	mkdir $(OBJDIR)/math;
 
 $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $@

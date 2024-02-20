@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 11:02:43 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:18:48 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raytracer.h"
+#include "miniRT.h"
 
 void	compute_plane_intersection(t_ray *ray, t_object *plane)
 {
