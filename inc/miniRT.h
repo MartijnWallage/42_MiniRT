@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:09:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:23:01 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,10 @@ int			alpha_shade(int c1, int c2, t_real alpha);
 int			mix_colors(int color1, int color2);
 int			add_colors(int c1, int c2);
 /*	compute color	*/
-int			compute_specular(t_spotlight *spotlight, t_ray *camera, t_ray *light);
-int			compute_diffuse(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray);
+void		compute_specular(int *specular, t_spotlight *spotlight,
+				t_ray *camera, t_ray *light);
+void		compute_diffuse(int *diffuse, t_spotlight *spotlight, 
+				t_ray *camera_ray, t_ray *light_ray);
 int			compute_color(t_minirt *minirt, t_ray *camera_ray);
 /*	compute ray		*/
 t_vec3		get_hitpoint(t_ray *ray);

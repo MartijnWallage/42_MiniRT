@@ -6,10 +6,11 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 13:50:04 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 15:45:54 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+MAKE		:= make
 CC			:= cc
 CFLAGS		:=  -Wunreachable-code -Ofast #-Wall -Wextra -Werror
 SRCDIR		:= ./src
@@ -20,7 +21,7 @@ LIBFT		:= $(LIBFTDIR)/libft.a
 MLXDIR		:= ./MLX42
 MLX			:= $(MLXDIR)/build/libmlx42.a
 HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc -I$(MLXDIR)/include/MLX42
-BONUS		:= 0
+BONUS		:= 3
 LIBS		:= -L$(LIBFTDIR) -lft $(MLX)
 UNAME_S		:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -58,7 +59,6 @@ SRC			:= main.c \
 				raytracer/compute_color_utils.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
-MAKE		:= make
 NAME		:= miniRT
 
 all: $(NAME)
@@ -90,9 +90,9 @@ $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/miniRT.h
 	$(CC) -DBONUS=$(BONUS) $(CFLAGS) -c $< $(HEADERS) -o $@
 
-bonus: fclean
-	make BONUS:=1
-	
+bonus:
+	$(MAKE) BONUS:=1
+
 clean:
 	$(MAKE) clean -C $(LIBFTDIR)
 	rm -f $(OBJ)
