@@ -42,7 +42,7 @@
 # define PARSING_EXITCODE			3
 # define REQUIRE_LIGHT_AND_CAMERA	"parsing error: requires light and camera"
 # define CANNOT_OPEN_FILE			"cannot open file"
-# define PARSING_ERROR				"parsing error"
+# define PARSING_ERROR				"parsing error in line "
 
 # define IMAGE_WIDTH 1000
 # define IMAGE_HEIGHT 500
@@ -150,6 +150,7 @@ typedef struct s_build
 	int			fd;
 	int			check_ambient;
 	int			check_camera;
+	int			line_idx;
 }	t_build;
 
 /// @brief Helper struct for cylinder calculations
@@ -243,7 +244,7 @@ void		raytracer(void *param);
 /*	CLEAN		*/
 /*	clean.c		*/
 void		free_objects(t_object *head);
-int			error_msg(const char *info);
+int			error_msg(const char *info, int line_idx);
 void		free_spotlights(t_spotlight *head);
 /*	exit.c		*/
 void		exit_minirt(t_minirt *minirt, char *message, int status);

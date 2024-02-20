@@ -12,13 +12,18 @@
 
 #include "miniRT.h"
 
-int	error_msg(const char *info)
+int	error_msg(const char *info, int line_idx)
 {
 	char	*errno_readable;
 
 	write(STDERR_FILENO, "Error\n", 6);
 	write(STDERR_FILENO, "miniRT: ", 8);
-	if (info)
+	if (!ft_strcmp(info, PARSING_ERROR))
+	{
+		write(STDERR_FILENO, info, ft_strlen(info));
+		ft_putnbr_fd(line_idx, STDERR_FILENO);
+	}
+	else if (info)
 		write(STDERR_FILENO, info, ft_strlen(info));
 	errno_readable = strerror(errno);
 	if (errno)
@@ -59,6 +64,6 @@ void	exit_minirt(t_minirt *minirt, char *message, int status)
 	if (minirt->scene->objects)
 		free_objects(minirt->scene->objects);
 	if (status)
-		error_msg(message);
+		error_msg(message, 0);
 	exit(status);
 }

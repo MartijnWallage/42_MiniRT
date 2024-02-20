@@ -25,7 +25,7 @@ void	exit_minirt_build(t_build *build, char *message, int status)
 	if (build->scene->spotlights)
 		free_spotlights(build->scene->spotlights);
 	if (status)
-		error_msg(message);
+		error_msg(message, build->line_idx);
 	exit(status);
 }
 

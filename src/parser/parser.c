@@ -61,7 +61,9 @@ void	parse_scene(char **argv, t_build *build)
 		exit_minirt_build(build, "empty file", EXIT_FAILURE);
 	while (build->line)
 	{
-		parse_line(build);
+		build->line_idx++;
+		if (!(build->line[0] == '\n'))
+			parse_line(build);
 		free(build->line);
 		build->line = get_next_line(build->fd);
 	}

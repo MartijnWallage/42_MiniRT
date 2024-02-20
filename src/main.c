@@ -69,6 +69,7 @@ static void	init_build(t_build *build, t_scene *scene)
 	build->scene = scene;
 	build->check_ambient = 0;
 	build->check_camera = 0;
+	build->line_idx = 0;
 }
 
 int	main(int argc, char **argv)
