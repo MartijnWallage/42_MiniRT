@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:49:24 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 13:49:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 15:10:37 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,35 @@ static t_vec3	translate(t_vec3 *position, t_vec3 *direction, t_real scale)
 	return (ret);
 }
 
+t_vec3	*set_position(t_minirt *minirt)
+{
+	if (minirt->mode == MODE_CAMERA)
+		return (&(minirt->scene->camera.viewpoint));
+	else if (minirt->mode == MODE_OBJECT)
+		return (&(minirt->obj_selected->center));
+	else if (minirt->mode == MODE_SPOT)
+		return (&(minirt->spotlights_selected->source));
+	else
+		return (NULL);
+}
+
 /// @brief Adapt position of selected object if keys are pressed
 /// @param minirt A pointer to struct that contains program parameters
 void	translation_hooks(t_minirt *minirt)
 {
 	t_vec3		*position;
 	t_camera	*camera;
+	t_vec3		right;
 
-	if (minirt->mode == MODE_CAMERA)
-		position = &(minirt->scene->camera.viewpoint);
-	else if (minirt->mode == MODE_OBJECT)
-		position = &(minirt->obj_selected->center);
-	else if (minirt->mode == MODE_SPOT)
-		position = &(minirt->spotlights_selected->source);
-	else
+	position = set_position(minirt);
+	if (!position)
 		return ;
 	camera = &minirt->scene->camera;
+	right = cross(camera->direction, camera->up);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_LEFT))
-		*position = translate(position, &camera->right, -TRANSLATION_SPEED);
+		*position = translate(position, &right, -TRANSLATION_SPEED);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT))
-		*position = translate(position, &camera->right, TRANSLATION_SPEED);
+		*position = translate(position, &right, TRANSLATION_SPEED);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_UP))
 		*position = translate(position, &camera->up, TRANSLATION_SPEED);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_DOWN))

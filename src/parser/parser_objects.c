@@ -6,24 +6,31 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 13:18:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:57:22 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
+void	check_plane_tabs(t_build *build)
+{
+	if (ft_tablen((void **)build->tab) != 4 + 2 * BONUS)
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_vector(build, build->tab[1]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_normal_vector(build, build->tab[2]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_color(build, build->tab[3]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (BONUS && (!is_real(build->tab[4]) || !is_real(build->tab[5])))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+}
+
 void	parse_plane(t_build *build)
 {
 	t_object	*plane;
 
-	if (ft_tablen((void **)build->tab) != 4 + 2 * BONUS
-		|| !is_vector(build, build->tab[1])
-		|| !is_normal_vector(build, build->tab[2])
-		|| !is_color(build, build->tab[3])
-		|| (BONUS
-			&& (!is_real(build->tab[4])
-				|| !is_real(build->tab[5]))))
-		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	check_plane_tabs(build);
 	plane = malloc(sizeof(t_object));
 	protect_malloc(build, plane);
 	plane->type = PLANE;
@@ -47,27 +54,35 @@ void	parse_plane(t_build *build)
 	build->scene->objects = plane;
 }
 
+static void	check_sphere_tabs(t_build *build)
+{
+	char	**tab;
+
+	tab = build->tab;
+	if (ft_tablen((void **)tab) != 4 + 2 * BONUS)
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_vector(build, tab[1]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_posnum(build, tab[2]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_color(build, tab[3]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (BONUS && (!is_real(build->tab[4]) || !is_real(build->tab[5])))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+}
+
 void	parse_sphere(t_build *build)
 {
 	t_object	*sphere;
 	char		**tab;
-	t_scene		*scene;
 
+	check_sphere_tabs(build);
 	tab = build->tab;
-	scene = build->scene;
-	if (ft_tablen((void **)tab) != 4 + 2 * BONUS
-		|| !is_vector(build, tab[1])
-		|| !is_posnum(build, tab[2]) 
-		|| !is_color(build, tab[3])
-		|| (BONUS
-			&& (!is_real(build->tab[4])
-				|| !is_real(build->tab[5]))))
-		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	sphere = malloc(sizeof(t_object));
 	protect_malloc(build, sphere);
 	sphere->type = SPHERE;
-	sphere->center = get_vec3(build, tab[1]);
-	sphere->radius = get_real(build, tab[2]) / 2;
+	sphere->center = get_vec3(build, build->tab[1]);
+	sphere->radius = get_real(build, build->tab[2]) / 2;
 	if (sphere->radius <= 0)
 		exit_minirt_build(build,
 			"radius must be more than 0", PARSING_EXITCODE);
@@ -76,9 +91,9 @@ void	parse_sphere(t_build *build)
 	sphere->shininess = 0.0;
 	if (BONUS)
 	{
-		sphere->diffuse = get_real(build, tab[4]);
-		sphere->shininess = get_real(build, tab[5]);
+		sphere->diffuse = get_real(build, build->tab[4]);
+		sphere->shininess = get_real(build, build->tab[5]);
 	}
-	sphere->next = scene->objects;
-	scene->objects = sphere;
+	sphere->next = build->scene->objects;
+	build->scene->objects = sphere;
 }

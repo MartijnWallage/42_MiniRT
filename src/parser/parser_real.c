@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:12:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:36:13 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,20 @@ int	is_real(const char *str)
 	return (return_value);
 }
 
+static char	**make_tab(t_build *build, const char *str)
+{
+	char	**tab;
+
+	tab = ft_split(str, '.');
+	protect_malloc(build, tab);
+	if (ft_tablen((void **)tab) == 0 || ft_tablen((void **)tab) > 2)
+	{
+		ft_freetab((void **)tab);
+		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
+	}
+	return (tab);
+}
+
 t_real	get_real(t_build *build, const char *str)
 {
 	t_real	result;
@@ -61,13 +75,7 @@ t_real	get_real(t_build *build, const char *str)
 
 	if (!str || str[0] == 0 || (!ft_isdigit(str[0]) && str[0] != '-'))
 		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
-	tab = ft_split(str, '.');
-	protect_malloc(build, tab);
-	if (ft_tablen((void **)tab) == 0 || ft_tablen((void **)tab) > 2)
-	{
-		ft_freetab((void **)tab);
-		exit_minirt_build(build, "invalid t_real", PARSING_EXITCODE);
-	}
+	tab = make_tab(build, str);
 	result = (t_real)ft_atoi(tab[0]);
 	if (tab[1] == NULL)
 		return (result);
