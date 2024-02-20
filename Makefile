@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 17:23:21 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 17:31:38 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC			:= main.c \
 				graphics/put_pixel.c \
 				graphics/colors.c \
 				graphics/rotations.c \
+				graphics/set_direction.c \
 				graphics/translate.c \
 				math/math_utils.c \
 				math/vector_utils_norm.c \

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 17:25:05 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:33:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,8 @@ void		compute_camera_ray(t_minirt *rt, t_real x, t_real y, t_ray *camera);
 t_cyl		init_ints_struct(t_ray	*ray, t_object *cyl);
 int			get_min_positive(t_real value0, t_real value1);
 int			is_first_visible(t_real a, t_real b, t_real scalar);
-t_real		compute_d(t_ray *ray, t_object *cyl, t_vec3 cap_center, t_real dot_ray_cyl);
+t_real		compute_d(t_ray *ray, t_object *cyl,
+				t_vec3 cap_center, t_real dot_ray_cyl);
 /*	cylinder 		*/
 void		compute_cyl_intersection(t_ray *ray, t_object *cyl);
 /*	intersections	*/
@@ -266,6 +267,9 @@ int			get_r(int rgba);
 int			get_g(int rgba);
 int			get_b(int rgba);
 int			get_a(int rgba);
+/*	set_direction.c	*/
+t_vec3		*set_up(t_minirt *minirt);
+t_vec3		*set_direction(t_minirt *minirt);
 
 /*	MATH				*/
 /*	math_utils.c		*/

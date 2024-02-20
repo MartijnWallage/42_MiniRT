@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:21:52 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 17:22:20 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:26:24 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*init_thread(void *param)
 {
 	uint32_t	x;
 	uint32_t	y;
-	t_minirt 	*minirt;
+	t_minirt	*minirt;
 	int			color;
 	t_row		*row;
 
