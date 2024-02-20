@@ -59,7 +59,7 @@ static void	compute_cyl_hull(t_cyl *ints, t_ray *ray, t_object *cyl)
 	ints->d_hull = dt[0][type];
 }
 
-static t_real	compute_d(t_ray *ray, t_object *cyl,
+t_real	compute_d(t_ray *ray, t_object *cyl,
 	t_vec3 cap_center, t_real dot_ray_cyl)
 {
 	t_real	d;

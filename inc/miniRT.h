@@ -176,6 +176,7 @@ t_vec3		get_vec3(t_build *build, char *numbers);
 /*	parse_cylinder.c	*/
 t_real		get_radius(t_build *build, char *rad);
 void		parse_cyl(t_build *build);
+t_vec3		compute_up_vector(t_build *build, t_vec3 direction);
 /*	parse_objects.c		*/
 void		parse_sphere(t_build *build);
 void		parse_plane(t_build *build);
@@ -216,13 +217,13 @@ void		compute_camera_ray(t_minirt *rt, t_real x, t_real y, t_ray *camera);
 t_cyl		init_ints_struct(t_ray	*ray, t_object *cyl);
 int			get_min_positive(t_real value0, t_real value1);
 int			is_first_visible(t_real a, t_real b, t_real scalar);
+t_real		compute_d(t_ray *ray, t_object *cyl, t_vec3 cap_center, t_real dot_ray_cyl);
 /*	cylinder 		*/
 void		compute_cyl_intersection(t_ray *ray, t_object *cyl);
-void		compute_plane_intersection(t_ray *ray, t_object *plane);
 /*	intersections	*/
 void		compute_plane_intersection(t_ray *ray, t_object *plane);
 void		compute_sphere_intersection(t_ray *ray, t_object *sphere);
-void		compute_cyl_intersection(t_ray *ray, t_object *cyl);
+void		compute_disk_intersection(t_ray *ray, t_object *disk);
 /*	raytracer.c		*/
 void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
 void		raytracer(void *param);

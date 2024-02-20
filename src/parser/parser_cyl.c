@@ -30,7 +30,7 @@ static void	check_cyl_tab(t_build *build)
 	if (!is_color(build, tab[5]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (BONUS && (!is_ratio(build, build->tab[6])
-		|| !is_posnum(build, build->tab[7])))
+			|| !is_posnum(build, build->tab[7])))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
@@ -56,12 +56,24 @@ static t_real	get_cyl_height(t_build *build, char *height)
 	return (ret);
 }
 
+t_vec3	compute_up_vector(t_build *build, t_vec3 direction)
+{
+	t_vec3	right;
+
+	right = get_vec3(build, "0,0,1");
+	if (norm(cross(right, direction)) < EPSILON)
+	{
+		right.z = 0;
+		right.x = -direction.z;
+	}
+	return (cross(direction, right));
+}
+
 void	parse_cyl(t_build *build)
 {
 	t_object	*cyl;
 	char		**tab;
 	t_scene		*scene;
-	t_vec3		right;
 
 	tab = build->tab;
 	scene = build->scene;
@@ -74,13 +86,7 @@ void	parse_cyl(t_build *build)
 	cyl->radius = get_radius(build, tab[3]);
 	cyl->height = get_cyl_height(build, tab[4]);
 	cyl->color = get_color(build, tab[5]);
-	right = get_vec3(build, "0,0,1");
-	if (norm(cross(right, cyl->direction)) < EPSILON)
-	{
-		right.z = 0;
-		right.x = -cyl->direction.z;
-	}
-	cyl->up = cross(cyl->direction, right);
+	cyl->up = compute_up_vector(build, cyl->direction);
 	cyl->diffuse = 1.0;
 	cyl->shininess = 0.0;
 	if (BONUS)
