@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 16:40:02 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:25:05 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,13 @@ typedef struct s_cyl
 	int		orientation_cap;
 }	t_cyl;
 
+/// @brief A struct to act as param for multi-threading
+typedef struct s_row
+{
+	t_minirt	*minirt;
+	uint32_t	y;
+}	t_row;
+
 /*	PARSER	*/
 /*	parser.c	*/
 void		parse_scene(char **argv, t_build *build);
@@ -198,6 +205,9 @@ int			is_normal_vector(t_build *build, char *str);
 int			is_in_range(t_real value, t_real min, t_real max);
 
 /*	RAYTRACER		*/
+/*	compute_bonus.c	*/
+void		*init_thread(void *param);
+void		multi_thread(void *param);
 /*	color utils		*/
 int			scale_color(int c, t_real scale);
 int			alpha_shade(int c1, int c2, t_real alpha);
@@ -225,6 +235,7 @@ void		compute_plane_intersection(t_ray *ray, t_object *plane);
 void		compute_sphere_intersection(t_ray *ray, t_object *sphere);
 void		compute_disk_intersection(t_ray *ray, t_object *disk);
 /*	raytracer.c		*/
+void		compute_viewport(t_minirt *minirt);
 void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
 void		raytracer(void *param);
 

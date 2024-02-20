@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 16:53:05 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 17:23:21 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC			:= main.c \
 				parser/parser_utils.c \
 				parser/parser_vector.c \
 				parser/parser.c \
+				raytracer/compute_bonus.c \
 				raytracer/raytracer.c \
 				raytracer/compute_rays.c \
 				raytracer/intersections.c \
