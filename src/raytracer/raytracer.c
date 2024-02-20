@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:03:33 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:15:36 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	set_rgb_array(int rgb[3], int r, int g, int b)
 	}
 }
 
-static int	get_smooth_color(t_minirt *minirt, uint32_t x, uint32_t y)
+static int	anti_alias(t_minirt *minirt, uint32_t x, uint32_t y)
 {
 	int		color;
 	int		a[3];
@@ -85,13 +85,66 @@ static int	get_smooth_color(t_minirt *minirt, uint32_t x, uint32_t y)
 			/ minirt->num, 255));
 }
 
+typedef struct s_row
+{
+	t_minirt	*minirt;
+	uint32_t	y;
+}	t_row;
+
+void	*init_thread(void *param)
+{
+	uint32_t	x;
+	uint32_t	y;
+	t_minirt 	*minirt;
+	int			color;
+	t_row		*row;
+
+	row = (t_row *)param;
+	minirt = row->minirt;
+	y = row->y;
+	x = -1;
+	while (++x < minirt->image->width)
+	{
+		color = anti_alias(minirt, x, y);
+		ft_put_pixel(minirt->image, x, y, color);
+	}
+	return (NULL);
+}
+
+void	multi_thread(void *param)
+{
+	uint32_t	y;
+	t_minirt	*minirt;
+	t_row		row[IMAGE_HEIGHT];
+	pthread_t	threads[IMAGE_HEIGHT];
+
+	minirt = (t_minirt *)param;
+	compute_viewport(minirt);
+	y = -1;
+	while (++y < IMAGE_HEIGHT)
+	{
+		row[y].y = y;
+		row[y].minirt = minirt;
+		pthread_create(&(threads[y]), NULL, &init_thread, &(row[y]));
+	}
+	y = -1;
+	while (++y < IMAGE_HEIGHT)
+		pthread_join(threads[y], NULL);
+}
+
 void	raytracer(void *param)
 {
 	uint32_t	y;
 	uint32_t	x;
 	t_minirt	*minirt;
 	int			color;
+	t_ray		camera;
 
+	if (BONUS)
+	{
+		multi_thread(param);
+		return ;
+	}
 	minirt = (t_minirt *)param;
 	compute_viewport(minirt);
 	y = -1;
@@ -100,7 +153,9 @@ void	raytracer(void *param)
 		x = -1;
 		while (++x < minirt->image->width)
 		{
-			color = get_smooth_color(minirt, x, y);
+			compute_camera_ray(minirt, x, y, &camera);
+			compute_ray_object_intersection(minirt, &camera);
+			color = compute_color(minirt, &camera);
 			ft_put_pixel(minirt->image, x, y, color);
 		}
 	}

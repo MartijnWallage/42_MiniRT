@@ -6,13 +6,13 @@
 #    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 15:55:18 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 16:53:05 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MAKE		:= make
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast
+CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast -pthread
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:23:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:40:02 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@
 # include <errno.h>
 # include <string.h>
 # include <unistd.h>
+# include <pthread.h>
 # include "libft.h"
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define ANTIALIAS					0
+# define ANTIALIAS					1
 # ifndef BONUS
 #  define BONUS 					0
 # endif
+# define CORES						16
 # define CHECK_NORMAL				0
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
