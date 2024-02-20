@@ -288,4 +288,11 @@ t_vec3		multiply(const t_vec3 a, const t_real scalar);
 t_real		norm(const t_vec3 vec);
 t_vec3		normalize(const t_vec3 vec);
 
+/*	SAVE SCENE				*/
+void	save_scene(t_minirt *minirt);
+void	ft_putreal(int fd, t_real real);
+void	ft_putcolor(int fd, int color);
+void	ft_putvector(int fd, t_vec3 vec);
+void	write_object(int fd, t_object *object);
+
 #endif

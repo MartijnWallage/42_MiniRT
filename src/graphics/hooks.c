@@ -47,6 +47,8 @@ void	ft_hook(void *param)
 		mlx_close_window(minirt->mlx);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_C))
 		minirt->mode = MODE_CAMERA;
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_1))
+		save_scene(minirt);
 	mode_hooks(minirt);
 	translation_hooks(minirt);
 	if (minirt->mode != MODE_SPOT)

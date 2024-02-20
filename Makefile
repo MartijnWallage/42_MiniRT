@@ -59,7 +59,10 @@ SRC			:= main.c \
 				raytracer/cyl.c \
 				raytracer/cyl_utils.c \
 				raytracer/compute_color.c \
-				raytracer/compute_color_utils.c
+				raytracer/compute_color_utils.c \
+				save_scene/save_scene.c \
+				save_scene/save_scene_utils.c \
+				save_scene/write_object.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 NAME		:= miniRT
@@ -86,6 +89,7 @@ $(OBJDIR):
 	mkdir $(OBJDIR)/graphics;
 	mkdir $(OBJDIR)/clean;
 	mkdir $(OBJDIR)/math;
+	mkdir $(OBJDIR)/save_scene;
 
 $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $@
