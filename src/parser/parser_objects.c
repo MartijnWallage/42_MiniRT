@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parser_objects.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/19 12:27:47 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:47:50 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "parser.h"
 
 void	parse_plane(t_build *build)
 {
 	t_object	*plane;
 
-	if (ft_tablen((void **)build->tab) != 4 + 2 * CHECK_BONUS
+	if (ft_tablen((void **)build->tab) != 4 + 2 * BONUS
 		|| !is_vector(build, build->tab[1])
 		|| !is_normal_vector(build, build->tab[2])
 		|| !is_color(build, build->tab[3])
-		|| (CHECK_BONUS
+		|| (BONUS
 			&& (!is_real(build->tab[4])
 				|| !is_real(build->tab[5]))))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
@@ -38,7 +38,7 @@ void	parse_plane(t_build *build)
 	}
 	plane->diffuse = 1.0;
 	plane->shininess = 0.0;
-	if (CHECK_BONUS)
+	if (BONUS)
 	{
 		plane->diffuse = get_real(build, build->tab[4]);
 		plane->shininess = get_real(build, build->tab[5]);
@@ -55,11 +55,11 @@ void	parse_sphere(t_build *build)
 
 	tab = build->tab;
 	scene = build->scene;
-	if (ft_tablen((void **)tab) != 4 + 2 * CHECK_BONUS
+	if (ft_tablen((void **)tab) != 4 + 2 * BONUS
 		|| !is_vector(build, tab[1])
 		|| !is_posnum(build, tab[2]) 
 		|| !is_color(build, tab[3])
-		|| (CHECK_BONUS
+		|| (BONUS
 			&& (!is_real(build->tab[4])
 				|| !is_real(build->tab[5]))))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
@@ -74,7 +74,7 @@ void	parse_sphere(t_build *build)
 	sphere->color = get_color(build, tab[3]);
 	sphere->diffuse = 1.0;
 	sphere->shininess = 0.0;
-	if (CHECK_BONUS)
+	if (BONUS)
 	{
 		sphere->diffuse = get_real(build, tab[4]);
 		sphere->shininess = get_real(build, tab[5]);

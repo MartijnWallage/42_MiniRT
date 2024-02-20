@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_double.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:40:14 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/19 12:13:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:33:52 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "parser.h"
 
 static int	is_numstr(const char *str)
 {

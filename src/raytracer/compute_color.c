@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 10:25:30 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 10:59:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "raytracer.h"
 
-int	compute_specular(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray)
+static int	compute_specular(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray)
 {
 	t_real		dot_ray_normal;
 	t_vec3		scaled_normal;
@@ -29,7 +29,7 @@ int	compute_specular(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray
 	return (scale_color(spotlight->color, scalar));
 }
 
-int	compute_diffuse(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray)
+static int	compute_diffuse(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray)
 {
 	t_real	dot_product;
 
@@ -38,7 +38,7 @@ int	compute_diffuse(t_spotlight *spotlight, t_ray *camera_ray, t_ray *light_ray)
 	return (scale_color(spotlight->color, dot_product));
 }
 
-int	compute_ambient(t_ambient *ambient)
+static int	compute_ambient(t_ambient *ambient)
 {
 	return (scale_color(ambient->color, ambient->ratio));
 }

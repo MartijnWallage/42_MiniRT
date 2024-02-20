@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "raytracer.h"
 
 int	scale_color(int c, t_real scale)
 {

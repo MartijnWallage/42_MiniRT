@@ -6,11 +6,11 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 15:38:19 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/18 21:45:01 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:00:44 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "raytracer.h"
 
 t_vec3	get_hitpoint(t_ray *ray)
 {

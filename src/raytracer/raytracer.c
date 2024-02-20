@@ -6,13 +6,13 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/19 08:19:09 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:25:47 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "raytracer.h"
 
-void	compute_viewport(t_minirt *minirt)
+static void	compute_viewport(t_minirt *minirt)
 {
 	t_camera	*camera;
 	t_real		aspect_ratio;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "raytracer.h"
 
 static void	check_dt(t_real dt[2][2], t_ray *ray, t_object *cyl,
 	t_cyl *ints)

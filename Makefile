@@ -6,7 +6,7 @@
 #    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/18 18:39:36 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 11:52:07 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ LIBFT		:= $(LIBFTDIR)/libft.a
 MLXDIR		:= ./MLX42
 MLX			:= $(MLXDIR)/build/libmlx42.a
 HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc -I$(MLXDIR)/include/MLX42
+BONUS		:= 0
 LIBS		:= -L$(LIBFTDIR) -lft $(MLX)
 UNAME_S		:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -29,6 +30,14 @@ ifeq ($(UNAME_S),Darwin)
 	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/" -lm
 endif
 SRC			:= main.c \
+				clean/clean.c \
+				graphics/hooks.c \
+				graphics/put_pixel.c \
+				graphics/colors.c \
+				graphics/rotations.c \
+				math/math_utils.c \
+				math/vector_utils_norm.c \
+				math/vector_utils.c \
 				parser/parser.c \
 				parser/parser_checks.c \
 				parser/parser_objects.c \
@@ -38,27 +47,19 @@ SRC			:= main.c \
 				parser/parser_utils.c \
 				parser/parser_double.c \
 				parser/parser_vector.c \
-				clean/clean.c \
-				graphics/hooks.c \
-				graphics/put_pixel.c \
-				graphics/colors.c \
-				graphics/rotations.c \
 				raytracer/raytracer.c \
 				raytracer/compute_rays.c \
-				raytracer/vector_utils.c \
-				raytracer/vector_utils_norm.c \
 				raytracer/intersections.c \
-				raytracer/math_utils.c \
 				raytracer/cyl.c \
 				raytracer/cyl_utils.c \
-				raytracer/compute_color.c
+				raytracer/compute_color.c \
+				raytracer/compute_color_utils.c
 SRC			:= $(addprefix $(SRCDIR)/, $(SRC))
 OBJ			:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 MAKE		:= make
 NAME		:= miniRT
 
 all: $(NAME)
-
 
 $(LIBFT): $(LIBFTDIR)
 	$(MAKE) -C $(LIBFTDIR)
@@ -84,8 +85,11 @@ $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/miniRT.h
-	$(CC) $(CFLAGS) -c $< $(HEADERS) -o $@
+	$(CC) -DBONUS=$(BONUS) $(CFLAGS) -c $< $(HEADERS) -o $@
 
+bonus: fclean
+	make BONUS:=1
+	
 clean:
 	$(MAKE) clean -C $(LIBFTDIR)
 	rm -f $(OBJ)

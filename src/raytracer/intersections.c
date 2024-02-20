@@ -6,11 +6,11 @@
 /*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 14:31:38 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/18 21:44:07 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:02:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "raytracer.h"
 
 void	compute_plane_intersection(t_ray *ray, t_object *plane)
 {

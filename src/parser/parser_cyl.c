@@ -10,20 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "parser.h"
 
 static void	check_cyl_tab(t_build *build)
 {
 	char		**tab;
 
 	tab = build->tab;
-	if (ft_tablen((void **)tab) != 6 + 2 * CHECK_BONUS
+	if (ft_tablen((void **)tab) != 6 + 2 * BONUS
 		|| !is_vector(build, tab[1])
 		|| !is_normal_vector(build, tab[2])
 		|| !is_posnum(build, tab[3])
 		|| !is_posnum(build, tab[4])
 		|| !is_color(build, tab[5])
-		|| (CHECK_BONUS
+		|| (BONUS
 			&& (!is_real(build->tab[6])
 				|| !is_real(build->tab[7]))))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
@@ -78,7 +78,7 @@ void	parse_cyl(t_build *build)
 	cyl->up = cross(cyl->direction, right);
 	cyl->diffuse = 1.0;
 	cyl->shininess = 0.0;
-	if (CHECK_BONUS)
+	if (BONUS)
 	{
 		cyl->diffuse = get_real(build, tab[6]);
 		cyl->shininess = get_real(build, tab[7]);

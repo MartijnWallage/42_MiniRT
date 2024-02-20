@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:51:49 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/18 12:48:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:33:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "parser.h"
 
 int	is_in_range(t_real value, t_real min, t_real max)
 {
