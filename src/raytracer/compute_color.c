@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 14:27:03 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:08:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	compute_specular(int *specular, t_spotlight *spotlight,
 	dot_ray_normal = dot(light->direction, camera->normal);
 	reflection = multiply(camera->normal, 2.0 * dot_ray_normal);
 	reflection = subtract(light->direction, reflection);
-	scalar = (1 - obj->diffuse) * (spotlight->specular)
-		* pow(fmin(dot(reflection, camera->direction), 0.0), obj->shininess);
+	scalar = dot(reflection, camera->direction);
+	scalar = ft_abs(fmin(scalar, 0.0));
+	scalar = pow(scalar, obj->shininess);
+	scalar = (1 - obj->diffuse) * (spotlight->specular) * scalar;
 	new_specular = scale_color(spotlight->color, scalar);
 	*specular = add_colors(*specular, new_specular);
 }
