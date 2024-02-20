@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 17:33:21 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:20:36 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@
 # ifndef BONUS
 #  define BONUS 					0
 # endif
-# define CORES						16
+# ifndef CORES
+#  define CORES						16
+# endif
 # define CHECK_NORMAL				0
 # define MAX_DIGITS_INT_PART 		6
 # define MAX_DIGITS_FRAC_PART 		6
@@ -207,7 +209,7 @@ int			is_in_range(t_real value, t_real min, t_real max);
 /*	RAYTRACER		*/
 /*	compute_bonus.c	*/
 void		*init_thread(void *param);
-void		multi_thread(void *param);
+void		multi_thread(t_minirt *minirt);
 /*	color utils		*/
 int			scale_color(int c, t_real scale);
 int			alpha_shade(int c1, int c2, t_real alpha);

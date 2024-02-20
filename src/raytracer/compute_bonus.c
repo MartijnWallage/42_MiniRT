@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compute_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:21:52 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 17:26:24 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:55:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,12 @@ void	*init_thread(void *param)
 	return (NULL);
 }
 
-void	multi_thread(void *param)
+void	multi_thread(t_minirt *minirt)
 {
 	uint32_t	y;
-	t_minirt	*minirt;
 	t_row		row[IMAGE_HEIGHT];
 	pthread_t	threads[IMAGE_HEIGHT];
 
-	minirt = (t_minirt *)param;
-	compute_viewport(minirt);
 	y = -1;
 	while (++y < IMAGE_HEIGHT)
 	{

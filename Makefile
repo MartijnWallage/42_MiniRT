@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+         #
+#    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 17:31:38 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/20 19:05:01 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,15 @@ MLX			:= $(MLXDIR)/build/libmlx42.a
 HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc -I$(MLXDIR)/include/MLX42
 BONUS		:= 0
 LIBS		:= -L$(LIBFTDIR) -lft $(MLX)
+NUM_CORES	:= 8
 UNAME_S		:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	LIBS	:= $(LIBS) -ldl -lglfw -lm
+	NUM_CORES	:= $(shell nproc)
 endif
 ifeq ($(UNAME_S),Darwin)
 	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/" -lm
+	NUM_CORES	:= $(shell sysctl -n hw.logicalcpu)
 endif
 SRC			:= main.c \
 				clean/clean.c \
@@ -91,7 +94,7 @@ $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/miniRT.h
-	$(CC) -DBONUS=$(BONUS) $(CFLAGS) -c $< $(HEADERS) -o $@
+	$(CC) -DBONUS=$(BONUS) -DCORES=$(NUM_CORES) $(CFLAGS) -c $< $(HEADERS) -o $@
 
 bonus:
 	$(MAKE) BONUS:=1
