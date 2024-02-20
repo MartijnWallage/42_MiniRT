@@ -59,7 +59,8 @@ typedef enum e_identifier{
 	LIGHT,
 	SPHERE,
 	PLANE,
-	CYLINDER
+	CYLINDER,
+	DISK
 }	t_identifier;
 
 typedef struct s_vec3
@@ -171,10 +172,12 @@ t_real		get_real(t_build *build, const char *str);
 int			get_color(t_build *build, char *rgb);
 t_vec3		get_vec3(t_build *build, char *numbers);
 /*	parse_cylinder.c	*/
+t_real		get_radius(t_build *build, char *rad);
 void		parse_cyl(t_build *build);
 /*	parse_objects.c		*/
 void		parse_sphere(t_build *build);
 void		parse_plane(t_build *build);
+void		parse_disk(t_build *build);
 /*	parse_lights.c		*/
 void		parse_spotlights(t_build *build);
 int			parse_ambient(t_build *build);

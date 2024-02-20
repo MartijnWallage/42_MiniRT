@@ -30,6 +30,8 @@ static void	parse_line(t_build *build)
 		parse_cyl(build);
 	else if (!ft_strcmp("pl", build->tab[0]))
 		parse_plane(build);
+	else if (BONUS && !ft_strcmp("di", build->tab[0]))
+		parse_disk(build);
 	else
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	ft_freetab((void **)build->tab);

@@ -29,7 +29,7 @@ static void	check_cyl_tab(t_build *build)
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
-static t_real	get_cyl_radius(t_build *build, char *rad)
+t_real	get_radius(t_build *build, char *rad)
 {
 	t_real	ret;
 
@@ -66,7 +66,7 @@ void	parse_cyl(t_build *build)
 	cyl->type = CYLINDER;
 	cyl->center = get_vec3(build, tab[1]);
 	cyl->direction = normalize(get_vec3(build, tab[2]));
-	cyl->radius = get_cyl_radius(build, tab[3]);
+	cyl->radius = get_radius(build, tab[3]);
 	cyl->height = get_cyl_height(build, tab[4]);
 	cyl->color = get_color(build, tab[5]);
 	right = get_vec3(build, "0,0,1");
