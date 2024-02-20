@@ -38,6 +38,8 @@ void	compute_ray_object_intersection(t_minirt *minirt, t_ray *ray)
 			compute_sphere_intersection(ray, curr);
 		if (curr->type == CYLINDER)
 			compute_cyl_intersection(ray, curr);
+		if (curr->type == DISK)
+			compute_disk_intersection(ray, curr);
 		curr = curr->next;
 	}
 }

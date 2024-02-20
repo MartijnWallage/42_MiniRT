@@ -67,3 +67,21 @@ void	compute_sphere_intersection(t_ray *ray, t_object *sphere)
 	if (dot(ray->normal, ray->direction) > 0)
 		ray->normal = multiply(ray->normal, -1);
 }
+
+void	compute_disk_intersection(t_ray *ray, t_object *disk)
+{
+	t_real	d;
+	t_real	dot_ray_disk;
+
+	dot_ray_disk = dot(ray->direction, disk->direction);
+	if (ft_abs(dot_ray_disk) < EPSILON)
+		return ;
+	d = compute_d(ray, disk, subtract(disk->center, ray->origin), dot_ray_disk);
+	if ((d > 0 && !ray->object) || (d > 0 && d < ray->intersection))
+	{
+		ray->object = disk;
+		ray->intersection = d;
+		ray->normal = multiply(disk->direction, -1);
+	}
+	return ;
+}
