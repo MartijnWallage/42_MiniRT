@@ -174,6 +174,7 @@ t_vec3		get_vec3(t_build *build, char *numbers);
 /*	parse_cylinder.c	*/
 t_real		get_radius(t_build *build, char *rad);
 void		parse_cyl(t_build *build);
+t_vec3		compute_up_vector(t_build *build, t_vec3 direction);
 /*	parse_objects.c		*/
 void		parse_sphere(t_build *build);
 void		parse_plane(t_build *build);

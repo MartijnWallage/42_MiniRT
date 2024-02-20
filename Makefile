@@ -44,6 +44,7 @@ SRC			:= main.c \
 				parser/parser_camera.c \
 				parser/parser_checks.c \
 				parser/parser_cyl.c \
+				parser/parser_disk.c \
 				parser/parser_lights.c \
 				parser/parser_objects.c \
 				parser/parser_real.c \
