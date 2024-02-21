@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:02:05 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 17:24:52 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:54:21 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void	raytracer(void *param)
 	int			color;
 	t_ray		camera;
 
-	if (BONUS)
-	{
-		multi_thread(param);
-		return ;
-	}
 	minirt = (t_minirt *)param;
 	compute_viewport(minirt);
+	if (BONUS)
+	{
+		multi_thread(minirt);
+		return ;
+	}
 	y = -1;
 	while (++y < minirt->image->height)
 	{
