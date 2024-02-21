@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 19:20:36 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:11:27 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,8 @@ typedef struct s_cyl
 typedef struct s_row
 {
 	t_minirt	*minirt;
-	uint32_t	y;
+	uint32_t	index;
+	uint32_t	*rows_per_group;
 }	t_row;
 
 /*	PARSER	*/
@@ -291,10 +292,10 @@ t_real		norm(const t_vec3 vec);
 t_vec3		normalize(const t_vec3 vec);
 
 /*	SAVE SCENE				*/
-void	save_scene(t_minirt *minirt);
-void	ft_putreal(int fd, t_real real);
-void	ft_putcolor(int fd, int color);
-void	ft_putvector(int fd, t_vec3 vec);
-void	write_object(int fd, t_object *object);
+void		save_scene(t_minirt *minirt);
+void		ft_putreal(int fd, t_real real);
+void		ft_putcolor(int fd, int color);
+void		ft_putvector(int fd, t_vec3 vec);
+void		write_object(int fd, t_object *object);
 
 #endif

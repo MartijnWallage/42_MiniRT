@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compute_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:21:52 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 19:53:34 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:13:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,36 +59,43 @@ void	*init_thread(void *param)
 {
 	uint32_t	x;
 	uint32_t	y;
+	uint32_t	max_y;
 	t_minirt	*minirt;
-	int			color;
-	t_row		*row;
+	t_row		*group;
 
-	row = (t_row *)param;
-	minirt = row->minirt;
-	y = row->y;
-	x = -1;
-	while (++x < minirt->image->width)
+	group = (t_row *)param;
+	minirt = group->minirt;
+	y = group->index * *group->rows_per_group - 1;
+	if (group->index == CORES - 1)
+		max_y = minirt->image->height;
+	else
+		max_y = y + 1 + *group->rows_per_group;
+	while (++y < max_y)
 	{
-		color = anti_alias(minirt, x, y);
-		ft_put_pixel(minirt->image, x, y, color);
+		x = -1;
+		while (++x < minirt->image->width)
+			ft_put_pixel(minirt->image, x, y, anti_alias(minirt, x, y));
 	}
 	return (NULL);
 }
 
 void	multi_thread(t_minirt *minirt)
 {
-	uint32_t	y;
-	t_row		row[minirt->image->height];
-	pthread_t	threads[minirt->image->height];
+	uint32_t	i;
+	t_row		groups[CORES];
+	pthread_t	threads[CORES];
+	uint32_t	rows_per_group;	
 
-	y = -1;
-	while (++y < minirt->image->height)
+	rows_per_group = minirt->image->height / CORES;
+	i = -1;
+	while (++i < CORES)
 	{
-		row[y].y = y;
-		row[y].minirt = minirt;
-		pthread_create(&(threads[y]), NULL, &init_thread, &(row[y]));
+		groups[i].index = i;
+		groups[i].minirt = minirt;
+		groups[i].rows_per_group = &rows_per_group;
+		pthread_create(&(threads[i]), NULL, &init_thread, &groups[i]);
 	}
-	y = -1;
-	while (++y < minirt->image->height)
-		pthread_join(threads[y], NULL);
+	i = -1;
+	while (++i < CORES)
+		pthread_join(threads[i], NULL);
 }
