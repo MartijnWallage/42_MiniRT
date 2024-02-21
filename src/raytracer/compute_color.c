@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 16:08:28 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:56:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	compute_color(t_minirt *minirt, t_ray *camera)
 	color = compute_ambient(&(minirt->scene->ambient));
 	spotlights = minirt->scene->spotlights;
 	if (spotlights == NULL)
-		return (color);
+		return (mix_colors(camera->object->color, color));
 	specular = 0xff;
 	while (spotlights)
 	{
@@ -72,7 +72,8 @@ int	compute_color(t_minirt *minirt, t_ray *camera)
 		if (light.object == camera->object)
 		{
 			compute_diffuse(&color, spotlights, camera, &light);
-			compute_specular(&specular, spotlights, camera, &light);
+			if (BONUS)
+				compute_specular(&specular, spotlights, camera, &light);
 		}
 		spotlights = spotlights->next;
 	}
