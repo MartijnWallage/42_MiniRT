@@ -1,7 +1,7 @@
 # miniRT
 Authors: Thomas Höfting (thofting), Martijn Wallage (mwallage)
 
-## A ray tracer in C and openGL
+## A RAY TRACER IN C AND OPENGL
 
 MiniRT, a joint project of the <a href="https://42berlin.de/curriculum-42-berlin/">42 Core Curriculum</a>, is a ray tracer written in C. 
 
@@ -10,9 +10,20 @@ After some deliberation, we chose the <a href="https://github.com/codam-coding-c
 
 Compile by writing `make` in the terminal, or `make bonus` for the bonus version. Run `./miniRT scenes/<filename>.rt`
 
-The camera, objects and lights can be moved and rotated using `+` and `-`, the arrow keys, `q`, `w`, `d`, and `a`,`s`,`d`. You'll get the hang of it when you play around with them. `c` selects the camera, `l` the next spotlight, `o` the next object. Objects can also be selected by clicking on them.
+## CONTROLS
 
-## Parsing
+	C					select camera (default)
+	O					select (next) object
+	Click on object		select object
+	L					select (next) spotlight
+	Arrows and +/-		move selected item
+	q w e a s d			rotate selected item
+
+	1	save scene
+	right-shift + 0		Turn off anti-aliasing
+	right-shit + 1		Turn on anti-aliasing
+
+## PARSING
 
 The input to miniRT is a .rt file which describes a scene.
 
@@ -24,7 +35,7 @@ Colours we store as ints, because that is how the MLX42 graphic library stores t
 
 Not given in the input file, but needed for our model, is a <em>viewport</em>. A viewport is a rectangular plane in front of the camera; its height and width make up the resolution of the picture that we want to produce.
 
-## Ray tracing
+## RAY TRACING
 
 The viewport is a grid; each cell represents a pixel of the image that we want to produce. By convention, the viewport is at a distance of 1 from the camera. The idea of <a href="https://en.wikipedia.org/wiki/Ray_tracing_%2528graphics%2529">ray tracing</a> is that we shoot a ray from the camera, through the middle of the corresponding cell of the viewport, into the scene.
 We then calculate the nearest point (if any) where the ray intersects with an object in the scene. All this is done with basic linear algebra.
@@ -37,7 +48,7 @@ Now consider the intersection between a camera ray and an object. In order to sh
 
 For the bonus version, this second calculation comprises both diffuse and specular lighting, using the <a href="https://en.wikipedia.org/wiki/Phong_reflection_model">Phong model</a>. We also implement anti-aliasing and, because anti-aliasing slowed the whole thing down so much, multi-threading.
 
-## Helpful sources
+## HELPFUL SOURCES
 
 
 <a href="https://www.scratchapixel.com/">Scratchapixel</a>

@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 13:49:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:14:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ static void	mode_hooks(t_minirt *minirt)
 	}
 }
 
+static void	set_antialias(t_minirt *minirt, int size)
+{
+	minirt->antialias = size;
+	minirt->num = pow2(2 * size + 1);
+}
+
 /// @brief Function that handles keyboard events
 /// @param param A pointer to the struct that contains the program data
 void	ft_hook(void *param)
@@ -47,8 +53,15 @@ void	ft_hook(void *param)
 		mlx_close_window(minirt->mlx);
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_C))
 		minirt->mode = MODE_CAMERA;
-	if (mlx_is_key_down(minirt->mlx, MLX_KEY_1))
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_1)
+		&& !mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT_SHIFT))
 		save_scene(minirt);
+	if (BONUS && mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT_SHIFT)
+		&& mlx_is_key_down(minirt->mlx, MLX_KEY_0))
+		set_antialias(minirt, 0);
+	if (BONUS && mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT_SHIFT)
+		&& mlx_is_key_down(minirt->mlx, MLX_KEY_1))
+		set_antialias(minirt, 1);
 	mode_hooks(minirt);
 	translation_hooks(minirt);
 	if (minirt->mode != MODE_SPOT)

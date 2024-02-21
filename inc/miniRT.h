@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/21 15:11:27 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:32:39 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# define ANTIALIAS					1
 # ifndef BONUS
 #  define BONUS 					0
 # endif
@@ -141,6 +140,7 @@ typedef struct s_minirt
 	t_spotlight		*spotlights_selected;
 	t_key_mode		mode;
 	int				num;
+	int				antialias;
 }	t_minirt;
 
 /// @brief Helper struct during parsing

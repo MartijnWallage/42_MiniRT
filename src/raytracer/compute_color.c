@@ -6,7 +6,7 @@
 /*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/21 15:56:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:11:45 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,5 @@ int	compute_color(t_minirt *minirt, t_ray *camera)
 		}
 		spotlights = spotlights->next;
 	}
-	color = mix_colors(camera->object->color, color);
-	return (add_colors(color, specular));
+	return (add_colors(mix_colors(camera->object->color, color), specular));
 }
