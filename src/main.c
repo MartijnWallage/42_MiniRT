@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:34 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/21 17:46:07 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:55:16 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	init_minirt(t_minirt *minirt, t_scene *scene)
 		minirt->scene->camera.up.z = 0;
 	}
 	minirt->mode = MODE_CAMERA;
-	minirt->antialias = BONUS;
+	minirt->antialias = 0;
 	minirt->num = pow2(2 * minirt->antialias + 1);
 }
 

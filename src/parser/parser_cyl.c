@@ -17,11 +17,11 @@ static void	check_cyl_tab(t_build *build)
 	char		**tab;
 
 	tab = build->tab;
-	if (ft_tablen((void **)tab) != 6 + 2 * BONUS)
+	if (ft_tablen((void **)tab) != 8)
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_vector(build, tab[1]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	if (!is_normal_vector(build, tab[2]))
+	if (!is_vector(build, tab[2]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_posnum(build, tab[3]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
@@ -29,8 +29,9 @@ static void	check_cyl_tab(t_build *build)
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_color(build, tab[5]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	if (BONUS && (!is_ratio(build, build->tab[6])
-			|| !is_posnum(build, build->tab[7])))
+	if (!is_ratio(build, build->tab[6]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_posnum(build, build->tab[7]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
@@ -89,11 +90,8 @@ void	parse_cyl(t_build *build)
 	cyl->up = compute_up_vector(build, cyl->direction);
 	cyl->diffuse = 1.0;
 	cyl->shininess = 0.0;
-	if (BONUS)
-	{
-		cyl->diffuse = get_real(build, tab[6]);
-		cyl->shininess = get_real(build, tab[7]);
-	}
+	cyl->diffuse = get_real(build, tab[6]);
+	cyl->shininess = get_real(build, tab[7]);
 	cyl->next = scene->objects;
 	scene->objects = cyl;
 }

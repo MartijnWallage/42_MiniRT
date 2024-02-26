@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compute_color.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:34:46 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/21 18:11:45 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:56:28 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ int	compute_color(t_minirt *minirt, t_ray *camera)
 		if (light.object == camera->object)
 		{
 			compute_diffuse(&color, spotlights, camera, &light);
-			if (BONUS)
-				compute_specular(&specular, spotlights, camera, &light);
+			compute_specular(&specular, spotlights, camera, &light);
 		}
 		spotlights = spotlights->next;
 	}

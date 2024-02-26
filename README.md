@@ -8,7 +8,7 @@ MiniRT, a joint project of the <a href="https://42berlin.de/curriculum-42-berlin
 We got to choose between two openGL graphics libraries, one bad and one good.
 After some deliberation, we chose the <a href="https://github.com/codam-coding-college/MLX42">good</a> one.
 
-Compile by writing `make` in the terminal, or `make bonus` for the bonus version. Run `./miniRT scenes/<filename>.rt`
+Compile by writing `make` in the terminal. Run `./miniRT scenes/<filename>.rt`
 
 ## CONTROLS
 
@@ -30,7 +30,7 @@ The input to miniRT is a .rt file which describes a scene.
 A scene consists of a camera, ambient light, spotlights, and various geometrical objects: planes, spheres and cylinders. 
 
 Each of these things, except the camera, have a colour; the lights have a brightness ratio; the camera, spotlights and objects have a position in space; the camera and objects have a direction. 
-For the bonus, there is some additional information on the ratio between diffuse and specular light that each spotlight emits and each object reflects.
+Because we did the bonus version of the project, there is some additional information on the ratio between diffuse and specular light that each spotlight emits and each object reflects.
 
 Colours we store as ints, because that is how the MLX42 graphic library stores them. 
 Positions and directions we store as 3d vectors of floats. 
@@ -51,7 +51,7 @@ The remaining pixels (those whose rays don't intersect with any object) are blac
 
 Now consider the intersection between a camera ray and an object. In order to show the effect of the spotlights, we shoot another ray from each spotlight to that point and calculate how the light affects the colour of the object.
 
-For the bonus version, this second calculation comprises both diffuse and specular lighting, using the <a href="https://en.wikipedia.org/wiki/Phong_reflection_model">Phong model</a>. 
+For the bonus, this second calculation comprises both diffuse and specular lighting, using the <a href="https://en.wikipedia.org/wiki/Phong_reflection_model">Phong model</a>. 
 We also implement anti-aliasing and - because anti-aliasing slowed the whole thing down so much - multi-threading.
 
 ## HELPFUL SOURCES

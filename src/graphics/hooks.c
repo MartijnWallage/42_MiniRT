@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:04:44 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/21 18:14:16 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:55:54 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	ft_hook(void *param)
 	if (mlx_is_key_down(minirt->mlx, MLX_KEY_1)
 		&& !mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT_SHIFT))
 		save_scene(minirt);
-	if (BONUS && mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT_SHIFT)
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT_SHIFT)
 		&& mlx_is_key_down(minirt->mlx, MLX_KEY_0))
 		set_antialias(minirt, 0);
-	if (BONUS && mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT_SHIFT)
+	if (mlx_is_key_down(minirt->mlx, MLX_KEY_RIGHT_SHIFT)
 		&& mlx_is_key_down(minirt->mlx, MLX_KEY_1))
 		set_antialias(minirt, 1);
 	mode_hooks(minirt);

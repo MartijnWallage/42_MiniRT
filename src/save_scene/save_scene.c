@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thofting <thofting@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:04:02 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/20 21:04:04 by thofting         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:53:50 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,8 @@ static void	write_spots(int fd, t_minirt *minirt)
 		ft_putreal(fd, iter->diffuse);
 		write(fd, " ", 1);
 		ft_putcolor(fd, iter->color);
-		if (BONUS)
-		{
-			write(fd, " ", 1);
-			ft_putreal(fd, iter->specular);
-		}
+		write(fd, " ", 1);
+		ft_putreal(fd, iter->specular);
 		write(fd, "\n", 1);
 		iter = iter->next;
 	}

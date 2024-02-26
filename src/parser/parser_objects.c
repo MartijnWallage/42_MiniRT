@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_objects.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:11:26 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 16:17:12 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:51:06 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 void	check_plane_tabs(t_build *build)
 {
-	if (ft_tablen((void **)build->tab) != 4 + 2 * BONUS)
+	if (ft_tablen((void **)build->tab) != 6)
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_vector(build, build->tab[1]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	if (!is_normal_vector(build, build->tab[2]))
+	if (!is_vector(build, build->tab[2]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_color(build, build->tab[3]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	if (BONUS && (!is_ratio(build, build->tab[4])
-			|| !is_posnum(build, build->tab[5])))
+	if (!is_ratio(build, build->tab[4]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_posnum(build, build->tab[5]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
@@ -46,11 +47,8 @@ void	parse_plane(t_build *build)
 	}
 	plane->diffuse = 1.0;
 	plane->shininess = 0.0;
-	if (BONUS)
-	{
-		plane->diffuse = get_real(build, build->tab[4]);
-		plane->shininess = get_real(build, build->tab[5]);
-	}
+	plane->diffuse = get_real(build, build->tab[4]);
+	plane->shininess = get_real(build, build->tab[5]);
 	plane->next = build->scene->objects;
 	build->scene->objects = plane;
 }
@@ -60,7 +58,7 @@ static void	check_sphere_tabs(t_build *build)
 	char	**tab;
 
 	tab = build->tab;
-	if (ft_tablen((void **)tab) != 4 + 2 * BONUS)
+	if (ft_tablen((void **)tab) != 6)
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_vector(build, tab[1]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
@@ -68,8 +66,9 @@ static void	check_sphere_tabs(t_build *build)
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	if (!is_color(build, tab[3]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
-	if (BONUS && (!is_ratio(build, build->tab[4])
-			|| !is_posnum(build, build->tab[5])))
+	if (!is_ratio(build, build->tab[4]))
+		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
+	if (!is_posnum(build, build->tab[5]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 }
 
@@ -91,11 +90,8 @@ void	parse_sphere(t_build *build)
 	sphere->color = get_color(build, tab[3]);
 	sphere->diffuse = 1.0;
 	sphere->shininess = 0.0;
-	if (BONUS)
-	{
-		sphere->diffuse = get_real(build, build->tab[4]);
-		sphere->shininess = get_real(build, build->tab[5]);
-	}
+	sphere->diffuse = get_real(build, build->tab[4]);
+	sphere->shininess = get_real(build, build->tab[5]);
 	sphere->next = build->scene->objects;
 	build->scene->objects = sphere;
 }

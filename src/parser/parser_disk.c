@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_disk.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thofting <thofting@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:58:43 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/20 16:58:44 by thofting         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:52:04 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	check_disk_tab(t_build *build)
 	char		**tab;
 
 	tab = build->tab;
-	if (ft_tablen((void **)tab) != 5 + 2 * BONUS
+	if (ft_tablen((void **)tab) != 7
 		|| !is_vector(build, tab[1])
-		|| !is_normal_vector(build, tab[2])
+		|| !is_vector(build, tab[2])
 		|| !is_posnum(build, tab[3])
 		|| !is_color(build, tab[4])
 		|| !is_ratio(build, build->tab[5])

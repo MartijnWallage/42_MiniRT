@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_lights.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:35:59 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 16:12:38 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:51:43 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ void	parse_spotlights(t_build *build)
 {
 	t_spotlight	*new_light;
 
-	if (ft_tablen((void **)build->tab) != 4 + BONUS
+	if (ft_tablen((void **)build->tab) != 5
 		|| !is_vector(build, build->tab[1])
 		|| !is_ratio(build, build->tab[2])
 		|| !is_color(build, build->tab[3])
-		|| (!BONUS && build->scene->spotlights)
-		|| (BONUS && !is_ratio(build, build->tab[4])))
+		|| !is_ratio(build, build->tab[4]))
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);
 	new_light = malloc(sizeof(t_spotlight));
 	protect_malloc(build, new_light);
@@ -45,11 +44,8 @@ void	parse_spotlights(t_build *build)
 	new_light->diffuse = get_real(build, build->tab[2]);
 	new_light->color = 0xFFFFFFFF;
 	new_light->specular = 1 - new_light->diffuse;
-	if (BONUS)
-	{
-		new_light->color = get_color(build, build->tab[3]);
-		new_light->specular = get_real(build, build->tab[4]);
-	}
+	new_light->color = get_color(build, build->tab[3]);
+	new_light->specular = get_real(build, build->tab[4]);
 	new_light->next = build->scene->spotlights;
 	build->scene->spotlights = new_light;
 }

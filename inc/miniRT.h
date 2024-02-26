@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:41:21 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/21 17:32:39 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:48:46 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@
 # include "MLX42.h"
 
 // DEBUGGING FLAGS
-# ifndef BONUS
-#  define BONUS 					0
-# endif
 # ifndef CORES
 #  define CORES						16
 # endif
@@ -205,13 +202,12 @@ int			is_posnum(t_build *build, const char *str);
 int			is_real(const char *str);
 int			is_vector(t_build *build, char *str);
 int			is_color(t_build *build, char *str);
-int			is_normal_vector(t_build *build, char *str);
+int			is_vector(t_build *build, char *str);
 int			is_in_range(t_real value, t_real min, t_real max);
 
 /*	RAYTRACER		*/
-/*	compute_bonus.c	*/
-void		*init_thread(void *param);
-void		multi_thread(t_minirt *minirt);
+/*	anti_alias.c	*/
+int	anti_alias(t_minirt *minirt, uint32_t x, uint32_t y);
 /*	color utils		*/
 int			scale_color(int c, t_real scale);
 int			alpha_shade(int c1, int c2, t_real alpha);
@@ -242,6 +238,7 @@ void		compute_disk_intersection(t_ray *ray, t_object *disk);
 /*	raytracer.c		*/
 void		compute_viewport(t_minirt *minirt);
 void		compute_ray_object_intersection(t_minirt *minirt, t_ray *ray);
+void		*init_thread(void *param);
 void		raytracer(void *param);
 
 /*	CLEAN		*/

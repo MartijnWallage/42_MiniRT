@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_object.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thofting <thofting@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:15:56 by thofting          #+#    #+#             */
-/*   Updated: 2024/02/20 21:15:57 by thofting         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:54:22 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ static void	write_radius(int fd, t_object *object)
 {
 	ft_putreal(fd, object->radius * 2);
 	write(fd, " ", 1);
-}
-
-static void	write_bonus(int fd, t_object *object)
-{
-	write(fd, " ", 1);
-	ft_putreal(fd, object->diffuse);
-	write(fd, " ", 1);
-	ft_putreal(fd, object->shininess);
 }
 
 void	write_object(int fd, t_object *object)
@@ -54,7 +46,9 @@ void	write_object(int fd, t_object *object)
 		write(fd, " ", 1);
 	}
 	ft_putcolor(fd, object->color);
-	if (BONUS)
-		write_bonus(fd, object);
+	write(fd, " ", 1);
+	ft_putreal(fd, object->diffuse);
+	write(fd, " ", 1);
+	ft_putreal(fd, object->shininess);
 	write(fd, "\n", 1);
 }

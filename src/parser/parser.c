@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallage <mwallage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:39:57 by mwallage          #+#    #+#             */
-/*   Updated: 2024/02/20 13:18:15 by mwallage         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:44:20 by mwallage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	parse_line(t_build *build)
 		parse_cyl(build);
 	else if (!ft_strcmp("pl", build->tab[0]))
 		parse_plane(build);
-	else if (BONUS && !ft_strcmp("di", build->tab[0]))
+	else if (!ft_strcmp("di", build->tab[0]))
 		parse_disk(build);
 	else
 		exit_minirt_build(build, PARSING_ERROR, PARSING_EXITCODE);

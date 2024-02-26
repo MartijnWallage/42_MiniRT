@@ -6,13 +6,13 @@
 #    By: mwallage <mwallage@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 15:03:37 by mwallage          #+#    #+#              #
-#    Updated: 2024/02/20 19:05:01 by mwallage         ###   ########.fr        #
+#    Updated: 2024/02/26 19:03:48 by mwallage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MAKE		:= make
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast -pthread
+CFLAGS		:= -Wall -Wextra -Werror -Wunreachable-code -Ofast
 SRCDIR		:= ./src
 OBJDIR		:= ./obj
 INCDIR		:= ./inc
@@ -21,16 +21,15 @@ LIBFT		:= $(LIBFTDIR)/libft.a
 MLXDIR		:= ./MLX42
 MLX			:= $(MLXDIR)/build/libmlx42.a
 HEADERS		:= -I$(INCDIR) -I$(LIBFTDIR)/inc -I$(MLXDIR)/include/MLX42
-BONUS		:= 0
 LIBS		:= -L$(LIBFTDIR) -lft $(MLX)
 NUM_CORES	:= 8
 UNAME_S		:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	LIBS	:= $(LIBS) -ldl -lglfw -lm
+	LIBS	:= $(LIBS) -ldl -lglfw -lm -pthread
 	NUM_CORES	:= $(shell nproc)
 endif
 ifeq ($(UNAME_S),Darwin)
-	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/" -lm
+	LIBS	:= $(LIBS) -Iinclude -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/" -lm -pthread
 	NUM_CORES	:= $(shell sysctl -n hw.logicalcpu)
 endif
 SRC			:= main.c \
@@ -45,6 +44,7 @@ SRC			:= main.c \
 				math/math_utils.c \
 				math/vector_utils_norm.c \
 				math/vector_utils.c \
+				parser/check_vector.c \
 				parser/parser_camera.c \
 				parser/parser_checks.c \
 				parser/parser_cyl.c \
@@ -53,16 +53,15 @@ SRC			:= main.c \
 				parser/parser_objects.c \
 				parser/parser_real.c \
 				parser/parser_utils.c \
-				parser/parser_vector.c \
 				parser/parser.c \
-				raytracer/compute_bonus.c \
-				raytracer/raytracer.c \
-				raytracer/compute_rays.c \
-				raytracer/intersections.c \
-				raytracer/cyl.c \
-				raytracer/cyl_utils.c \
-				raytracer/compute_color.c \
+				raytracer/anti_alias.c \
 				raytracer/compute_color_utils.c \
+				raytracer/compute_color.c \
+				raytracer/compute_rays.c \
+				raytracer/cyl_utils.c \
+				raytracer/cyl.c \
+				raytracer/intersections.c \
+				raytracer/raytracer.c \
 				save_scene/save_scene.c \
 				save_scene/save_scene_utils.c \
 				save_scene/write_object.c
@@ -98,10 +97,7 @@ $(NAME): $(LIBFT) $(MLX) $(OBJDIR) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/miniRT.h
-	$(CC) -DBONUS=$(BONUS) -DCORES=$(NUM_CORES) $(CFLAGS) -c $< $(HEADERS) -o $@
-
-bonus:
-	$(MAKE) BONUS:=1
+	$(CC) -DCORES=$(NUM_CORES) $(CFLAGS) -c $< $(HEADERS) -o $@
 
 clean:
 	$(MAKE) clean -C $(LIBFTDIR)
