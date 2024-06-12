@@ -1,6 +1,8 @@
 # 42 MINIRT
 Authors: Thomas Höfting (thofting), Martijn Wallage (mwallage)
 
+![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
+
 ## A RAY TRACER IN C AND OPENGL
 
 MiniRT, a joint project of the <a href="https://42berlin.de/curriculum-42-berlin/">42 Core Curriculum</a>, is a ray tracer written in C. 
