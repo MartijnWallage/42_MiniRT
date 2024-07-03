@@ -1,8 +1,13 @@
 # 42 MINIRT
+![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
+
+![OpenGL](https://img.shields.io/badge/OpenGL-%23FFFFFF.svg?style=for-the-badge&logo=opengl)
+
 Authors: Thomas Höfting, Martijn Wallage
 
-Tech stack:	![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
-![OpenGL](https://img.shields.io/badge/OpenGL-%23FFFFFF.svg?style=for-the-badge&logo=opengl)
+A project of the 42 Core Curriculum
+
+Score: 121%
 
 ## A RAY TRACER IN C AND OPENGL
 
